@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinanzasFácil Colombia — Tu futuro financiero, hoy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:  #0D2440;
+    --teal:  #00A896;
+    --teal2: #02C39A;
+    --gold:  #F4C430;
+    --cream: #FAF8F3;
+    --white: #FFFFFF;
+    --gray:  #6B7280;
+    --light: #F0F4F8;
+    --red:   #E53E3E;
+    --shadow: 0 8px 32px rgba(13,36,64,0.12);
+    --radius: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────────── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(13,36,64,0.08);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 68px;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem; color: var(--navy); text-decoration: none;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--teal), var(--teal2));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  nav { display: flex; gap: 2rem; align-items: center; }
+  nav a {
+    text-decoration: none; color: var(--navy);
+    font-size: 0.9rem; font-weight: 500;
+    opacity: 0.75; transition: opacity 0.2s;
+  }
+  nav a:hover { opacity: 1; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    border: none; text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--teal); color: white;
+    box-shadow: 0 4px 16px rgba(0,168,150,0.3);
+  }
+  .btn-primary:hover { background: var(--teal2); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: var(--navy);
+    border: 2px solid rgba(13,36,64,0.2);
+  }
+  .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+  .btn-gold {
+    background: var(--gold); color: var(--navy);
+    box-shadow: 0 4px 16px rgba(244,196,48,0.4);
+  }
+  .btn-gold:hover { transform: translateY(-2px); }
+
+  /* ── HERO ────────────────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 100px 5% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: linear-gradient(145deg, var(--navy) 0%, #1a3a5c 50%, #0d2440 100%);
+  }
+
+  .hero-pattern {
+    position: absolute; inset: 0; z-index: 1; opacity: 0.04;
+    background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0);
+    background-size: 36px 36px;
+  }
+
+  .hero-blob {
+    position: absolute; z-index: 1;
+    border-radius: 50%; filter: blur(80px); opacity: 0.15;
+  }
+  .blob-1 { width: 600px; height: 600px; background: var(--teal); top: -100px; right: -100px; }
+  .blob-2 { width: 400px; height: 400px; background: var(--gold); bottom: -50px; left: 10%; }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 620px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,168,150,0.2);
+    border: 1px solid rgba(0,168,150,0.4);
+    color: var(--teal2);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 600;
+    margin-bottom: 24px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    color: white; line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .hero h1 em { color: var(--teal2); font-style: normal; }
+
+  .hero p {
+    font-size: 1.1rem; color: rgba(255,255,255,0.75);
+    line-height: 1.7; margin-bottom: 36px;
+  }
+
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .hero-stats {
+    position: absolute; z-index: 2;
+    right: 5%; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 16px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius);
+    padding: 20px 28px;
+    text-align: center; color: white;
+    min-width: 180px;
+  }
+  .stat-card .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; color: var(--teal2);
+    display: block;
+  }
+  .stat-card .label { font-size: 0.82rem; opacity: 0.7; }
+
+  /* ── PRODUCTOS ───────────────────────────────────────────── */
+  #productos {
+    padding: 100px 5%;
+    background: var(--white);
+  }
+
+  .section-header { text-align: center; margin-bottom: 60px; }
+  .section-tag {
+    display: inline-block;
+    background: rgba(0,168,150,0.1);
+    color: var(--teal);
+    padding: 5px 16px; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .section-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    color: var(--navy); line-height: 1.2;
+  }
+  .section-header p { color: var(--gray); margin-top: 12px; font-size: 1.05rem; }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .product-card {
+    border: 1.5px solid var(--light);
+    border-radius: var(--radius);
+    padding: 32px;
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .product-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--teal), var(--teal2));
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--teal); }
+  .product-card:hover::before { opacity: 0.04; }
+
+  .product-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 20px;
+    position: relative; z-index: 1;
+  }
+  .product-card h3 {
+    font-size: 1.15rem; font-weight: 600;
+    margin-bottom: 8px; position: relative; z-index: 1;
+  }
+  .product-card p {
+    color: var(--gray); font-size: 0.9rem; line-height: 1.6;
+    position: relative; z-index: 1;
+  }
+  .product-tasa {
+    display: inline-block; margin-top: 16px;
+    background: var(--light);
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 0.82rem; font-weight: 600; color: var(--teal);
+    position: relative; z-index: 1;
+  }
+
+  /* ── CONSULTA DE PRODUCTOS ───────────────────────────────── */
+  #consulta {
+    padding: 100px 5%;
+    background: var(--cream);
+  }
+
+  .consulta-container {
+    max-width: 800px; margin: 0 auto;
+  }
+
+  .search-box {
+    display: flex; gap: 12px;
+    background: white;
+    border: 2px solid var(--light);
+    border-radius: 100px;
+    padding: 8px 8px 8px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 32px;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus-within { border-color: var(--teal); }
+  .search-box input {
+    flex: 1; border: none; outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; color: var(--navy);
+    background: transparent;
+  }
+  .search-box input::placeholder { color: var(--gray); }
+
+  .result-panel {
+    background: white;
+    border: 1.5px solid var(--light);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: none;
+    animation: fadeUp 0.3s ease;
+    box-shadow: var(--shadow);
+  }
+  .result-panel.visible { display: block; }
+
+  .result-header {
+    background: var(--navy);
+    color: white;
+    padding: 20px 28px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .client-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--teal2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 600; color: white;
+    flex-shrink: 0;
+  }
+  .client-info h3 { font-size: 1.05rem; margin-bottom: 2px; }
+  .client-info p { font-size: 0.82rem; opacity: 0.7; }
+
+  .result-body { padding: 24px 28px; }
+
+  .products-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .product-item {
+    border: 1px solid var(--light);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .product-item-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .product-item-info { flex: 1; }
+  .product-item-info .name { font-weight: 600; font-size: 0.9rem; }
+  .product-item-info .number { font-size: 0.8rem; color: var(--gray); }
+  .product-item-badge {
+    padding: 4px 12px; border-radius: 100px;
+    font-size: 0.76rem; font-weight: 600;
+  }
+  .badge-ok { background: rgba(0,168,150,0.1); color: var(--teal); }
+  .badge-mora { background: rgba(229,62,62,0.1); color: var(--red); }
+  .badge-vence { background: rgba(244,196,48,0.15); color: #B8860B; }
+
+  .product-detail-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-top: 12px;
+  }
+  .detail-item { font-size: 0.82rem; color: var(--gray); }
+  .detail-item strong { color: var(--navy); display: block; font-size: 0.9rem; }
+
+  /* ── CLIENTES ──────────────────────────────────────────────── */
+  #clientes-demo {
+    padding: 100px 5%;
+    background: var(--white);
+  }
+
+  .clients-filters {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .filter-btn {
+    padding: 8px 20px;
+    border-radius: 100px;
+    border: 1.5px solid var(--light);
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+    color: var(--navy);
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--navy); color: white; border-color: var(--navy);
+  }
+
+  .clients-table-wrap {
+    border: 1.5px solid var(--light);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 16px rgba(13,36,64,0.06);
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--navy); }
+  thead th {
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.8); text-transform: uppercase;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--light);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--light); }
+  tbody td { padding: 14px 18px; font-size: 0.88rem; vertical-align: middle; }
+
+  .td-name { font-weight: 600; }
+  .td-sub { font-size: 0.78rem; color: var(--gray); }
+
+  .products-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+  .pill {
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 0.72rem; font-weight: 500;
+  }
+
+  .pill-credito { background: #EBF8FF; color: #1A73E8; }
+  .pill-cdt { background: #FFF8E0; color: #C08B00; }
+  .pill-cuenta { background: #E8FAF5; color: #00875A; }
+  .pill-inversion { background: #F3F0FF; color: #7B52D3; }
+  .pill-seguro { background: #FFF0F0; color: #C0392B; }
+  .pill-vehiculo { background: #FFF3E0; color: #E65100; }
+
+  .table-pagination {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px;
+    border-top: 1px solid var(--light);
+    background: white;
+    font-size: 0.85rem; color: var(--gray);
+  }
+  .page-btns { display: flex; gap: 8px; }
+  .page-btn {
+    width: 34px; height: 34px;
+    border: 1px solid var(--light);
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--navy);
+  }
+  .page-btn:hover, .page-btn.active { background: var(--navy); color: white; border-color: var(--navy); }
+
+  /* ── SCHEMA BD ───────────────────────────────────────────── */
+  #schema {
+    padding: 100px 5%;
+    background: var(--navy);
+    color: white;
+  }
+
+  .schema-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px; margin-top: 48px;
+  }
+
+  .schema-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .schema-card-header {
+    background: var(--teal);
+    padding: 14px 20px;
+    font-weight: 700; font-size: 0.9rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .schema-card-body { padding: 16px 20px; }
+  .schema-field {
+    display: flex; justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.82rem;
+  }
+  .schema-field:last-child { border-bottom: none; }
+  .field-name { color: rgba(255,255,255,0.9); font-weight: 500; }
+  .field-type { color: var(--teal2); font-family: monospace; font-size: 0.78rem; }
+  .field-pk { background: var(--gold); color: var(--navy); padding: 1px 6px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; margin-left: 6px; }
+
+  /* ── API DOCS ───────────────────────────────────────────── */
+  #api-docs {
+    padding: 100px 5%;
+    background: var(--cream);
+  }
+
+  .api-list { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
+
+  .api-row {
+    background: white;
+    border: 1.5px solid var(--light);
+    border-radius: 12px;
+    padding: 18px 24px;
+    display: flex; align-items: center; gap: 16px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .api-row:hover { border-color: var(--teal); box-shadow: 0 4px 16px rgba(0,168,150,0.1); }
+
+  .method-badge {
+    padding: 4px 12px; border-radius: 6px;
+    font-size: 0.78rem; font-weight: 700; font-family: monospace;
+    min-width: 56px; text-align: center; flex-shrink: 0;
+  }
+  .method-get { background: #EBF8FF; color: #1A73E8; }
+  .method-post { background: #E8FAF5; color: #00875A; }
+
+  .api-path {
+    font-family: monospace; font-size: 0.9rem;
+    color: var(--navy); font-weight: 500; flex: 1;
+  }
+  .api-desc { font-size: 0.85rem; color: var(--gray); }
+
+  .try-btn {
+    padding: 6px 16px;
+    border: 1px solid var(--teal);
+    color: var(--teal);
+    border-radius: 8px;
+    background: transparent;
+    font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .try-btn:hover { background: var(--teal); color: white; }
+
+  .api-response-panel {
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 8px;
+    display: none;
+    animation: fadeDown 0.3s ease;
+    overflow-x: auto;
+  }
+  .api-response-panel.open { display: block; }
+  .api-response-panel pre {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem; line-height: 1.6;
+    color: #e2e8f0;
+    white-space: pre-wrap;
+  }
+  .json-key { color: #79d7f7; }
+  .json-string { color: #a8ff78; }
+  .json-number { color: #ffd700; }
+  .json-bool { color: #ff9f7e; }
+
+  /* ── INTERCOM WIDGET SECTION ─────────────────────────────── */
+  #soporte {
+    padding: 100px 5%;
+    background: white;
+    text-align: center;
+  }
+  .chat-demo-box {
+    max-width: 480px; margin: 48px auto 0;
+    border: 2px solid var(--light);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    animation: float 4s ease-in-out infinite;
+  }
+  .chat-header {
+    background: var(--navy);
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .chat-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--teal2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+  }
+  .chat-info h4 { color: white; font-size: 0.95rem; }
+  .chat-info p { color: rgba(255,255,255,0.6); font-size: 0.78rem; }
+  .online-dot { width: 8px; height: 8px; background: var(--teal2); border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 2s infinite; }
+
+  .chat-body { padding: 20px; background: #f8f9fa; }
+  .chat-message {
+    margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-end;
+  }
+  .chat-message.user { flex-direction: row-reverse; }
+  .chat-bubble {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 0.87rem; line-height: 1.5;
+  }
+  .chat-message:not(.user) .chat-bubble {
+    background: white; border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .chat-message.user .chat-bubble {
+    background: var(--teal); color: white; border-bottom-right-radius: 4px;
+  }
+  .typing { display: flex; gap: 4px; align-items: center; }
+  .typing span {
+    width: 6px; height: 6px; background: var(--gray);
+    border-radius: 50%; animation: typing 1.2s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+  .chat-input {
+    padding: 12px 16px;
+    border-top: 1px solid var(--light);
+    display: flex; gap: 10px; align-items: center;
+    background: white;
+  }
+  .chat-input input {
+    flex: 1; border: 1px solid var(--light);
+    border-radius: 100px; padding: 8px 16px;
+    font-size: 0.85rem; font-family: 'DM Sans', sans-serif;
+    outline: none; color: var(--navy);
+  }
+  .send-btn {
+    width: 36px; height: 36px;
+    background: var(--teal); color: white;
+    border: none; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  /* ── FOOTER ─────────────────────────────────────────────── */
+  footer {
+    background: var(--navy); color: rgba(255,255,255,0.7);
+    padding: 60px 5% 30px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px; margin-bottom: 48px;
+  }
+  .footer-brand p { font-size: 0.88rem; line-height: 1.7; margin-top: 12px; }
+  .footer-col h4 { color: white; font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; }
+  .footer-col a {
+    display: block; color: rgba(255,255,255,0.6);
+    text-decoration: none; font-size: 0.85rem;
+    margin-bottom: 8px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--teal2); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.82rem;
+  }
+  .sfc-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,168,150,0.15);
+    border: 1px solid rgba(0,168,150,0.3);
+    color: var(--teal2);
+    padding: 5px 14px; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 600;
+  }
+
+  /* ── MODAL ───────────────────────────────────────────────── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(13,36,64,0.7); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: white; border-radius: 24px;
+    max-width: 560px; width: 90%;
+    max-height: 85vh; overflow-y: auto;
+    padding: 36px;
+    transform: translateY(20px); transition: transform 0.25s;
+    box-shadow: 0 32px 64px rgba(0,0,0,0.3);
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-close {
+    position: absolute; top: 20px; right: 20px;
+    width: 32px; height: 32px;
+    border: 1px solid var(--light);
+    background: white; border-radius: 50%;
+    cursor: pointer; font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── ANIMATIONS ─────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  @keyframes typing {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  /* ── TOAST ───────────────────────────────────────────────── */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 300;
+    background: var(--navy); color: white;
+    padding: 14px 22px; border-radius: 12px;
+    font-size: 0.88rem; font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transform: translateY(80px); transition: transform 0.3s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toast.show { transform: translateY(0); }
+
+  /* ── LOADING SPINNER ─────────────────────────────────────── */
+  .spinner {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: var(--teal2);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .hero-stats { display: none; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    nav { display: none; }
+  }
+  @media (max-width: 600px) {
+    .footer-top { grid-template-columns: 1fr; }
+    .product-detail-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────────── -->
+<header>
+  <a href="#" class="logo">
+    <div class="logo-icon">💎</div>
+    FinanzasFácil
+  </a>
+  <nav>
+    <a href="#productos">Productos</a>
+    <a href="#consulta">Mi Cuenta</a>
+    <a href="#clientes-demo">Clientes</a>
+    <a href="#api-docs">API Docs</a>
+    <a href="#schema">Base de Datos</a>
+  </nav>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline" onclick="openModal('login-modal')">Ingresar</button>
+    <button class="btn btn-primary">Abrir Cuenta</button>
+  </div>
+</header>
+
+<!-- ── HERO ───────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Vigilados por la SFC · Colombia</div>
+    <h1>Tu futuro financiero,<br><em>al alcance de tu mano</em></h1>
+    <p>CDTs al 12.5% E.A., créditos en 24 horas, inversión inteligente y más. Todo digital, sin filas, sin papeleos. Ahora con Fina, tu asistente IA disponible 24/7.</p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary" onclick="document.getElementById('consulta').scrollIntoView({behavior:'smooth'})">
+        🔍 Consultar mi cuenta
+      </button>
+      <button class="btn btn-gold" onclick="openModal('cdt-modal')">
+        📈 Simular CDT
+      </button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card"><span class="num">30</span><span class="label">Clientes Demo</span></div>
+    <div class="stat-card"><span class="num">57</span><span class="label">Productos Activos</span></div>
+    <div class="stat-card"><span class="num">12.5%</span><span class="label">Tasa CDT E.A.</span></div>
+    <div class="stat-card"><span class="num">24h</span><span class="label">Desembolso Créditos</span></div>
+  </div>
+</section>
+
+<!-- ── PRODUCTOS ──────────────────────────────────────────── -->
+<section id="productos">
+  <div class="section-header">
+    <span class="section-tag">Portafolio</span>
+    <h2>Soluciones para cada etapa de tu vida</h2>
+    <p>Desde tu primera cuenta hasta inversiones de alto rendimiento</p>
+  </div>
+  <div class="products-grid">
+    <div class="product-card" onclick="openModal('credito-modal')">
+      <div class="product-icon" style="background:#EBF8FF">💳</div>
+      <h3>Crédito Personal Flex</h3>
+      <p>Hasta $20M COP. Desembolso en 24 horas hábiles sin salir de casa. Plazos hasta 48 meses.</p>
+      <span class="product-tasa">DTF + 8% E.A.</span>
+    </div>
+    <div class="product-card" onclick="openModal('vehiculo-modal')">
+      <div class="product-icon" style="background:#FFF3E0">🚗</div>
+      <h3>Crédito Vehículo</h3>
+      <p>Financia tu carro nuevo o usado. Hasta $120M COP con cuotas cómodas hasta 72 meses.</p>
+      <span class="product-tasa">DTF + 5% E.A.</span>
+    </div>
+    <div class="product-card" onclick="openModal('cdt-modal')">
+      <div class="product-icon" style="background:#FFF8E0">🏦</div>
+      <h3>CDT Digital</h3>
+      <p>Constituye desde $500K COP con la mejor tasa del mercado. 100% digital desde la app.</p>
+      <span class="product-tasa">12.5% E.A. a 360 días</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#E8FAF5">💰</div>
+      <h3>Cuenta de Ahorro FinFácil</h3>
+      <p>Sin cuota de manejo. Abre tu cuenta en 5 minutos con solo tu cédula. Rendimiento anual del 4%.</p>
+      <span class="product-tasa">4% E.A. — Sin cuota de manejo</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#F3F0FF">📊</div>
+      <h3>Inversión Inteligente</h3>
+      <p>Fondos de renta fija y variable administrados por expertos. Desde $100K COP.</p>
+      <span class="product-tasa">Rendimiento variable · Diversificado</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#FFF0F0">🛡️</div>
+      <h3>Seguro Protege+</h3>
+      <p>Protege a tu familia con cobertura de vida hasta $200M COP. Desde $25K/mes.</p>
+      <span class="product-tasa">Desde $25.000/mes</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONSULTA ────────────────────────────────────────────── -->
+<section id="consulta">
+  <div class="consulta-container">
+    <div class="section-header" style="text-align:left">
+      <span class="section-tag">Portal de Clientes</span>
+      <h2>Consulta tu información</h2>
+      <p>Ingresa tu número de cédula para ver todos tus productos</p>
+    </div>
+    <div class="search-box">
+      <span style="font-size:1.1rem">🔍</span>
+      <input type="text" id="cedula-input" placeholder="Ej: 1019847231 — prueba con cualquier cédula del demo"
+        maxlength="15" inputmode="numeric"
+        onkeydown="if(event.key==='Enter') buscarCliente()">
+      <button class="btn btn-primary" onclick="buscarCliente()">Consultar</button>
+    </div>
+
+    <div class="result-panel" id="result-panel">
+      <div class="result-header">
+        <div class="client-avatar" id="client-initials">V</div>
+        <div class="client-info">
+          <h3 id="client-name">Valentina Ospina</h3>
+          <p id="client-detail">Medellín · Ingeniera de Software</p>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <p style="font-size:0.78rem;opacity:0.6">ID Cliente</p>
+          <p id="client-id" style="font-family:monospace;font-size:0.88rem">CLI-001</p>
+        </div>
+      </div>
+      <div class="result-body">
+        <div id="products-list" class="products-list"></div>
+      </div>
+    </div>
+
+    <div id="no-result" style="display:none;text-align:center;padding:40px;color:var(--gray)">
+      <span style="font-size:3rem">🔎</span>
+      <p style="margin-top:12px;font-size:1rem">No encontramos ningún cliente con esa cédula.</p>
+      <p style="font-size:0.85rem;margin-top:6px">Prueba con: <strong>1019847231</strong>, <strong>1075398214</strong> o <strong>43892017</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ── TABLA CLIENTES ─────────────────────────────────────── -->
+<section id="clientes-demo">
+  <div class="section-header">
+    <span class="section-tag">Base de Datos</span>
+    <h2>30 Clientes Demo — FinanzasFácil</h2>
+    <p>Datos cargados desde la API. Haz clic en un cliente para ver su detalle.</p>
+  </div>
+
+  <div class="clients-filters">
+    <button class="filter-btn active" onclick="filterClients('ALL', this)">Todos (30)</button>
+    <button class="filter-btn" onclick="filterClients('CREDITO_PERSONAL', this)">💳 Créditos</button>
+    <button class="filter-btn" onclick="filterClients('CDT', this)">🏦 CDTs</button>
+    <button class="filter-btn" onclick="filterClients('CUENTA_AHORRO', this)">💰 Cuentas</button>
+    <button class="filter-btn" onclick="filterClients('INVERSION_INTELIGENTE', this)">📊 Inversiones</button>
+    <button class="filter-btn" onclick="filterClients('SEGURO_VIDA', this)">🛡️ Seguros</button>
+    <button class="filter-btn" onclick="filterClients('CREDITO_VEHICULO', this)">🚗 Vehículos</button>
+  </div>
+
+  <div class="clients-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Cédula</th>
+          <th>Ciudad</th>
+          <th>Ingresos</th>
+          <th>Productos</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody id="clients-tbody"></tbody>
+    </table>
+    <div class="table-pagination">
+      <span id="pagination-info">Mostrando 1–10 de 30</span>
+      <div class="page-btns" id="page-btns"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCHEMA BD ───────────────────────────────────────────── -->
+<section id="schema">
+  <div class="section-header" style="color:white">
+    <span class="section-tag" style="background:rgba(0,168,150,0.2);border:1px solid rgba(0,168,150,0.3)">Base de Datos</span>
+    <h2 style="color:white">Modelo de datos</h2>
+    <p style="color:rgba(255,255,255,0.6)">Estructura normalizada de entidades y relaciones</p>
+  </div>
+  <div class="schema-grid">
+    <div class="schema-card">
+      <div class="schema-card-header">👤 CLIENTES</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">id <span class="field-pk">PK</span></span><span class="field-type">varchar(7)</span></div>
+        <div class="schema-field"><span class="field-name">cedula</span><span class="field-type">varchar(12) UNIQUE</span></div>
+        <div class="schema-field"><span class="field-name">nombre</span><span class="field-type">varchar(100)</span></div>
+        <div class="schema-field"><span class="field-name">email</span><span class="field-type">varchar(100)</span></div>
+        <div class="schema-field"><span class="field-name">telefono</span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">ciudad</span><span class="field-type">varchar(50)</span></div>
+        <div class="schema-field"><span class="field-name">genero</span><span class="field-type">char(1)</span></div>
+        <div class="schema-field"><span class="field-name">fecha_nacimiento</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">ocupacion</span><span class="field-type">varchar(80)</span></div>
+        <div class="schema-field"><span class="field-name">ingresos_mensuales</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">created_at</span><span class="field-type">timestamp</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">💳 CREDITOS</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">numero <span class="field-pk">PK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">cliente_id <span class="field-pk">FK</span></span><span class="field-type">varchar(7)</span></div>
+        <div class="schema-field"><span class="field-name">tipo</span><span class="field-type">enum(PERSONAL,VEHICULO)</span></div>
+        <div class="schema-field"><span class="field-name">monto_aprobado</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">saldo_pendiente</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">cuotas_totales</span><span class="field-type">int</span></div>
+        <div class="schema-field"><span class="field-name">cuotas_pagadas</span><span class="field-type">int</span></div>
+        <div class="schema-field"><span class="field-name">valor_cuota</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">tasa_ea</span><span class="field-type">varchar(20)</span></div>
+        <div class="schema-field"><span class="field-name">fecha_desembolso</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">estado</span><span class="field-type">enum(AL_DIA,EN_MORA)</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">🏦 CDTS</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">numero <span class="field-pk">PK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">cliente_id <span class="field-pk">FK</span></span><span class="field-type">varchar(7)</span></div>
+        <div class="schema-field"><span class="field-name">monto</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">tasa_anual</span><span class="field-type">decimal(5,2)</span></div>
+        <div class="schema-field"><span class="field-name">fecha_constitucion</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">fecha_vencimiento</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">dias_restantes</span><span class="field-type">int (computed)</span></div>
+        <div class="schema-field"><span class="field-name">rendimiento_estimado</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">estado</span><span class="field-type">enum(ACTIVO,CANCELADO)</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">💰 CUENTAS_AHORRO</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">numero <span class="field-pk">PK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">cliente_id <span class="field-pk">FK</span></span><span class="field-type">varchar(7)</span></div>
+        <div class="schema-field"><span class="field-name">saldo_disponible</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">tasa_ea</span><span class="field-type">decimal(4,2)</span></div>
+        <div class="schema-field"><span class="field-name">fecha_apertura</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">estado</span><span class="field-type">enum(ACTIVA,INACTIVA)</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">📊 INVERSIONES</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">numero <span class="field-pk">PK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">cliente_id <span class="field-pk">FK</span></span><span class="field-type">varchar(7)</span></div>
+        <div class="schema-field"><span class="field-name">monto_invertido</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">rentabilidad_ytd</span><span class="field-type">decimal(5,2)</span></div>
+        <div class="schema-field"><span class="field-name">valor_actual</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">tipo_fondo</span><span class="field-type">varchar(30)</span></div>
+        <div class="schema-field"><span class="field-name">fecha_inicio</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">estado</span><span class="field-type">enum(ACTIVO,CANCELADO)</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">🛡️ SEGUROS</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">numero <span class="field-pk">PK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">cliente_id <span class="field-pk">FK</span></span><span class="field-type">varchar(7)</span></div>
+        <div class="schema-field"><span class="field-name">cobertura</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">prima_mensual</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">beneficiarios</span><span class="field-type">json (array)</span></div>
+        <div class="schema-field"><span class="field-name">fecha_inicio</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">estado</span><span class="field-type">enum(VIGENTE,CANCELADO)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── API DOCS ───────────────────────────────────────────── -->
+<section id="api-docs">
+  <div class="section-header">
+    <span class="section-tag">Integración</span>
+    <h2>APIs disponibles en Beeceptor</h2>
+    <p>Base URL: <code style="background:var(--light);padding:4px 10px;border-radius:6px;font-family:monospace">https://finanzasfacil.free.beeceptor.com</code></p>
+  </div>
+  <div class="api-list" id="api-list"></div>
+</section>
+
+<!-- ── SOPORTE / INTERCOM ─────────────────────────────────── -->
+<section id="soporte">
+  <div class="section-header">
+    <span class="section-tag">Atención 24/7</span>
+    <h2>Fina, tu asistente financiera</h2>
+    <p>Potenciada por Intercom Fin AI. Disponible en chat, email y WhatsApp</p>
+  </div>
+  <div style="display:flex;gap:40px;flex-wrap:wrap;justify-content:center;margin-top:40px">
+    <div style="text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">💬</div>
+      <strong>Chat Web</strong>
+      <p style="font-size:0.85rem;color:var(--gray);margin-top:4px">Respuesta instantánea</p>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">📱</div>
+      <strong>WhatsApp</strong>
+      <p style="font-size:0.85rem;color:var(--gray);margin-top:4px">+57 300 123 4567</p>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">📧</div>
+      <strong>Email</strong>
+      <p style="font-size:0.85rem;color:var(--gray);margin-top:4px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="394a5649564b4d5c795f5057585743584a5f585a5055175a56">[email&#160;protected]</a></p>
+    </div>
+  </div>
+  <div class="chat-demo-box">
+    <div class="chat-header">
+      <div class="chat-avatar">🤖</div>
+      <div class="chat-info">
+        <h4>Fina — FinanzasFácil</h4>
+        <p><span class="online-dot"></span>En línea · Responde en segundos</p>
+      </div>
+    </div>
+    <div class="chat-body">
+      <div class="chat-message">
+        <div class="chat-avatar" style="width:32px;height:32px;font-size:0.85rem">🤖</div>
+        <div class="chat-bubble">¡Hola! Soy Fina, tu asistente de FinanzasFácil 👋 ¿En qué te puedo ayudar hoy?</div>
+      </div>
+      <div class="chat-message user">
+        <div class="chat-bubble">¿Cuál es la tasa de los CDTs?</div>
+      </div>
+      <div class="chat-message">
+        <div class="chat-avatar" style="width:32px;height:32px;font-size:0.85rem">🤖</div>
+        <div class="chat-bubble">Nuestros CDTs digitales ofrecen hasta el <strong>12.5% E.A.</strong> a 360 días. Puedes constituirlo 100% desde la app, sin moverte de casa 🏦<br><br>¿Quieres simular tu rendimiento?</div>
+      </div>
+      <div class="chat-message" id="typing-indicator" style="display:none">
+        <div class="chat-avatar" style="width:32px;height:32px;font-size:0.85rem">🤖</div>
+        <div class="chat-bubble"><div class="typing"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter') sendChatMsg()">
+      <button class="send-btn" onclick="sendChatMsg()">➤</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="color:white">
+        <div class="logo-icon">💎</div>FinanzasFácil
+      </a>
+      <p>Soluciones financieras digitales para colombianos. Vigilados y controlados por la Superintendencia Financiera de Colombia.</p>
+      <span class="sfc-badge" style="margin-top:16px;display:inline-flex">🏛️ Vigilado SFC</span>
+    </div>
+    <div class="footer-col">
+      <h4>Productos</h4>
+      <a href="#">Crédito Personal</a>
+      <a href="#">Crédito Vehículo</a>
+      <a href="#">CDT Digital</a>
+      <a href="#">Cuenta Ahorro</a>
+      <a href="#">Inversión</a>
+      <a href="#">Seguros</a>
+    </div>
+    <div class="footer-col">
+      <h4>Soporte</h4>
+      <a href="#">Fina (Chat IA)</a>
+      <a href="#">WhatsApp</a>
+      <a href="#">Email</a>
+      <a href="#">Centro de Ayuda</a>
+      <a href="#">PQR</a>
+    </div>
+    <div class="footer-col">
+      <h4>Demo</h4>
+      <a href="#consulta">Portal Clientes</a>
+      <a href="#clientes-demo">Base de Datos</a>
+      <a href="#api-docs">API Docs</a>
+      <a href="#schema">Schema BD</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 FinanzasFácil Colombia S.A.S. — Empresa ficticia para demo de Intercom Fin</span>
+    <span>Desarrollado con ❤️ en Medellín</span>
+  </div>
+</footer>
+
+<!-- ── MODALS ─────────────────────────────────────────────── -->
+<div class="modal-overlay" id="login-modal" onclick="if(event.target===this)closeModal('login-modal')">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('login-modal')">×</button>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:1.8rem;margin-bottom:8px">Bienvenido</h2>
+    <p style="color:var(--gray);margin-bottom:28px">Ingresa a tu portal de clientes</p>
+    <label style="font-size:0.85rem;font-weight:600;color:var(--navy)">Número de cédula</label>
+    <input type="text" placeholder="Ej: 1019847231" style="width:100%;border:1.5px solid var(--light);border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 20px;font-family:'DM Sans',sans-serif;outline:none">
+    <label style="font-size:0.85rem;font-weight:600;color:var(--navy)">Contraseña</label>
+    <input type="password" placeholder="••••••••" style="width:100%;border:1.5px solid var(--light);border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 28px;font-family:'DM Sans',sans-serif;outline:none">
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px" onclick="closeModal('login-modal');showToast('🔐 Login — conectar con Intercom Identity para personalizar Fina')">Ingresar</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="cdt-modal" onclick="if(event.target===this)closeModal('cdt-modal')">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('cdt-modal')">×</button>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:1.8rem;margin-bottom:8px">Simular CDT</h2>
+    <p style="color:var(--gray);margin-bottom:28px">Tasa: <strong>12.5% E.A.</strong></p>
+    <label style="font-size:0.85rem;font-weight:600">Monto a invertir (COP)</label>
+    <input type="number" id="cdt-monto" placeholder="10000000" min="500000" style="width:100%;border:1.5px solid var(--light);border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 20px;font-family:'DM Sans',sans-serif;outline:none" oninput="simularCDT()">
+    <label style="font-size:0.85rem;font-weight:600">Plazo</label>
+    <select id="cdt-plazo" style="width:100%;border:1.5px solid var(--light);border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 20px;font-family:'DM Sans',sans-serif;outline:none;background:white" onchange="simularCDT()">
+      <option value="90">90 días</option>
+      <option value="180">180 días</option>
+      <option value="270">270 días</option>
+      <option value="360" selected>360 días</option>
+    </select>
+    <div id="cdt-result" style="background:var(--light);border-radius:12px;padding:20px;text-align:center;display:none">
+      <p style="color:var(--gray);font-size:0.85rem">Rendimiento estimado</p>
+      <p id="cdt-rendimiento" style="font-size:2rem;font-weight:700;color:var(--teal);font-family:'DM Serif Display',serif"></p>
+      <p id="cdt-total" style="color:var(--navy);font-weight:600"></p>
+    </div>
+    <button class="btn btn-gold" style="width:100%;justify-content:center;margin-top:20px;padding:14px" onclick="closeModal('cdt-modal');showToast('✅ Solicitud enviada — POST /solicitudes/cdt')">Constituir CDT</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="credito-modal" onclick="if(event.target===this)closeModal('credito-modal')">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('credito-modal')">×</button>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:1.8rem;margin-bottom:8px">Simular Crédito</h2>
+    <p style="color:var(--gray);margin-bottom:28px">Tasa: <strong>DTF + 8% E.A.</strong></p>
+    <label style="font-size:0.85rem;font-weight:600">Monto solicitado (COP)</label>
+    <input type="number" id="cred-monto" placeholder="5000000" style="width:100%;border:1.5px solid var(--light);border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 20px;font-family:'DM Sans',sans-serif;outline:none" oninput="simularCredito()">
+    <label style="font-size:0.85rem;font-weight:600">Plazo (meses)</label>
+    <input type="range" id="cred-plazo" min="6" max="48" value="24" style="width:100%;margin:8px 0" oninput="document.getElementById('plazo-val').textContent=this.value+' meses';simularCredito()">
+    <p id="plazo-val" style="text-align:center;font-weight:600;color:var(--teal);margin-bottom:20px">24 meses</p>
+    <div id="cred-result" style="background:var(--light);border-radius:12px;padding:20px;text-align:center;display:none">
+      <p style="color:var(--gray);font-size:0.85rem">Cuota mensual estimada</p>
+      <p id="cred-cuota" style="font-size:2rem;font-weight:700;color:var(--navy);font-family:'DM Serif Display',serif"></p>
+      <p id="cred-total" style="color:var(--gray);font-size:0.85rem;margin-top:4px"></p>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:20px;padding:14px" onclick="closeModal('credito-modal');showToast('✅ Solicitud enviada — POST /solicitudes/credito')">Solicitar Crédito</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="vehiculo-modal" onclick="if(event.target===this)closeModal('vehiculo-modal')">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('vehiculo-modal')">×</button>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:1.8rem;margin-bottom:8px">Crédito Vehículo</h2>
+    <p style="color:var(--gray);margin-bottom:28px">Hasta $120M · Hasta 72 meses · Tasa: DTF + 5% E.A.</p>
+    <p style="font-size:0.9rem;line-height:1.7;color:var(--navy)">Financia tu carro nuevo o usado con las mejores condiciones del mercado. Sin codeudor para créditos hasta $80M con buen historial crediticio.</p>
+    <div style="background:var(--light);border-radius:12px;padding:20px;margin:20px 0">
+      <p style="font-size:0.85rem;font-weight:600;margin-bottom:12px">Documentos requeridos</p>
+      <p style="font-size:0.85rem;color:var(--gray);line-height:2">✅ Cédula de ciudadanía<br>✅ Últimos 3 extractos bancarios<br>✅ Carta laboral o RUT<br>✅ Factura proforma del vehículo</p>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px" onclick="closeModal('vehiculo-modal');showToast('✅ Redirigiendo a solicitud — POST /solicitudes/credito')">Iniciar Solicitud</button>
+  </div>
+</div>
+
+<!-- ── TOAST ─────────────────────────────────────────────── -->
+<div class="toast" id="toast">
+  <span id="toast-msg">Mensaje</span>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ─── DATA (inlined from clientes.js) ────────────────────────
+const CLIENTES = [
+  { id:"CLI-001", cedula:"1019847231", nombre:"Valentina Ospina Restrepo", ciudad:"Medellín", ocupacion:"Ingeniera de Software", ingresos_mensuales:8500000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2024-00891",monto_aprobado:15000000,saldo_pendiente:9800000,cuotas_totales:36,cuotas_pagadas:14,valor_cuota:490000,tasa_ea:"DTF+8%",proxima_cuota:"2026-04-15",estado:"AL_DIA"},{tipo:"CUENTA_AHORRO",numero:"CA-2023-04521",saldo_disponible:2340000,tasa_ea:4.0,estado:"ACTIVA"}]},
+  { id:"CLI-002", cedula:"1075398214", nombre:"Andrés Felipe Cardona Muñoz", ciudad:"Bogotá", ocupacion:"Gerente Comercial", ingresos_mensuales:12000000, productos:[{tipo:"CDT",numero:"CDT-2025-00234",monto:50000000,tasa_anual:12.5,fecha_vencimiento:"2026-04-10",dias_restantes:14,rendimiento_estimado:6250000,estado:"ACTIVO"},{tipo:"CREDITO_VEHICULO",numero:"CV-2023-00156",vehiculo:"Toyota Hilux 2023",monto_aprobado:95000000,saldo_pendiente:71000000,cuotas_totales:60,cuotas_pagadas:20,valor_cuota:2100000,estado:"AL_DIA"}]},
+  { id:"CLI-003", cedula:"43892017", nombre:"María Fernanda Ríos Gómez", ciudad:"Cali", ocupacion:"Médica Especialista", ingresos_mensuales:18000000, productos:[{tipo:"INVERSION_INTELIGENTE",numero:"INV-2024-00089",monto_invertido:100000000,rentabilidad_ytd:8.3,valor_actual:108300000,tipo_fondo:"Renta Fija + Variable",estado:"ACTIVO"},{tipo:"SEGURO_VIDA",numero:"SV-2024-00445",cobertura:200000000,prima_mensual:85000,estado:"VIGENTE"},{tipo:"CUENTA_AHORRO",numero:"CA-2022-00891",saldo_disponible:8920000,estado:"ACTIVA"}]},
+  { id:"CLI-004", cedula:"1152847392", nombre:"Juan Pablo Herrera Zapata", ciudad:"Medellín", ocupacion:"Diseñador UX", ingresos_mensuales:5500000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2025-01234",monto_aprobado:8000000,saldo_pendiente:7200000,cuotas_totales:24,cuotas_pagadas:3,valor_cuota:390000,estado:"AL_DIA"},{tipo:"CUENTA_AHORRO",numero:"CA-2025-09234",saldo_disponible:450000,estado:"ACTIVA"}]},
+  { id:"CLI-005", cedula:"71928374", nombre:"Carlos Alberto Londoño Pérez", ciudad:"Pereira", ocupacion:"Empresario", ingresos_mensuales:25000000, productos:[{tipo:"CDT",numero:"CDT-2025-00567",monto:200000000,tasa_anual:12.5,dias_restantes:157,rendimiento_estimado:25000000,estado:"ACTIVO"},{tipo:"CDT",numero:"CDT-2026-00011",monto:80000000,tasa_anual:12.5,dias_restantes:294,rendimiento_estimado:10000000,estado:"ACTIVO"},{tipo:"SEGURO_VIDA",numero:"SV-2023-00123",cobertura:200000000,prima_mensual:120000,estado:"VIGENTE"}]},
+  { id:"CLI-006", cedula:"1023948571", nombre:"Luisa Margarita Salcedo Torres", ciudad:"Barranquilla", ocupacion:"Abogada", ingresos_mensuales:9000000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2024-00456",monto_aprobado:20000000,saldo_pendiente:14500000,cuotas_totales:36,cuotas_pagadas:12,valor_cuota:650000,estado:"EN_MORA",dias_mora:8}]},
+  { id:"CLI-007", cedula:"79238471", nombre:"Roberto Enrique Palacios Vega", ciudad:"Bucaramanga", ocupacion:"Contador Público", ingresos_mensuales:7500000, productos:[{tipo:"CUENTA_AHORRO",numero:"CA-2020-01234",saldo_disponible:15670000,estado:"ACTIVA"},{tipo:"SEGURO_VIDA",numero:"SV-2022-00678",cobertura:150000000,prima_mensual:65000,estado:"VIGENTE"}]},
+  { id:"CLI-008", cedula:"1098234567", nombre:"Isabela Montoya Cárdenas", ciudad:"Medellín", ocupacion:"Estudiante de Posgrado", ingresos_mensuales:2800000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2025-02891",monto_aprobado:3000000,saldo_pendiente:2100000,cuotas_totales:12,cuotas_pagadas:3,valor_cuota:285000,estado:"AL_DIA"},{tipo:"CUENTA_AHORRO",numero:"CA-2025-10011",saldo_disponible:125000,estado:"ACTIVA"}]},
+  { id:"CLI-009", cedula:"32198475", nombre:"Gloria Esperanza Vargas Ruiz", ciudad:"Manizales", ocupacion:"Pensionada", ingresos_mensuales:4500000, productos:[{tipo:"CDT",numero:"CDT-2026-00089",monto:30000000,tasa_anual:12.5,dias_restantes:99,rendimiento_estimado:1875000,estado:"ACTIVO"},{tipo:"CUENTA_AHORRO",numero:"CA-2018-05671",saldo_disponible:5430000,estado:"ACTIVA"}]},
+  { id:"CLI-010", cedula:"1037289456", nombre:"Daniel Alejandro Giraldo Soto", ciudad:"Bogotá", ocupacion:"Product Manager", ingresos_mensuales:11000000, productos:[{tipo:"CREDITO_VEHICULO",numero:"CV-2025-00289",vehiculo:"Mazda CX-5 2024",monto_aprobado:78000000,saldo_pendiente:70000000,cuotas_totales:60,cuotas_pagadas:5,valor_cuota:1680000,estado:"AL_DIA"},{tipo:"INVERSION_INTELIGENTE",numero:"INV-2025-00201",monto_invertido:20000000,rentabilidad_ytd:5.1,valor_actual:21020000,tipo_fondo:"Renta Fija",estado:"ACTIVO"}]},
+  { id:"CLI-011", cedula:"55891234", nombre:"Héctor Manuel Suárez Pinto", ciudad:"Cali", ocupacion:"Arquitecto", ingresos_mensuales:13000000, productos:[{tipo:"CREDITO_VEHICULO",numero:"CV-2022-00078",vehiculo:"Ram 1500 2022",monto_aprobado:110000000,saldo_pendiente:55000000,cuotas_totales:72,cuotas_pagadas:36,valor_cuota:2200000,estado:"AL_DIA"},{tipo:"SEGURO_VIDA",numero:"SV-2022-00340",cobertura:200000000,prima_mensual:95000,estado:"VIGENTE"}]},
+  { id:"CLI-012", cedula:"1064823917", nombre:"Natalia Andrea Moreno Bernal", ciudad:"Bogotá", ocupacion:"Docente Universitaria", ingresos_mensuales:6800000, productos:[{tipo:"INVERSION_INTELIGENTE",numero:"INV-2024-00145",monto_invertido:15000000,rentabilidad_ytd:7.8,valor_actual:16170000,tipo_fondo:"Renta Variable",estado:"ACTIVO"},{tipo:"CDT",numero:"CDT-2025-00901",monto:10000000,tasa_anual:12.5,dias_restantes:187,rendimiento_estimado:1250000,estado:"ACTIVO"}]},
+  { id:"CLI-013", cedula:"1122334455", nombre:"Pedro Antonio Ramírez Castro", ciudad:"Medellín", ocupacion:"Ingeniero Civil", ingresos_mensuales:9500000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2023-00234",monto_aprobado:18000000,saldo_pendiente:4500000,cuotas_totales:36,cuotas_pagadas:31,valor_cuota:590000,estado:"AL_DIA"}]},
+  { id:"CLI-014", cedula:"43219876", nombre:"Claudia Patricia Mejía Acosta", ciudad:"Armenia", ocupacion:"Enfermera Jefe", ingresos_mensuales:5200000, productos:[{tipo:"CUENTA_AHORRO",numero:"CA-2019-03456",saldo_disponible:3280000,estado:"ACTIVA"},{tipo:"SEGURO_VIDA",numero:"SV-2021-00512",cobertura:100000000,prima_mensual:45000,estado:"VIGENTE"}]},
+  { id:"CLI-015", cedula:"1044567890", nombre:"Sebastián Castro Vargas", ciudad:"Bogotá", ocupacion:"Emprendedor", ingresos_mensuales:7000000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2025-00789",monto_aprobado:10000000,saldo_pendiente:9100000,cuotas_totales:24,cuotas_pagadas:2,valor_cuota:495000,estado:"AL_DIA"},{tipo:"INVERSION_INTELIGENTE",numero:"INV-2025-00345",monto_invertido:5000000,rentabilidad_ytd:4.2,valor_actual:5210000,tipo_fondo:"Renta Fija",estado:"ACTIVO"}]},
+  { id:"CLI-016", cedula:"1081234567", nombre:"Alejandra Sofía Varón Díaz", ciudad:"Cali", ocupacion:"Química Farmacéutica", ingresos_mensuales:7800000, productos:[{tipo:"CDT",numero:"CDT-2025-01122",monto:25000000,tasa_anual:12.5,dias_restantes:95,rendimiento_estimado:3125000,estado:"ACTIVO"}]},
+  { id:"CLI-017", cedula:"80234789", nombre:"Jorge Iván Ospina Jaramillo", ciudad:"Pereira", ocupacion:"Veterinario", ingresos_mensuales:6200000, productos:[{tipo:"CREDITO_VEHICULO",numero:"CV-2024-00198",vehiculo:"Renault Duster 2024",monto_aprobado:55000000,saldo_pendiente:48000000,cuotas_totales:60,cuotas_pagadas:8,valor_cuota:1150000,estado:"AL_DIA"}]},
+  { id:"CLI-018", cedula:"1059234187", nombre:"Paola Andrea Quintero Reyes", ciudad:"Ibagué", ocupacion:"Psicóloga", ingresos_mensuales:4800000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2024-01567",monto_aprobado:6000000,saldo_pendiente:3800000,cuotas_totales:18,cuotas_pagadas:8,valor_cuota:390000,estado:"AL_DIA"},{tipo:"CUENTA_AHORRO",numero:"CA-2024-07891",saldo_disponible:890000,estado:"ACTIVA"}]},
+  { id:"CLI-019", cedula:"13428917", nombre:"Armando Luis Trujillo Medina", ciudad:"Santa Marta", ocupacion:"Pensionado", ingresos_mensuales:3800000, productos:[{tipo:"CDT",numero:"CDT-2025-00789",monto:15000000,tasa_anual:12.5,dias_restantes:248,rendimiento_estimado:1875000,estado:"ACTIVO"},{tipo:"SEGURO_VIDA",numero:"SV-2020-00891",cobertura:80000000,prima_mensual:38000,estado:"VIGENTE"}]},
+  { id:"CLI-020", cedula:"1094823741", nombre:"Stefanía Rueda Bermúdez", ciudad:"Medellín", ocupacion:"Desarrolladora Full Stack", ingresos_mensuales:9200000, productos:[{tipo:"INVERSION_INTELIGENTE",numero:"INV-2025-00412",monto_invertido:30000000,rentabilidad_ytd:9.2,valor_actual:32760000,tipo_fondo:"Renta Variable",estado:"ACTIVO"},{tipo:"CUENTA_AHORRO",numero:"CA-2024-01234",saldo_disponible:4560000,estado:"ACTIVA"}]},
+  { id:"CLI-021", cedula:"19234897", nombre:"Guillermo Andrés Zapata Niño", ciudad:"Bogotá", ocupacion:"Gerente Financiero", ingresos_mensuales:22000000, productos:[{tipo:"CDT",numero:"CDT-2025-00456",monto:150000000,tasa_anual:12.5,dias_restantes:65,rendimiento_estimado:18750000,estado:"ACTIVO"},{tipo:"INVERSION_INTELIGENTE",numero:"INV-2024-00067",monto_invertido:80000000,rentabilidad_ytd:11.4,valor_actual:89120000,estado:"ACTIVO"},{tipo:"CREDITO_VEHICULO",numero:"CV-2025-00456",vehiculo:"BMW X3 2025",monto_aprobado:120000000,saldo_pendiente:108000000,cuotas_totales:60,cuotas_pagadas:5,valor_cuota:2800000,estado:"AL_DIA"}]},
+  { id:"CLI-022", cedula:"1128934576", nombre:"Lina María Agudelo Castañeda", ciudad:"Manizales", ocupacion:"Marketing Digital", ingresos_mensuales:4200000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2025-03456",monto_aprobado:5000000,saldo_pendiente:4600000,cuotas_totales:18,cuotas_pagadas:2,valor_cuota:320000,estado:"AL_DIA"}]},
+  { id:"CLI-023", cedula:"71892345", nombre:"Francisco Javier Cano Bedoya", ciudad:"Medellín", ocupacion:"Odontólogo", ingresos_mensuales:15000000, productos:[{tipo:"CDT",numero:"CDT-2026-00234",monto:60000000,tasa_anual:12.5,dias_restantes:310,rendimiento_estimado:7500000,estado:"ACTIVO"},{tipo:"SEGURO_VIDA",numero:"SV-2023-00789",cobertura:200000000,prima_mensual:110000,estado:"VIGENTE"}]},
+  { id:"CLI-024", cedula:"1112345678", nombre:"Carolina Vélez Arbeláez", ciudad:"Cali", ocupacion:"Nutricionista", ingresos_mensuales:5600000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2024-00987",monto_aprobado:12000000,saldo_pendiente:8900000,cuotas_totales:30,cuotas_pagadas:9,valor_cuota:480000,estado:"AL_DIA"},{tipo:"CUENTA_AHORRO",numero:"CA-2023-08901",saldo_disponible:1230000,estado:"ACTIVA"}]},
+  { id:"CLI-025", cedula:"94123789", nombre:"Álvaro Jesús Mejía Palomino", ciudad:"Barranquilla", ocupacion:"Pensionado", ingresos_mensuales:5100000, productos:[{tipo:"CDT",numero:"CDT-2025-01345",monto:40000000,tasa_anual:12.5,dias_restantes:218,rendimiento_estimado:5000000,estado:"ACTIVO"},{tipo:"CUENTA_AHORRO",numero:"CA-2015-09012",saldo_disponible:9870000,estado:"ACTIVA"}]},
+  { id:"CLI-026", cedula:"1086712349", nombre:"Mariana Juliana Ortiz Salazar", ciudad:"Bogotá", ocupacion:"Estudiante", ingresos_mensuales:1500000, productos:[{tipo:"CUENTA_AHORRO",numero:"CA-2026-01023",saldo_disponible:85000,estado:"ACTIVA"}]},
+  { id:"CLI-027", cedula:"8123456", nombre:"Rafael Antonio Bermúdez Cure", ciudad:"Cartagena", ocupacion:"Empresario Turístico", ingresos_mensuales:28000000, productos:[{tipo:"INVERSION_INTELIGENTE",numero:"INV-2023-00023",monto_invertido:250000000,rentabilidad_ytd:12.1,valor_actual:280250000,estado:"ACTIVO"},{tipo:"CDT",numero:"CDT-2026-00345",monto:100000000,tasa_anual:12.5,dias_restantes:140,rendimiento_estimado:6250000,estado:"ACTIVO"},{tipo:"SEGURO_VIDA",numero:"SV-2024-00901",cobertura:200000000,prima_mensual:150000,estado:"VIGENTE"}]},
+  { id:"CLI-028", cedula:"1139823471", nombre:"Juliana Paola Torres Mendoza", ciudad:"Neiva", ocupacion:"Técnica en Sistemas", ingresos_mensuales:2200000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2025-04012",monto_aprobado:2000000,saldo_pendiente:1600000,cuotas_totales:10,cuotas_pagadas:2,valor_cuota:220000,estado:"AL_DIA"}]},
+  { id:"CLI-029", cedula:"91234567", nombre:"Eduardo José Parra Villalba", ciudad:"Bucaramanga", ocupacion:"Gerente de Operaciones", ingresos_mensuales:16000000, productos:[{tipo:"CREDITO_VEHICULO",numero:"CV-2023-00298",vehiculo:"Jeep Compass 2023",monto_aprobado:85000000,saldo_pendiente:60000000,cuotas_totales:72,cuotas_pagadas:24,valor_cuota:1750000,estado:"AL_DIA"},{tipo:"INVERSION_INTELIGENTE",numero:"INV-2025-00512",monto_invertido:50000000,rentabilidad_ytd:8.9,valor_actual:54450000,estado:"ACTIVO"}]},
+  { id:"CLI-030", cedula:"1104123456", nombre:"Ángela Cristina Niño Bermúdez", ciudad:"Villavicencio", ocupacion:"Administradora de Empresas", ingresos_mensuales:6500000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2024-01890",monto_aprobado:10000000,saldo_pendiente:7200000,cuotas_totales:30,cuotas_pagadas:10,valor_cuota:395000,estado:"AL_DIA"},{tipo:"SEGURO_VIDA",numero:"SV-2024-01012",cobertura:120000000,prima_mensual:52000,estado:"VIGENTE"}]}
+];
+
+// ─── RAILWAY API URL ─────────────────────────────────────────
+const API_BASE = 'https://fin-production-11c4.up.railway.app';
+
+// ─── UTILS ──────────────────────────────────────────────────
+const fmt = n => new Intl.NumberFormat('es-CO', {style:'currency',currency:'COP',maximumFractionDigits:0}).format(n);
+
+function getInitials(name) {
+  return name.split(' ').slice(0,2).map(w=>w[0]).join('');
+}
+
+function getPillClass(tipo) {
+  const map = {
+    CREDITO_PERSONAL:'pill-credito', CDT:'pill-cdt',
+    CUENTA_AHORRO:'pill-cuenta', INVERSION_INTELIGENTE:'pill-inversion',
+    SEGURO_VIDA:'pill-seguro', CREDITO_VEHICULO:'pill-vehiculo'
+  };
+  return map[tipo] || 'pill-cuenta';
+}
+function getPillLabel(tipo) {
+  const map = {
+    CREDITO_PERSONAL:'💳 Crédito', CDT:'🏦 CDT',
+    CUENTA_AHORRO:'💰 Ahorro', INVERSION_INTELIGENTE:'📊 Inversión',
+    SEGURO_VIDA:'🛡️ Seguro', CREDITO_VEHICULO:'🚗 Vehículo'
+  };
+  return map[tipo] || tipo;
+}
+function getProductIcon(tipo) {
+  const map = {CREDITO_PERSONAL:'💳',CDT:'🏦',CUENTA_AHORRO:'💰',INVERSION_INTELIGENTE:'📊',SEGURO_VIDA:'🛡️',CREDITO_VEHICULO:'🚗'};
+  return map[tipo]||'📄';
+}
+function getIconBg(tipo) {
+  const map = {CREDITO_PERSONAL:'#EBF8FF',CDT:'#FFF8E0',CUENTA_AHORRO:'#E8FAF5',INVERSION_INTELIGENTE:'#F3F0FF',SEGURO_VIDA:'#FFF0F0',CREDITO_VEHICULO:'#FFF3E0'};
+  return map[tipo]||'#F0F0F0';
+}
+
+function hasStatus(client, status) {
+  return client.productos.some(p => p.estado === status);
+}
+
+// ─── CONSULTAR CLIENTE (Railway API) ─────────────────────────
+function buscarCliente() {
+  const cedula = document.getElementById('cedula-input').value.trim();
+  if (!cedula) return;
+
+  const panel = document.getElementById('result-panel');
+  const noResult = document.getElementById('no-result');
+  panel.classList.remove('visible');
+  noResult.style.display = 'none';
+
+  showToast('⏳ Consultando API...');
+
+  fetch(`${API_BASE}/clientes/${cedula}`)
+    .then(r => { if (!r.ok) throw new Error('not found'); return r.json(); })
+    .then(cli => {
+      // Actualiza Intercom con datos reales del cliente
+      if (window.Intercom) {
+        window.Intercom('update', {
+          name: cli.nombre, email: cli.email, user_id: cli.id,
+          ciudad: cli.ciudad, ocupacion: cli.ocupacion, cedula: cli.cedula,
+          tiene_mora: cli.resumen?.tiene_mora || false,
+          productos_count: cli.resumen?.productos_count || 0,
+          tipos_producto: (cli.resumen?.tipos || []).join(', ')
+        });
+      }
+
+      document.getElementById('client-initials').textContent = getInitials(cli.nombre);
+      document.getElementById('client-name').textContent = cli.nombre;
+      document.getElementById('client-detail').textContent = `${cli.ciudad} · ${cli.ocupacion} · ${fmt(cli.ingresos_mensuales)}/mes`;
+      document.getElementById('client-id').textContent = cli.id;
+
+      const list = document.getElementById('products-list');
+      list.innerHTML = '';
+      cli.productos.forEach(p => {
+      const mora = p.estado === 'EN_MORA';
+      const vence = p.dias_restantes && p.dias_restantes < 30;
+      let badgeClass = mora ? 'badge-mora' : vence ? 'badge-vence' : 'badge-ok';
+      let badgeText = mora ? `⚠️ En mora ${p.dias_mora}d` : vence ? `⏰ Vence en ${p.dias_restantes}d` : p.estado;
+
+      let details = '';
+      if (p.tipo === 'CREDITO_PERSONAL' || p.tipo === 'CREDITO_VEHICULO') {
+        details = `<div class="product-detail-grid">
+          <div class="detail-item"><strong>${fmt(p.saldo_pendiente)}</strong>Saldo pendiente</div>
+          <div class="detail-item"><strong>${fmt(p.valor_cuota)}/mes</strong>Cuota</div>
+          <div class="detail-item"><strong>${p.cuotas_pagadas}/${p.cuotas_totales}</strong>Cuotas pagadas</div>
+          <div class="detail-item"><strong>${p.proxima_cuota||p.proxima_cuota||'—'}</strong>Próximo pago</div>
+        </div>`;
+      } else if (p.tipo === 'CDT') {
+        details = `<div class="product-detail-grid">
+          <div class="detail-item"><strong>${fmt(p.monto)}</strong>Monto</div>
+          <div class="detail-item"><strong>${fmt(p.rendimiento_estimado)}</strong>Rendimiento est.</div>
+          <div class="detail-item"><strong>${p.tasa_anual}% E.A.</strong>Tasa</div>
+          <div class="detail-item"><strong>${p.dias_restantes||'—'} días</strong>Para vencer</div>
+        </div>`;
+      } else if (p.tipo === 'CUENTA_AHORRO') {
+        details = `<div class="product-detail-grid">
+          <div class="detail-item"><strong>${fmt(p.saldo_disponible)}</strong>Saldo disponible</div>
+          <div class="detail-item"><strong>${p.tasa_ea}% E.A.</strong>Rendimiento</div>
+        </div>`;
+      } else if (p.tipo === 'INVERSION_INTELIGENTE') {
+        details = `<div class="product-detail-grid">
+          <div class="detail-item"><strong>${fmt(p.valor_actual)}</strong>Valor actual</div>
+          <div class="detail-item"><strong>+${p.rentabilidad_ytd}% YTD</strong>Rentabilidad</div>
+          <div class="detail-item"><strong>${p.tipo_fondo||'—'}</strong>Fondo</div>
+        </div>`;
+      } else if (p.tipo === 'SEGURO_VIDA') {
+        details = `<div class="product-detail-grid">
+          <div class="detail-item"><strong>${fmt(p.cobertura)}</strong>Cobertura</div>
+          <div class="detail-item"><strong>${fmt(p.prima_mensual)}/mes</strong>Prima</div>
+        </div>`;
+      }
+
+      list.innerHTML += `
+        <div class="product-item">
+          <div class="product-item-icon" style="background:${getIconBg(p.tipo)}">${getProductIcon(p.tipo)}</div>
+          <div class="product-item-info">
+            <div class="name">${p.tipo.replace(/_/g,' ')}</div>
+            <div class="number">${p.numero}${p.vehiculo ? ' · '+p.vehiculo : ''}</div>
+            ${details}
+          </div>
+          <span class="product-item-badge ${badgeClass}">${badgeText}</span>
+        </div>`;
+    });
+
+      panel.classList.add('visible');
+      showToast(`✅ Railway API — ${cli.productos.length} productos de ${cli.nombre}`);
+    })
+    .catch(() => {
+      noResult.style.display = 'block';
+      showToast('❌ Cliente no encontrado en la BD');
+    });
+}
+
+// ─── TABLA DE CLIENTES ───────────────────────────────────────
+let currentFilter = 'ALL';
+let currentPage = 1;
+const PAGE_SIZE = 10;
+
+function getFilteredClients() {
+  if (currentFilter === 'ALL') return CLIENTES;
+  return CLIENTES.filter(c => c.productos.some(p => p.tipo === currentFilter));
+}
+
+function renderTable() {
+  const filtered = getFilteredClients();
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = Math.min(start + PAGE_SIZE, filtered.length);
+  const page = filtered.slice(start, end);
+
+  const tbody = document.getElementById('clients-tbody');
+  tbody.innerHTML = page.map(cli => {
+    const mora = hasStatus(cli, 'EN_MORA');
+    const tipos = [...new Set(cli.productos.map(p => p.tipo))];
+    return `<tr onclick="buscarClienteById('${cli.cedula}')">
+      <td>
+        <div class="td-name">${cli.nombre}</div>
+        <div class="td-sub">${cli.ocupacion}</div>
+      </td>
+      <td><code style="font-size:0.82rem;background:var(--light);padding:2px 6px;border-radius:4px">${cli.cedula}</code></td>
+      <td>${cli.ciudad}</td>
+      <td>${fmt(cli.ingresos_mensuales)}</td>
+      <td><div class="products-pills">${tipos.map(t=>`<span class="pill ${getPillClass(t)}">${getPillLabel(t)}</span>`).join('')}</div></td>
+      <td><span class="product-item-badge ${mora?'badge-mora':'badge-ok'}">${mora?'⚠️ Mora':'✅ Activo'}</span></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('pagination-info').textContent = `Mostrando ${start+1}–${end} de ${filtered.length}`;
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const btns = document.getElementById('page-btns');
+  btns.innerHTML = Array.from({length:totalPages}, (_,i) => i+1)
+    .map(p => `<button class="page-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`)
+    .join('');
+}
+
+function filterClients(tipo, btn) {
+  currentFilter = tipo;
+  currentPage = 1;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function goPage(p) { currentPage = p; renderTable(); window.scrollTo({top: document.getElementById('clientes-demo').offsetTop - 80, behavior:'smooth'}); }
+
+function buscarClienteById(cedula) {
+  document.getElementById('cedula-input').value = cedula;
+  document.getElementById('consulta').scrollIntoView({behavior:'smooth'});
+  setTimeout(buscarCliente, 600);
+}
+
+// ─── API DOCS SECTION ─────────────────────────────────────────
+const API_ENDPOINTS = [
+  { method:'GET', path:'/clientes', desc:'Listado de todos los clientes', resp:{ total:30, clientes:[{id:"CLI-001",cedula:"1019847231",nombre:"Valentina Ospina Restrepo",ciudad:"Medellín",productos_count:2},"... 29 más"] } },
+  { method:'GET', path:'/clientes/{cedula}', desc:'Perfil completo con todos sus productos', resp:{ id:"CLI-001", cedula:"1019847231", nombre:"Valentina Ospina Restrepo", ciudad:"Medellín", ocupacion:"Ingeniera de Software", ingresos_mensuales:8500000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2024-00891",saldo_pendiente:9800000,estado:"AL_DIA"}] } },
+  { method:'GET', path:'/creditos/{numero}', desc:'Detalle de un crédito (personal o vehículo)', resp:{ numero_credito:"CP-2024-00891", tipo:"CREDITO_PERSONAL", saldo_pendiente:9800000, cuotas_pagadas:14, cuotas_totales:36, valor_cuota:490000, estado:"AL_DIA", porcentaje_pagado:38 } },
+  { method:'GET', path:'/cdts/{numero}', desc:'Información completa de un CDT', resp:{ numero_cdt:"CDT-2025-00234", monto:50000000, tasa_anual:12.5, dias_restantes:14, rendimiento_estimado:6250000, estado:"ACTIVO" } },
+  { method:'GET', path:'/cuentas/{numero}', desc:'Saldo e info de cuenta de ahorro', resp:{ numero_cuenta:"CA-2023-04521", saldo_disponible:2340000, tasa_ea:4.0, rendimiento_mensual_estimado:7800, estado:"ACTIVA" } },
+  { method:'GET', path:'/inversiones/{numero}', desc:'Estado del portafolio de inversión', resp:{ numero_inversion:"INV-2024-00089", monto_invertido:100000000, valor_actual:108300000, rentabilidad_ytd:8.3, ganancia_actual:8300000 } },
+  { method:'GET', path:'/productos', desc:'Catálogo completo de productos disponibles', resp:{ productos:[{id:"CREDITO_PERSONAL",nombre:"Crédito Personal Flex",tasa:"DTF+8% E.A.",monto_max:20000000},{id:"CDT",nombre:"CDT Digital",tasa:"12.5% E.A."}] } },
+  { method:'GET', path:'/estadisticas', desc:'Dashboard — totales, distribución por tipo y ciudad', resp:{ total_clientes:30, total_productos:57, por_tipo:{CREDITO_PERSONAL:11,CDT:11,CUENTA_AHORRO:12}, creditos_en_mora:1 } },
+  { method:'POST', path:'/solicitudes/credito', desc:'Crear solicitud de crédito personal o vehículo', resp:{ numero_radicado:"SOL-2026-47291", estado:"EN_ANALISIS", tiempo_respuesta:"24 horas hábiles" } },
+  { method:'POST', path:'/solicitudes/cdt', desc:'Constituir un nuevo CDT digital', resp:{ numero_cdt:"CDT-2026-83921", estado:"CONSTITUIDO", tasa_anual:12.5 } },
+  { method:'POST', path:'/pqr', desc:'Radicar una petición, queja o reclamo', resp:{ numero_pqr:"PQR-2026-11847", estado:"RECIBIDA", fecha_limite_respuesta:"2026-04-14" } },
+];
+
+function colorizeJson(obj) {
+  const json = JSON.stringify(obj, null, 2);
+  return json
+    .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+    .replace(/: "([^"]+)"/g, ': <span class="json-string">"$1"</span>')
+    .replace(/: (\d+\.?\d*)/g, ': <span class="json-number">$1</span>')
+    .replace(/: (true|false|null)/g, ': <span class="json-bool">$1</span>');
+}
+
+function renderApiDocs() {
+  const list = document.getElementById('api-list');
+  list.innerHTML = API_ENDPOINTS.map((ep, i) => `
+    <div>
+      <div class="api-row" onclick="toggleApiResponse(${i})">
+        <span class="method-badge method-${ep.method.toLowerCase()}">${ep.method}</span>
+        <span class="api-path">${API_BASE}${ep.path}</span>
+        <span class="api-desc">${ep.desc}</span>
+        <button class="try-btn">Ver response ↓</button>
+      </div>
+      <div class="api-response-panel" id="api-resp-${i}">
+        <pre>${colorizeJson(ep.resp)}</pre>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleApiResponse(i) {
+  const panel = document.getElementById(`api-resp-${i}`);
+  const isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.api-response-panel').forEach(p => p.classList.remove('open'));
+  if (!isOpen) panel.classList.add('open');
+}
+
+// ─── MODAL ───────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ─── CDT SIMULATOR ───────────────────────────────────────────
+function simularCDT() {
+  const monto = parseFloat(document.getElementById('cdt-monto').value) || 0;
+  const plazo = parseInt(document.getElementById('cdt-plazo').value);
+  if (monto < 500000) return;
+  const tasa = 0.125;
+  const rendimiento = monto * tasa * (plazo / 360);
+  document.getElementById('cdt-rendimiento').textContent = fmt(rendimiento);
+  document.getElementById('cdt-total').textContent = `Total al vencimiento: ${fmt(monto + rendimiento)}`;
+  document.getElementById('cdt-result').style.display = 'block';
+}
+
+// ─── CRÉDITO SIMULATOR ───────────────────────────────────────
+function simularCredito() {
+  const monto = parseFloat(document.getElementById('cred-monto').value) || 0;
+  const plazo = parseInt(document.getElementById('cred-plazo').value);
+  if (monto < 500000) return;
+  const tasaMensual = (0.08 + 0.116) / 12; // DTF aprox 11.6% + 8% = ~19.6% EA → mensual
+  const cuota = monto * tasaMensual / (1 - Math.pow(1 + tasaMensual, -plazo));
+  document.getElementById('cred-cuota').textContent = fmt(cuota);
+  document.getElementById('cred-total').textContent = `Total a pagar: ${fmt(cuota * plazo)} · Tasa efectiva aprox 19.6% E.A.`;
+  document.getElementById('cred-result').style.display = 'block';
+}
+
+// ─── TOAST ───────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── CHAT DEMO ───────────────────────────────────────────────
+const chatResponses = {
+  'cdts': '¡Claro! Nuestros CDTs digitales ofrecen el <strong>12.5% E.A.</strong> a 360 días. El mínimo es $500.000 COP y lo constituyes 100% desde la app 🏦',
+  'crédito': 'Para el Crédito Personal Flex tenemos hasta $20M COP, desembolso en 24 horas. Necesitas cédula, 3 extractos y carta laboral. ¿Quieres simular tu cuota? 💳',
+  'saldo': 'Para consultar tu saldo necesito tu número de cédula. Puedes buscarlo en la sección "Mi Cuenta" de esta página 🔍',
+  'seguro': 'Nuestro Seguro Protege+ cubre hasta $200M COP con primas desde $25.000/mes. Te protege a ti y a tu familia 🛡️',
+  'mora': 'Si tienes un crédito en mora, te recomiendo contactar a un agente humano para buscar una solución. ¿Quieres que te transfiera? 📞',
+  'horario': 'Atendemos de Lunes a Viernes 8am–6pm y Sábados 9am–1pm. Yo, Fina, estoy disponible 24/7 🤖',
+  'default': 'Entiendo tu consulta. Para darte la información más precisa, ¿me puedes compartir tu número de cédula? Así puedo revisar tus productos directamente 🔎'
+};
+
+function sendChatMsg() {
+  const inp = document.getElementById('chat-input');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+
+  const body = document.querySelector('.chat-body');
+  body.innerHTML += `<div class="chat-message user"><div class="chat-bubble">${msg}</div></div>`;
+
+  const typing = document.getElementById('typing-indicator');
+  typing.style.display = 'flex';
+  body.scrollTop = body.scrollHeight;
+
+  setTimeout(() => {
+    typing.style.display = 'none';
+    const lower = msg.toLowerCase();
+    let resp = chatResponses.default;
+    for (const [key, val] of Object.entries(chatResponses)) {
+      if (lower.includes(key)) { resp = val; break; }
+    }
+    body.innerHTML += `<div class="chat-message"><div class="chat-avatar" style="width:32px;height:32px;font-size:0.85rem">🤖</div><div class="chat-bubble">${resp}</div></div>`;
+    body.appendChild(typing);
+    body.scrollTop = body.scrollHeight;
+  }, 1200);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderTable();
+  renderApiDocs();
+});
+</script>
+
+<!-- ── INTERCOM FIN WIDGET ─────────────────────────────────── -->
+<script>
+// Configuración inicial — se actualiza con datos reales cuando el cliente ingresa su cédula
+window.intercomSettings = {
+  app_id: "ylef80ay",
+  language_override: "es",
+  background_color: "#0D2440",
+  action_color: "#00A896",
+  name: "Visitante",
+  custom_attributes: {
+    empresa: "FinanzasFácil Colombia",
+    canal: "landing_web"
+  }
+};
+</script>
+
+
+<!-- ── INTERCOM FIN WIDGET — ACTIVO ───────────────────────── -->
+<script>
+  // Config inicial — se actualiza con datos reales cuando cliente ingresa cédula
+  window.intercomSettings = {
+    app_id: "ylef80ay",
+    language_override: "es",
+    background_color: "#0D2440",
+    action_color: "#00A896",
+    name: "Visitante FinanzasFácil",
+    custom_attributes: {
+      empresa: "FinanzasFácil Colombia",
+      canal: "landing_web"
+    }
+  };
+</script>
+
+<script>
+  // Carga el widget de Intercom / Fina
+  (function(){
+    var w = window;
+    var ic = w.Intercom;
+    if (typeof ic === "function") {
+      ic('reattach_activator');
+      ic('update', w.intercomSettings);
+    } else {
+      var d = document;
+      var i = function() { i.c(arguments); };
+      i.q = [];
+      i.c = function(args) { i.q.push(args); };
+      w.Intercom = i;
+      var l = function() {
+        var s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://widget.intercom.io/widget/ylef80ay';
+        var x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+      };
+      if (document.readyState === 'complete') {
+        l();
+      } else if (w.attachEvent) {
+        w.attachEvent('onload', l);
+      } else {
+        w.addEventListener('load', l, false);
+      }
+    }
+  })();
+</script>
+
+</body>
+</html>
