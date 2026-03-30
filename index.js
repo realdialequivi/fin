@@ -1,7 +1,6 @@
-const path = require('path');
-app.use(express.static('public'));
-
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -539,9 +538,38 @@ app.post('/pqr', (req, res) => {
   });
 });
 
-// 404
+// ─── LANDING PAGE ────────────────────────────────────────────
+// Sirve index.html si existe en la raíz del proyecto
+app.get('/', (req, res) => {
+  const landingPath = path.join(__dirname, 'index.html');
+  if (fs.existsSync(landingPath)) {
+    res.sendFile(landingPath);
+  } else {
+    res.json({
+      api: 'FinanzasFácil Colombia API',
+      version: '1.0',
+      status: 'OK ✅',
+      clientes: CLIENTES.length,
+      productos: CLIENTES.reduce((acc, c) => acc + c.productos.length, 0),
+      endpoints: [
+        'GET  /clientes',
+        'GET  /clientes/:cedula',
+        'GET  /productos/:numero',
+        'GET  /estadisticas',
+        'POST /solicitudes/credito',
+        'POST /solicitudes/cdt',
+        'POST /pqr'
+      ]
+    });
+  }
+});
+
+// 404 para rutas desconocidas
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint no encontrado', path: req.path });
 });
 
-app.listen(PORT, () => console.log(`✅ FinanzasFácil API corriendo en puerto ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ FinanzasFácil API corriendo en puerto ${PORT}`);
+  console.log(`   Landing: ${fs.existsSync(path.join(__dirname, 'index.html')) ? '✅ index.html encontrado' : '⚠️  index.html no encontrado — solo API'}`);
+});
