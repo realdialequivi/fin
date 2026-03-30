@@ -13,6 +13,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// ─── LANDING ─────────────────────────────────────────────────
+// DEBE ir antes de las rutas API para que GET / sirva el HTML
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // ─── BASE DE DATOS ────────────────────────────────────────────
 const CLIENTES = [
   {
@@ -538,31 +544,7 @@ app.post('/pqr', (req, res) => {
   });
 });
 
-// ─── LANDING PAGE ────────────────────────────────────────────
-// Sirve index.html si existe en la raíz del proyecto
-app.get('/', (req, res) => {
-  const landingPath = path.join(__dirname, 'index.html');
-  if (fs.existsSync(landingPath)) {
-    res.sendFile(landingPath);
-  } else {
-    res.json({
-      api: 'FinanzasFácil Colombia API',
-      version: '1.0',
-      status: 'OK ✅',
-      clientes: CLIENTES.length,
-      productos: CLIENTES.reduce((acc, c) => acc + c.productos.length, 0),
-      endpoints: [
-        'GET  /clientes',
-        'GET  /clientes/:cedula',
-        'GET  /productos/:numero',
-        'GET  /estadisticas',
-        'POST /solicitudes/credito',
-        'POST /solicitudes/cdt',
-        'POST /pqr'
-      ]
-    });
-  }
-});
+
 
 // 404 para rutas desconocidas
 app.use((req, res) => {
