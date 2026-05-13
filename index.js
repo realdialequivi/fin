@@ -19,6 +19,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.get('/demo', (req, res) => {
+  res.sendFile(path.join(__dirname, 'demo.html'));
+});
+
 // ─── BASE DE DATOS ────────────────────────────────────────────
 const CLIENTES = [
   {
@@ -411,8 +415,8 @@ CLIENTES.forEach(c => {
 
 // ─── RUTAS ────────────────────────────────────────────────────
 
-// GET / — health check
-app.get('/', (req, res) => {
+// GET /api — health check
+app.get('/api', (req, res) => {
   res.json({
     api: 'FinanzasFácil Colombia API',
     version: '1.0',

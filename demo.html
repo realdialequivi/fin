@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinanzasFácil — Consola de Agente (Demo Fin)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D2440; --teal: #00A896; --teal2: #02C39A;
+    --gold: #F4C430; --cream: #FAF8F3; --white: #fff;
+    --gray: #6B7280; --light: #F0F4F8; --red: #E53E3E;
+    --bg: #F7F9FC; --border: #E2E8F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg); color: var(--navy);
+    height: 100vh; overflow: hidden;
+  }
+  code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+  header {
+    height: 56px; background: var(--navy); color: white;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  header h1 { font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+  header h1 .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal2); box-shadow: 0 0 8px var(--teal2); }
+  header .scenarios { display: flex; gap: 8px; }
+  header .scenarios button {
+    background: rgba(255,255,255,0.08); color: white;
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 6px 14px; border-radius: 6px; font-size: 0.8rem;
+    cursor: pointer; font-family: inherit; transition: all 0.15s;
+  }
+  header .scenarios button:hover { background: rgba(0,168,150,0.3); border-color: var(--teal2); }
+  header .scenarios button.reset { background: transparent; }
+  header a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.8rem; }
+  header a:hover { color: white; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr 1.2fr;
+    height: calc(100vh - 56px);
+    gap: 1px; background: var(--border);
+  }
+  .panel { background: white; display: flex; flex-direction: column; overflow: hidden; }
+  .panel-header {
+    padding: 14px 18px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: white;
+  }
+  .panel-header h2 {
+    font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--gray);
+  }
+  .panel-body { flex: 1; overflow-y: auto; padding: 18px; }
+
+  /* ── CHAT ── */
+  .chat-channel {
+    font-size: 0.7rem; padding: 3px 10px; border-radius: 100px;
+    background: rgba(0,168,150,0.15); color: var(--teal); font-weight: 600;
+  }
+  .msg { margin-bottom: 14px; max-width: 85%; }
+  .msg.user { margin-left: auto; }
+  .msg-bubble {
+    padding: 10px 14px; border-radius: 14px;
+    font-size: 0.92rem; line-height: 1.5;
+  }
+  .msg.user .msg-bubble { background: var(--navy); color: white; border-bottom-right-radius: 4px; }
+  .msg.fin .msg-bubble  { background: var(--light); color: var(--navy); border-bottom-left-radius: 4px; }
+  .msg.system .msg-bubble {
+    background: rgba(244,196,48,0.15); color: #8B6F00;
+    border: 1px dashed rgba(244,196,48,0.5);
+    font-size: 0.82rem; text-align: center;
+  }
+  .msg.system { max-width: 100%; }
+  .msg-meta {
+    font-size: 0.7rem; color: var(--gray); margin-top: 4px;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .msg.user .msg-meta { justify-content: flex-end; }
+  .msg-meta .who { font-weight: 600; }
+  .typing {
+    display: inline-flex; gap: 4px; padding: 12px 14px;
+    background: var(--light); border-radius: 14px;
+  }
+  .typing span {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--gray);
+    animation: bounce 1.2s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+
+  .chat-input {
+    border-top: 1px solid var(--border); padding: 12px;
+    display: flex; gap: 8px;
+  }
+  .chat-input input {
+    flex: 1; border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: inherit; font-size: 0.9rem; outline: none;
+  }
+  .chat-input input:focus { border-color: var(--teal); }
+  .chat-input button {
+    background: var(--teal); color: white; border: none;
+    padding: 0 18px; border-radius: 8px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+  .chat-input button:hover { background: var(--teal2); }
+
+  /* ── CUSTOMER PANEL ── */
+  .customer-empty {
+    display: flex; align-items: center; justify-content: center;
+    height: 100%; color: var(--gray); font-size: 0.9rem;
+    text-align: center; padding: 20px;
+  }
+  .customer-card {
+    background: linear-gradient(135deg, var(--navy), #1a3a5c);
+    color: white; padding: 18px; border-radius: 12px; margin-bottom: 16px;
+  }
+  .customer-card .name { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+  .customer-card .cedula { font-size: 0.78rem; opacity: 0.7; font-family: 'JetBrains Mono', monospace; }
+  .customer-card .meta { font-size: 0.82rem; opacity: 0.85; margin-top: 10px; }
+  .customer-card .badges { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .badge {
+    font-size: 0.7rem; padding: 3px 10px; border-radius: 100px;
+    background: rgba(255,255,255,0.18); font-weight: 600;
+  }
+  .badge.mora { background: rgba(229,62,62,0.9); }
+  .badge.ok { background: rgba(2,195,154,0.9); }
+
+  .section-label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--gray); margin: 16px 0 8px;
+  }
+  .product-row {
+    background: white; border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+    font-size: 0.85rem;
+  }
+  .product-row .top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px;
+  }
+  .product-row .tipo { font-weight: 600; font-size: 0.78rem; color: var(--teal); text-transform: uppercase; letter-spacing: 0.05em; }
+  .product-row .estado { font-size: 0.7rem; padding: 2px 8px; border-radius: 100px; font-weight: 600; }
+  .product-row .estado.AL_DIA, .product-row .estado.ACTIVA, .product-row .estado.ACTIVO, .product-row .estado.VIGENTE { background: rgba(2,195,154,0.15); color: #038c6e; }
+  .product-row .estado.EN_MORA { background: rgba(229,62,62,0.15); color: var(--red); }
+  .product-row .num { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--gray); }
+  .product-row .detail { color: var(--gray); font-size: 0.8rem; margin-top: 4px; }
+
+  /* ── TIMELINE ── */
+  .timeline-event {
+    border-left: 2px solid var(--border);
+    padding: 0 0 16px 16px; position: relative;
+    margin-left: 6px;
+  }
+  .timeline-event::before {
+    content: ''; position: absolute; left: -6px; top: 2px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--gray); border: 2px solid white;
+  }
+  .timeline-event.api::before { background: var(--teal); }
+  .timeline-event.fin::before { background: var(--gold); }
+  .timeline-event.intercom::before { background: #1F8DED; }
+  .timeline-event.error::before { background: var(--red); }
+  .timeline-event .head {
+    display: flex; gap: 8px; align-items: center; margin-bottom: 4px;
+  }
+  .timeline-event .tag {
+    font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 100px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .tag.api { background: rgba(0,168,150,0.15); color: var(--teal); }
+  .tag.fin { background: rgba(244,196,48,0.2); color: #8B6F00; }
+  .tag.intercom { background: rgba(31,141,237,0.15); color: #1F8DED; }
+  .tag.system { background: var(--light); color: var(--gray); }
+  .tag.error { background: rgba(229,62,62,0.15); color: var(--red); }
+  .timeline-event .time { font-size: 0.7rem; color: var(--gray); font-family: 'JetBrains Mono', monospace; }
+  .timeline-event .title { font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+  .timeline-event pre {
+    background: #0d2440; color: #c8e9e4; padding: 10px 12px;
+    border-radius: 6px; font-size: 0.72rem; line-height: 1.5;
+    overflow-x: auto; font-family: 'JetBrains Mono', monospace;
+    margin-top: 6px;
+  }
+  pre .k { color: #7dd3c0; }
+  pre .s { color: #f4c430; }
+  pre .n { color: #ff9b8a; }
+
+  .timeline-empty {
+    color: var(--gray); font-size: 0.85rem; text-align: center; padding: 40px 20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="dot"></span> Consola de Agente — Demo Flujo Fin</h1>
+  <div class="scenarios">
+    <button onclick="runScenario('saldo')">1. Consulta de saldo</button>
+    <button onclick="runScenario('mora')">2. Cliente en mora</button>
+    <button onclick="runScenario('cdt')">3. Solicitud CDT</button>
+    <button onclick="runScenario('pqr')">4. Radicar PQR</button>
+    <button class="reset" onclick="resetAll()">↺ Reset</button>
+  </div>
+  <a href="/">← Landing</a>
+</header>
+
+<div class="layout">
+
+  <!-- PANEL 1: CHAT -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2>Conversación cliente</h2>
+      <span class="chat-channel">Intercom Messenger</span>
+    </div>
+    <div class="panel-body" id="chat-body">
+      <div class="msg system"><div class="msg-bubble">Selecciona un escenario arriba para iniciar el demo</div></div>
+    </div>
+    <div class="chat-input">
+      <input id="chat-input" placeholder="Escribe como cliente..." onkeydown="if(event.key==='Enter')sendUser()">
+      <button onclick="sendUser()">Enviar</button>
+    </div>
+  </div>
+
+  <!-- PANEL 2: CUSTOMER DATA -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2>Datos del cliente · API</h2>
+      <span class="mono" id="customer-source" style="font-size:0.7rem;color:var(--gray)">sin identificar</span>
+    </div>
+    <div class="panel-body" id="customer-body">
+      <div class="customer-empty">
+        Cuando Fin identifica al cliente,<br>los datos aparecerán aquí desde<br><code>GET /clientes/:cedula</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 3: TIMELINE -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2>Flujo interno · Eventos</h2>
+      <span class="mono" id="event-count" style="font-size:0.7rem;color:var(--gray)">0 eventos</span>
+    </div>
+    <div class="panel-body" id="timeline-body">
+      <div class="timeline-empty">El flujo de API + Intercom + Fin se registra aquí en tiempo real</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API_BASE = window.location.origin;
+let eventCount = 0;
+let currentScenario = null;
+
+const fmt = n => new Intl.NumberFormat('es-CO', {style:'currency',currency:'COP',maximumFractionDigits:0}).format(n);
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const now = () => new Date().toLocaleTimeString('es-CO', { hour12: false });
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function syntaxJson(obj) {
+  const json = JSON.stringify(obj, null, 2);
+  return escapeHtml(json)
+    .replace(/&quot;([^&]+?)&quot;:/g, '<span class="k">"$1"</span>:')
+    .replace(/: &quot;(.*?)&quot;/g, ': <span class="s">"$1"</span>')
+    .replace(/: (\d+\.?\d*)/g, ': <span class="n">$1</span>');
+}
+
+// ─── CHAT ───
+function chatMsg(who, text, role = 'fin') {
+  const body = document.getElementById('chat-body');
+  const empty = body.querySelector('.msg.system');
+  if (empty && empty.textContent.includes('Selecciona un escenario')) empty.remove();
+
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  if (role === 'system') {
+    div.innerHTML = `<div class="msg-bubble">${text}</div>`;
+  } else {
+    div.innerHTML = `
+      <div class="msg-bubble">${text}</div>
+      <div class="msg-meta"><span class="who">${who}</span><span>${now()}</span></div>`;
+  }
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+async function chatTyping(ms = 900) {
+  const body = document.getElementById('chat-body');
+  const div = document.createElement('div');
+  div.className = 'msg fin typing-wrap';
+  div.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+  await wait(ms);
+  div.remove();
+}
+
+// ─── TIMELINE ───
+function logEvent({ kind, title, payload }) {
+  const body = document.getElementById('timeline-body');
+  const empty = body.querySelector('.timeline-empty');
+  if (empty) empty.remove();
+
+  eventCount++;
+  document.getElementById('event-count').textContent = `${eventCount} evento${eventCount===1?'':'s'}`;
+
+  const div = document.createElement('div');
+  div.className = `timeline-event ${kind}`;
+  div.innerHTML = `
+    <div class="head">
+      <span class="tag ${kind}">${kind}</span>
+      <span class="time">${now()}</span>
+    </div>
+    <div class="title">${title}</div>
+    ${payload ? `<pre>${syntaxJson(payload)}</pre>` : ''}`;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+// ─── CUSTOMER PANEL ───
+function renderCustomer(cli) {
+  document.getElementById('customer-source').textContent = `GET /clientes/${cli.cedula}`;
+  const body = document.getElementById('customer-body');
+  const tieneMora = cli.productos.some(p => p.estado === 'EN_MORA');
+
+  const productosHtml = cli.productos.map(p => {
+    let detail = '';
+    if (p.tipo === 'CREDITO_PERSONAL' || p.tipo === 'CREDITO_VEHICULO') {
+      detail = `Saldo: ${fmt(p.saldo_pendiente)} · Cuota: ${fmt(p.valor_cuota)} (${p.cuotas_pagadas}/${p.cuotas_totales})`;
+      if (p.dias_mora) detail += ` · <strong style="color:var(--red)">${p.dias_mora} días mora</strong>`;
+    } else if (p.tipo === 'CDT') {
+      detail = `Monto: ${fmt(p.monto)} · ${p.tasa_anual}% E.A. · Vence en ${p.dias_restantes} días`;
+    } else if (p.tipo === 'CUENTA_AHORRO') {
+      detail = `Saldo: ${fmt(p.saldo_disponible)}`;
+    } else if (p.tipo === 'INVERSION_INTELIGENTE') {
+      detail = `Invertido: ${fmt(p.monto_invertido)} · Actual: ${fmt(p.valor_actual)} (${p.rentabilidad_ytd}% YTD)`;
+    } else if (p.tipo === 'SEGURO_VIDA') {
+      detail = `Cobertura: ${fmt(p.cobertura)} · Prima: ${fmt(p.prima_mensual)}/mes`;
+    }
+    return `
+      <div class="product-row">
+        <div class="top">
+          <span class="tipo">${p.tipo.replace(/_/g,' ')}</span>
+          <span class="estado ${p.estado}">${p.estado}</span>
+        </div>
+        <div class="num">${p.numero}</div>
+        <div class="detail">${detail}</div>
+      </div>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="customer-card">
+      <div class="name">${cli.nombre}</div>
+      <div class="cedula">CC ${cli.cedula} · ${cli.id}</div>
+      <div class="meta">${cli.ciudad} · ${cli.ocupacion}<br>Ingresos: ${fmt(cli.ingresos_mensuales)}/mes</div>
+      <div class="badges">
+        <span class="badge ${tieneMora?'mora':'ok'}">${tieneMora?'⚠ En mora':'✓ Al día'}</span>
+        <span class="badge">${cli.productos.length} productos</span>
+      </div>
+    </div>
+    <div class="section-label">Productos activos</div>
+    ${productosHtml}`;
+}
+
+// ─── API CALL ───
+async function apiCall(method, path, body = null) {
+  logEvent({
+    kind: 'api',
+    title: `→ ${method} ${path}`,
+    payload: body ? { request: body } : null
+  });
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  try {
+    const r = await fetch(API_BASE + path, opts);
+    const data = await r.json();
+    logEvent({
+      kind: 'api',
+      title: `← ${r.status} ${r.statusText}`,
+      payload: data
+    });
+    return { ok: r.ok, status: r.status, data };
+  } catch (e) {
+    logEvent({ kind: 'error', title: `✗ Error de red: ${e.message}` });
+    return { ok: false, error: e.message };
+  }
+}
+
+// ─── INTERCOM SIM ───
+function intercomUpdate(attrs) {
+  logEvent({
+    kind: 'intercom',
+    title: 'Intercom("update", attrs) — Fin recibe contexto del usuario',
+    payload: attrs
+  });
+}
+
+function finDecision(text, action) {
+  logEvent({
+    kind: 'fin',
+    title: text,
+    payload: action || null
+  });
+}
+
+// ─── SCENARIOS ───
+async function runScenario(name) {
+  resetAll(false);
+  currentScenario = name;
+  if (name === 'saldo')     await scenarioSaldo();
+  else if (name === 'mora') await scenarioMora();
+  else if (name === 'cdt')  await scenarioCdt();
+  else if (name === 'pqr')  await scenarioPqr();
+}
+
+async function scenarioSaldo() {
+  chatMsg('Sistema', 'Cliente abre el chat en la landing', 'system');
+  logEvent({ kind: 'system', title: 'Visitante inicia conversación en Intercom Messenger' });
+  await wait(600);
+
+  chatMsg('Valentina O.', 'Hola, necesito saber el saldo de mi crédito personal', 'user');
+  await wait(500);
+
+  await chatTyping(800);
+  chatMsg('Fin AI', '¡Hola! Con gusto te ayudo. Para consultar tu crédito necesito tu número de cédula 🙂', 'fin');
+  finDecision('Fin identifica intención: "consulta_saldo" → solicita identificación');
+  await wait(900);
+
+  chatMsg('Valentina O.', '1019847231', 'user');
+  await wait(500);
+
+  await chatTyping(500);
+  finDecision('Fin extrae cédula del mensaje y dispara herramienta consultar_cliente(cedula)');
+
+  const r = await apiCall('GET', '/clientes/1019847231');
+  if (!r.ok) return;
+  renderCustomer(r.data);
+
+  intercomUpdate({
+    user_id: r.data.id, name: r.data.nombre, email: r.data.email,
+    cedula: r.data.cedula, ciudad: r.data.ciudad,
+    tiene_mora: r.data.resumen.tiene_mora,
+    productos_count: r.data.resumen.productos_count,
+    tipos_producto: r.data.resumen.tipos.join(', ')
+  });
+
+  const credito = r.data.productos.find(p => p.tipo === 'CREDITO_PERSONAL');
+  await chatTyping(700);
+  chatMsg('Fin AI',
+    `Listo Valentina 👋<br><br>Tu <strong>crédito personal ${credito.numero}</strong>:<br>` +
+    `• Saldo pendiente: <strong>${fmt(credito.saldo_pendiente)}</strong><br>` +
+    `• Próxima cuota: ${fmt(credito.valor_cuota)} el ${credito.proxima_cuota}<br>` +
+    `• Avance: ${credito.cuotas_pagadas} de ${credito.cuotas_totales} cuotas<br><br>¿Te ayudo con algo más?`,
+    'fin');
+  finDecision('Fin responde con datos del producto (sin escalar a agente humano)');
+}
+
+async function scenarioMora() {
+  chatMsg('Luisa S.', 'Vi un cobro extra en mi crédito, necesito hablar con alguien', 'user');
+  await wait(600);
+
+  await chatTyping(700);
+  chatMsg('Fin AI', 'Entiendo Luisa, déjame revisar tu cuenta. ¿Me confirmas tu cédula?', 'fin');
+  await wait(700);
+
+  chatMsg('Luisa S.', '1023948571', 'user');
+  await chatTyping(500);
+  finDecision('Fin → consultar_cliente(cedula)');
+
+  const r = await apiCall('GET', '/clientes/1023948571');
+  if (!r.ok) return;
+  renderCustomer(r.data);
+
+  intercomUpdate({
+    user_id: r.data.id, name: r.data.nombre, email: r.data.email,
+    cedula: r.data.cedula, tiene_mora: true,
+    productos_count: r.data.resumen.productos_count
+  });
+
+  const credito = r.data.productos.find(p => p.estado === 'EN_MORA');
+  finDecision(`Fin detecta atributo tiene_mora=true → activa playbook "cliente_en_mora"`, {
+    producto: credito.numero, dias_mora: credito.dias_mora, valor_cuota: credito.valor_cuota
+  });
+
+  await chatTyping(900);
+  chatMsg('Fin AI',
+    `Luisa, veo que tu crédito <strong>${credito.numero}</strong> tiene <strong>${credito.dias_mora} días de mora</strong>. ` +
+    `El cobro adicional corresponde a intereses moratorios.<br><br>Puedo:<br>` +
+    `1. Generarte un acuerdo de pago<br>2. Conectarte con un asesor de cobranza<br><br>¿Qué prefieres?`,
+    'fin');
+  await wait(1100);
+
+  chatMsg('Luisa S.', 'Conéctame con un asesor por favor', 'user');
+  await chatTyping(500);
+  finDecision('Fin escala a equipo "cobranza" con contexto completo del cliente');
+  logEvent({ kind: 'intercom', title: 'Conversación asignada a inbox "Cobranza" en Intercom', payload: { team: 'cobranza', priority: 'high', tags: ['mora', 'cliente_premium'] }});
+  await chatTyping(500);
+  chatMsg('Fin AI', 'Te conecto con María del equipo de cobranza. Ya tiene todo tu caso ✅', 'fin');
+}
+
+async function scenarioCdt() {
+  chatMsg('Andrés C.', 'Quiero abrir un CDT de 30 millones a 12 meses', 'user');
+  await chatTyping(700);
+  chatMsg('Fin AI', '¡Excelente decisión! Para constituir el CDT necesito confirmar tu cédula.', 'fin');
+  finDecision('Fin identifica intención: "abrir_cdt" → solicita identificación');
+  await wait(700);
+
+  chatMsg('Andrés C.', '1075398214', 'user');
+  await chatTyping(400);
+
+  const r = await apiCall('GET', '/clientes/1075398214');
+  if (!r.ok) return;
+  renderCustomer(r.data);
+  intercomUpdate({ user_id: r.data.id, name: r.data.nombre, email: r.data.email, cedula: r.data.cedula });
+
+  await chatTyping(600);
+  chatMsg('Fin AI',
+    `Perfecto Andrés. Te confirmo:<br>• Monto: $30.000.000<br>• Plazo: 12 meses<br>• Tasa: 12.5% E.A.<br>• Rendimiento estimado: $3.750.000<br><br>¿Confirmamos la apertura?`,
+    'fin');
+  await wait(900);
+
+  chatMsg('Andrés C.', 'Sí, confirmar', 'user');
+  await chatTyping(500);
+  finDecision('Fin dispara herramienta constituir_cdt(...)');
+
+  const post = await apiCall('POST', '/solicitudes/cdt', {
+    cliente_cedula: '1075398214', monto: 30000000, plazo_meses: 12
+  });
+
+  await chatTyping(700);
+  chatMsg('Fin AI',
+    `✅ Listo Andrés. Tu CDT fue constituido:<br>• Número: <strong>${post.data.numero_cdt}</strong><br>` +
+    `• Estado: ${post.data.estado}<br>• Tasa: ${post.data.tasa_anual}% E.A.<br><br>El certificado llegará a tu correo en 24h.`,
+    'fin');
+}
+
+async function scenarioPqr() {
+  chatMsg('Cliente', 'Me cobraron una comisión que no reconozco en mi cuenta', 'user');
+  await chatTyping(700);
+  chatMsg('Fin AI', 'Lamento la situación. Voy a radicar una PQR formal. ¿Me das tu cédula y el detalle del cobro?', 'fin');
+  finDecision('Fin identifica intención: "radicar_pqr"');
+  await wait(800);
+
+  chatMsg('Cliente', 'CC 71928374. Es un cobro de $45.000 del 8 de mayo en mi cuenta de ahorros', 'user');
+  await chatTyping(400);
+
+  const r = await apiCall('GET', '/clientes/71928374');
+  if (!r.ok) return;
+  renderCustomer(r.data);
+  intercomUpdate({ user_id: r.data.id, name: r.data.nombre, email: r.data.email, cedula: r.data.cedula });
+
+  finDecision('Fin radica PQR formal con datos extraídos del mensaje');
+  const post = await apiCall('POST', '/pqr', {
+    cliente_cedula: '71928374', tipo: 'RECLAMO',
+    asunto: 'Cobro de comisión no reconocido',
+    detalle: 'Cobro de $45.000 el 2026-05-08 en cuenta de ahorros'
+  });
+
+  await chatTyping(700);
+  chatMsg('Fin AI',
+    `✅ PQR radicada correctamente:<br>• Número: <strong>${post.data.numero_pqr}</strong><br>` +
+    `• Fecha límite respuesta: ${post.data.fecha_limite_respuesta}<br>` +
+    `• Por normativa SFC tienes derecho a respuesta en 15 días hábiles.<br><br>Te llegará confirmación al correo.`,
+    'fin');
+}
+
+// ─── FREE INPUT ───
+async function sendUser() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  chatMsg('Tú', text, 'user');
+
+  const m = text.match(/\b(\d{6,11})\b/);
+  if (m) {
+    await chatTyping(500);
+    finDecision(`Fin extrae cédula "${m[1]}" → consultar_cliente(cedula)`);
+    const r = await apiCall('GET', `/clientes/${m[1]}`);
+    if (r.ok) {
+      renderCustomer(r.data);
+      intercomUpdate({
+        user_id: r.data.id, name: r.data.nombre, email: r.data.email,
+        cedula: r.data.cedula,
+        tiene_mora: r.data.resumen.tiene_mora,
+        productos_count: r.data.resumen.productos_count
+      });
+      chatMsg('Fin AI', `Encontré tu información, ${r.data.nombre.split(' ')[0]}. ¿En qué te ayudo?`, 'fin');
+    } else {
+      chatMsg('Fin AI', 'No encuentro un cliente con esa cédula. ¿La confirmas?', 'fin');
+    }
+  } else {
+    await chatTyping(500);
+    chatMsg('Fin AI', '(Demo) Prueba enviando una cédula de la BD, o ejecuta un escenario arriba.', 'fin');
+  }
+}
+
+// ─── RESET ───
+function resetAll(clearScenario = true) {
+  document.getElementById('chat-body').innerHTML =
+    '<div class="msg system"><div class="msg-bubble">Selecciona un escenario arriba para iniciar el demo</div></div>';
+  document.getElementById('customer-body').innerHTML =
+    '<div class="customer-empty">Cuando Fin identifica al cliente,<br>los datos aparecerán aquí desde<br><code>GET /clientes/:cedula</code></div>';
+  document.getElementById('customer-source').textContent = 'sin identificar';
+  document.getElementById('timeline-body').innerHTML =
+    '<div class="timeline-empty">El flujo de API + Intercom + Fin se registra aquí en tiempo real</div>';
+  eventCount = 0;
+  document.getElementById('event-count').textContent = '0 eventos';
+  if (clearScenario) currentScenario = null;
+}
+</script>
+</body>
+</html>
