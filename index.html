@@ -1195,8 +1195,8 @@ const CLIENTES = [
   { id:"CLI-030", cedula:"1104123456", nombre:"Ángela Cristina Niño Bermúdez", ciudad:"Villavicencio", ocupacion:"Administradora de Empresas", ingresos_mensuales:6500000, productos:[{tipo:"CREDITO_PERSONAL",numero:"CP-2024-01890",monto_aprobado:10000000,saldo_pendiente:7200000,cuotas_totales:30,cuotas_pagadas:10,valor_cuota:395000,estado:"AL_DIA"},{tipo:"SEGURO_VIDA",numero:"SV-2024-01012",cobertura:120000000,prima_mensual:52000,estado:"VIGENTE"}]}
 ];
 
-// ─── RAILWAY API URL ─────────────────────────────────────────
-const API_BASE = 'https://fin-production-11c4.up.railway.app';
+// ─── API BASE URL ───────────────────────────────────────────
+const API_BASE = window.location.origin;
 
 // ─── UTILS ──────────────────────────────────────────────────
 const fmt = n => new Intl.NumberFormat('es-CO', {style:'currency',currency:'COP',maximumFractionDigits:0}).format(n);
