@@ -1666,7 +1666,7 @@ const CLIENTES = [
   { id:"CLI-030", cedula:"242-42-4242", nombre:"Angela Christine Newman", ciudad:"Boise, ID", ocupacion:"Business Administrator", ingresos_mensuales:13000, productos:[{tipo:"PORTFOLIO",numero:"PF-2024-01890",strategy:"Principled Investing Growth",aum:210000,ytd_return:8.1,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:208000,estado:"AL_DIA"},{tipo:"VA",numero:"VA-2024-01012",strategy:"Variable Annuity Management",aum:320000,ytd_return:5.2,estado:"VIGENTE"}]}
 ];
 
-const API_BASE = window.location.origin;
+const API_BASE = window.location.origin + '/fpi';
 
 // ─── UTILS ──────────────────────────────────────────────────
 const fmt = n => new Intl.NumberFormat('en-US', {style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
