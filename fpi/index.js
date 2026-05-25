@@ -635,7 +635,11 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found', path: req.path });
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ FPI API running on port ${PORT}`);
-  console.log(`   Landing: ${fs.existsSync(path.join(__dirname, 'index.html')) ? '✅ index.html found' : '⚠️  index.html missing — API only'}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`✅ FPI API running on port ${PORT}`);
+    console.log(`   Landing: ${fs.existsSync(path.join(__dirname, 'index.html')) ? '✅ index.html found' : '⚠️  index.html missing — API only'}`);
+  });
+}
+
+module.exports = app;
