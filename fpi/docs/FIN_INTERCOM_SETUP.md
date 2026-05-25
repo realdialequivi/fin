@@ -36,6 +36,33 @@ After upload, click **Train Fin** and wait for the indexing badge to turn green.
 
 ---
 
+### 2.1 Granting Fin access to flexibleplan.com pages
+
+Fin can only crawl pages it is explicitly allowed to read. Configure access as follows:
+
+1. **Add the domain.** Settings → **AI → Content → External content → Add website**. Enter `https://www.flexibleplan.com` and click **Verify**.
+2. **Verify ownership.** Choose one:
+   - DNS TXT record (`intercom-domain-verification=...`) on `flexibleplan.com`, or
+   - Upload the verification HTML file to the site root.
+3. **Pick which pages Fin can use.** Use include/exclude rules:
+
+   | Rule | Pattern | Purpose |
+   |---|---|---|
+   | Include | `/strategies/*` | Strategy one-pagers |
+   | Include | `/insights/*` | Market commentary, OnTarget articles |
+   | Include | `/disclosures/*` | ADV, CRS, Form 5500 |
+   | Exclude | `/careers/*`, `/login/*`, `/internal/*` | Non-advisory or gated pages |
+   | Exclude | `*?print=1`, `*utm_*` | Duplicate/tracking URLs |
+
+4. **Respect `robots.txt`.** Confirm the Intercom crawler user-agent (`Intercom-Crawler`) is allowed for the included paths. If `robots.txt` blocks them, add an `Allow:` directive scoped to that user-agent.
+5. **Authenticated pages.** For advisor-only pages behind login, do not expose them to the public crawler. Instead, export the HTML/PDF and upload via **AI → Content → Upload** so the source stays gated.
+6. **Recrawl cadence.** Set **Recrawl frequency** to *Weekly* for `/insights/*` (frequently updated) and *Monthly* for `/strategies/*` and `/disclosures/*`.
+7. **Train.** After the crawl finishes, click **Train Fin** and wait for the indexing badge to turn green. Spot-check by asking Fin a question whose answer only appears on a newly indexed page.
+
+> Audit tip: **AI → Content → External content → flexibleplan.com → View indexed URLs** lists exactly what Fin can quote. Review it after every recrawl.
+
+---
+
 ## 3. Configure persona and tone
 
 Settings → **AI → Fin → Persona**:
