@@ -23,6 +23,9 @@ app.get('/demo', (req, res) => {
   res.sendFile(path.join(__dirname, 'demo.html'));
 });
 
+// ─── FPI DEMO (mounted sub-app) ──────────────────────────────
+app.use('/fpi', require('./fpi/index.js'));
+
 // ─── BASE DE DATOS ────────────────────────────────────────────
 const CLIENTES = [
   {
