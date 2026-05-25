@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flexible Plan Investments — Dynamic Risk Management for Advisors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Core palette — dark fintech */
+    --bg:        #07090F;
+    --bg-2:      #0B0F1A;
+    --bg-3:      #11172A;
+    --surface:   #131A2E;
+    --surface-2: #1A2238;
+    --border:    rgba(255,255,255,0.08);
+    --border-2:  rgba(255,255,255,0.14);
+
+    /* Accents */
+    --cyan:      #00E5FF;
+    --cyan-2:    #00B8D4;
+    --violet:    #8B5CF6;
+    --violet-2:  #6D28D9;
+    --lime:      #B6FF3C;
+    --lime-2:    #84CC16;
+    --amber:     #FFB020;
+    --red:       #FF4D6D;
+
+    /* Text */
+    --text:      #F4F6FB;
+    --text-dim:  rgba(244,246,251,0.65);
+    --text-faint:rgba(244,246,251,0.42);
+
+    /* Effects */
+    --glow-cyan:   0 0 32px rgba(0,229,255,0.35);
+    --glow-violet: 0 0 32px rgba(139,92,246,0.35);
+    --glow-lime:   0 0 32px rgba(182,255,60,0.30);
+    --shadow:      0 24px 60px -12px rgba(0,0,0,0.6);
+    --radius:      18px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(800px circle at 10% 0%, rgba(139,92,246,0.18), transparent 50%),
+      radial-gradient(700px circle at 90% 20%, rgba(0,229,255,0.15), transparent 50%),
+      radial-gradient(900px circle at 50% 100%, rgba(182,255,60,0.08), transparent 50%);
+    pointer-events: none;
+  }
+
+  a { color: inherit; }
+
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(7,9,15,0.6);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 72px;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem; color: var(--text); text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 800; color: #07090F;
+    letter-spacing: 0.02em;
+    box-shadow: var(--glow-cyan);
+  }
+
+  nav { display: flex; gap: 2rem; align-items: center; }
+  nav a {
+    text-decoration: none; color: var(--text-dim);
+    font-size: 0.88rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--text); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 22px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; transition: all 0.25s cubic-bezier(.4,0,.2,1);
+    border: none; text-decoration: none;
+    letter-spacing: -0.005em;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: #07090F;
+    box-shadow: var(--glow-cyan);
+    font-weight: 700;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 48px rgba(0,229,255,0.55);
+  }
+  .btn-outline {
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    border: 1px solid var(--border-2);
+    backdrop-filter: blur(8px);
+  }
+  .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); }
+  .btn-gold {
+    background: var(--lime);
+    color: #0A1410;
+    box-shadow: var(--glow-lime);
+    font-weight: 700;
+  }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 48px rgba(182,255,60,0.5); }
+
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 1100px 580px at 18% 28%, rgba(139,92,246,0.22), transparent 60%),
+      radial-gradient(ellipse 900px 480px at 82% 72%, rgba(0,229,255,0.18), transparent 60%),
+      linear-gradient(180deg, transparent 0%, rgba(7,9,15,0.5) 100%);
+  }
+
+  .hero-pattern {
+    position: absolute; inset: 0; z-index: 1; opacity: 0.5;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
+  }
+
+  .hero-blob {
+    position: absolute; z-index: 1;
+    border-radius: 50%; filter: blur(110px);
+    pointer-events: none;
+  }
+  .blob-1 {
+    width: 480px; height: 480px;
+    background: var(--cyan); opacity: 0.18;
+    top: -120px; right: -80px;
+    animation: floatBlob 14s ease-in-out infinite;
+  }
+  .blob-2 {
+    width: 420px; height: 420px;
+    background: var(--violet); opacity: 0.20;
+    bottom: -100px; left: -50px;
+    animation: floatBlob 18s ease-in-out infinite reverse;
+  }
+
+  .hero-grid {
+    position: relative; z-index: 2;
+    width: 100%;
+    max-width: 1440px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+  }
+
+  .hero-content {
+    animation: fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both;
+    min-width: 0;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.25);
+    color: var(--cyan);
+    padding: 7px 16px; border-radius: 100px;
+    font-size: 0.74rem; font-weight: 600;
+    margin-bottom: 28px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    backdrop-filter: blur(8px);
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--cyan); border-radius: 50%;
+    box-shadow: 0 0 8px var(--cyan);
+    animation: pulse 2s infinite;
+  }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.6rem, 5.2vw, 4.4rem);
+    color: var(--text); line-height: 1.04;
+    margin-bottom: 22px;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+  }
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 60%, var(--lime) 120%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradientShift 6s ease infinite;
+  }
+
+  .hero p {
+    font-size: 1.08rem; color: var(--text-dim);
+    line-height: 1.65; margin-bottom: 36px;
+    max-width: 540px;
+  }
+
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+
+  .hero-stats-strip {
+    display: flex; gap: clamp(20px, 3vw, 44px);
+    flex-wrap: wrap;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-inline { display: flex; flex-direction: column; gap: 4px; }
+  .stat-inline .num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.9rem;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1; letter-spacing: -0.02em;
+  }
+  .stat-inline .label {
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .hero-preview {
+    animation: fadeUp 0.9s 0.15s cubic-bezier(.2,.7,.2,1) both;
+    min-width: 0;
+    position: relative;
+  }
+  .hero-preview::before {
+    content: ''; position: absolute;
+    inset: -40px -40px -40px -40px;
+    background: radial-gradient(closest-side, rgba(0,229,255,0.18), transparent 70%);
+    filter: blur(20px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .fin-preview-card {
+    background: linear-gradient(180deg, rgba(19,26,46,0.95) 0%, rgba(11,15,26,0.95) 100%);
+    border: 1px solid var(--border-2);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow:
+      0 32px 80px -20px rgba(0,0,0,0.7),
+      0 0 60px rgba(0,229,255,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px);
+    position: relative;
+  }
+  .fin-preview-card::before {
+    content: ''; position: absolute; inset: 0;
+    padding: 1px; border-radius: 22px;
+    background: linear-gradient(135deg, rgba(0,229,255,0.4), transparent 40%, rgba(139,92,246,0.3) 80%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .fin-preview-header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+  .fin-avatar {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--bg);
+    box-shadow: var(--glow-cyan);
+    flex-shrink: 0;
+  }
+  .fin-meta { flex: 1; min-width: 0; }
+  .fin-name {
+    font-weight: 600; color: var(--text);
+    font-size: 0.98rem;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .fin-tag {
+    font-size: 0.66rem; font-weight: 600;
+    color: var(--violet);
+    background: rgba(139,92,246,0.12);
+    border: 1px solid rgba(139,92,246,0.3);
+    padding: 2px 8px; border-radius: 6px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .fin-status {
+    font-size: 0.76rem; color: var(--text-dim);
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 2px;
+  }
+  .fin-status .dot {
+    width: 7px; height: 7px;
+    background: var(--lime); border-radius: 50%;
+    box-shadow: 0 0 8px var(--lime);
+    animation: pulse 2s infinite;
+  }
+
+  .fin-preview-thread {
+    padding: 20px 22px;
+    display: flex; flex-direction: column; gap: 10px;
+    max-height: 380px;
+    overflow: hidden;
+  }
+  .msg {
+    max-width: 88%;
+    padding: 11px 15px;
+    border-radius: 14px;
+    font-size: 0.88rem; line-height: 1.5;
+    word-wrap: break-word;
+    animation: msgIn 0.4s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .msg-user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: var(--bg);
+    border-bottom-right-radius: 4px;
+    font-weight: 500;
+  }
+  .msg-bot {
+    align-self: flex-start;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+  .msg-bot strong { color: var(--cyan); font-weight: 600; }
+  .msg-typing-label {
+    color: var(--text-faint);
+    font-style: italic;
+    font-size: 0.84rem;
+  }
+  .msg:nth-child(1) { animation-delay: 0.3s; }
+  .msg:nth-child(2) { animation-delay: 0.7s; }
+  .msg:nth-child(3) { animation-delay: 1.1s; }
+  .msg:nth-child(4) { animation-delay: 1.6s; }
+  .msg:nth-child(5) { animation-delay: 2.0s; }
+
+  .fin-preview-footer {
+    padding: 14px 22px 18px;
+    border-top: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+  .fin-preview-cta {
+    display: flex; align-items: center; justify-content: space-between;
+    color: var(--cyan); font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .fin-preview-cta .cta-arrow {
+    font-size: 1.4rem;
+    animation: pointBounce 1.6s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px var(--cyan));
+  }
+  .fin-preview-hint {
+    font-size: 0.76rem; color: var(--text-faint);
+    margin-top: 4px;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 30px;
+    text-align: center; color: var(--text);
+    min-width: 200px;
+    transition: all 0.3s;
+  }
+  .stat-card:hover {
+    border-color: rgba(0,229,255,0.4);
+    transform: translateY(-2px);
+    box-shadow: var(--glow-cyan);
+  }
+  .stat-card .num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.4rem;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block; line-height: 1; margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .stat-card .label {
+    font-size: 0.78rem;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  section { position: relative; }
+  .section-header { text-align: center; margin-bottom: 64px; }
+  .section-tag {
+    display: inline-block;
+    background: rgba(139,92,246,0.12);
+    border: 1px solid rgba(139,92,246,0.3);
+    color: var(--violet);
+    padding: 6px 18px; border-radius: 100px;
+    font-size: 0.76rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .section-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    color: var(--text); line-height: 1.1;
+    letter-spacing: -0.02em; font-weight: 400;
+  }
+  .section-header p {
+    color: var(--text-dim);
+    margin-top: 16px;
+    font-size: 1.08rem;
+    max-width: 560px;
+    margin-left: auto; margin-right: auto;
+  }
+
+  #productos { padding: 120px 5%; background: var(--bg-2); }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .product-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg-3) 100%);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(.2,.7,.2,1);
+    position: relative; overflow: hidden;
+  }
+  .product-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(400px circle at var(--mx,50%) var(--my,0%), rgba(0,229,255,0.15), transparent 50%);
+    opacity: 0; transition: opacity 0.35s;
+    pointer-events: none;
+  }
+  .product-card::after {
+    content: ''; position: absolute; inset: -1px;
+    border-radius: var(--radius);
+    padding: 1px;
+    background: linear-gradient(135deg, transparent, rgba(0,229,255,0.4), transparent);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: transparent;
+  }
+  .product-card:hover::before, .product-card:hover::after { opacity: 1; }
+
+  .product-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 24px;
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+  .product-card h3 {
+    font-size: 1.2rem; font-weight: 600;
+    margin-bottom: 10px; position: relative; z-index: 1;
+    color: var(--text); letter-spacing: -0.01em;
+  }
+  .product-card p {
+    color: var(--text-dim); font-size: 0.92rem; line-height: 1.65;
+    position: relative; z-index: 1;
+  }
+  .product-tasa {
+    display: inline-block; margin-top: 20px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.2);
+    padding: 7px 14px; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 600; color: var(--cyan);
+    font-family: 'JetBrains Mono', monospace;
+    position: relative; z-index: 1;
+  }
+
+  #consulta { padding: 120px 5%; background: var(--bg); }
+
+  .consulta-container { max-width: 860px; margin: 0 auto; }
+
+  .search-box {
+    display: flex; gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border-2);
+    border-radius: 100px;
+    padding: 8px 8px 8px 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 36px;
+    transition: all 0.25s;
+  }
+  .search-box:focus-within {
+    border-color: var(--cyan);
+    box-shadow: var(--glow-cyan), var(--shadow);
+  }
+  .search-box input {
+    flex: 1; border: none; outline: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem; color: var(--text);
+    background: transparent;
+  }
+  .search-box input::placeholder { color: var(--text-faint); }
+
+  .result-panel {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg-3) 100%);
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: none;
+    animation: fadeUp 0.4s ease;
+    box-shadow: var(--shadow);
+  }
+  .result-panel.visible { display: block; }
+
+  .result-header {
+    background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(139,92,246,0.08));
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    padding: 22px 30px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .client-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem; font-weight: 700; color: var(--bg);
+    flex-shrink: 0;
+    box-shadow: var(--glow-cyan);
+  }
+  .client-info h3 { font-size: 1.1rem; margin-bottom: 4px; color: var(--text); font-weight: 600; }
+  .client-info p { font-size: 0.85rem; color: var(--text-dim); }
+
+  .result-body { padding: 28px 30px; }
+
+  .products-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .product-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: flex; align-items: center; gap: 18px;
+    transition: all 0.2s;
+  }
+  .product-item:hover { border-color: var(--border-2); background: rgba(255,255,255,0.05); }
+
+  .product-item-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem; flex-shrink: 0;
+    background: rgba(0,229,255,0.08) !important;
+    border: 1px solid var(--border);
+  }
+  .product-item-info { flex: 1; }
+  .product-item-info .name { font-weight: 600; font-size: 0.95rem; color: var(--text); }
+  .product-item-info .number {
+    font-size: 0.78rem; color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .product-item-badge {
+    padding: 5px 12px; border-radius: 100px;
+    font-size: 0.74rem; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .badge-ok { background: rgba(182,255,60,0.12); color: var(--lime); border: 1px solid rgba(182,255,60,0.3); }
+  .badge-mora { background: rgba(255,77,109,0.12); color: var(--red); border: 1px solid rgba(255,77,109,0.3); }
+  .badge-vence { background: rgba(255,176,32,0.12); color: var(--amber); border: 1px solid rgba(255,176,32,0.3); }
+
+  .product-detail-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-top: 14px;
+  }
+  .detail-item { font-size: 0.82rem; color: var(--text-faint); }
+  .detail-item strong { color: var(--text); display: block; font-size: 0.92rem; font-weight: 600; margin-top: 2px; }
+
+  #clientes-demo { padding: 120px 5%; background: var(--bg-2); }
+
+  .clients-filters {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 36px; justify-content: center;
+  }
+  .filter-btn {
+    padding: 9px 20px;
+    border-radius: 100px;
+    border: 1px solid var(--border-2);
+    background: rgba(255,255,255,0.03);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.84rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+    color: var(--text-dim);
+  }
+  .filter-btn:hover { color: var(--text); border-color: rgba(0,229,255,0.4); }
+  .filter-btn.active {
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: var(--bg); border-color: transparent;
+    box-shadow: var(--glow-cyan);
+    font-weight: 600;
+  }
+
+  .clients-table-wrap {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead {
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--border);
+  }
+  thead th {
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 0.74rem; font-weight: 600; letter-spacing: 0.1em;
+    color: var(--text-faint); text-transform: uppercase;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(0,229,255,0.04); }
+  tbody td { padding: 16px 20px; font-size: 0.9rem; vertical-align: middle; color: var(--text); }
+
+  .td-name { font-weight: 600; }
+  .td-sub { font-size: 0.78rem; color: var(--text-faint); }
+
+  .products-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+  .pill {
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.02em;
+    border: 1px solid transparent;
+  }
+  .pill-credito { background: rgba(0,229,255,0.10); color: var(--cyan); border-color: rgba(0,229,255,0.25); }
+  .pill-cdt { background: rgba(255,176,32,0.10); color: var(--amber); border-color: rgba(255,176,32,0.25); }
+  .pill-cuenta { background: rgba(182,255,60,0.10); color: var(--lime); border-color: rgba(182,255,60,0.25); }
+  .pill-inversion { background: rgba(139,92,246,0.12); color: var(--violet); border-color: rgba(139,92,246,0.3); }
+  .pill-seguro { background: rgba(255,77,109,0.10); color: var(--red); border-color: rgba(255,77,109,0.25); }
+  .pill-vehiculo { background: rgba(255,176,32,0.10); color: #FFD580; border-color: rgba(255,176,32,0.25); }
+
+  .table-pagination {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px;
+    border-top: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    font-size: 0.85rem; color: var(--text-dim);
+  }
+  .page-btns { display: flex; gap: 8px; }
+  .page-btn {
+    width: 34px; height: 34px;
+    border: 1px solid var(--border-2);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.03);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-dim);
+  }
+  .page-btn:hover { color: var(--text); border-color: var(--cyan); }
+  .page-btn.active {
+    background: var(--cyan); color: var(--bg);
+    border-color: var(--cyan); font-weight: 700;
+  }
+
+  #schema {
+    padding: 120px 5%;
+    background:
+      radial-gradient(800px circle at 0% 50%, rgba(139,92,246,0.15), transparent 50%),
+      radial-gradient(700px circle at 100% 50%, rgba(0,229,255,0.12), transparent 50%),
+      var(--bg);
+    color: var(--text);
+  }
+
+  .schema-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px; margin-top: 48px;
+  }
+
+  .schema-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius);
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s;
+  }
+  .schema-card:hover {
+    border-color: rgba(0,229,255,0.4);
+    transform: translateY(-3px);
+    box-shadow: var(--glow-cyan);
+  }
+  .schema-card-header {
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: var(--bg);
+    padding: 14px 22px;
+    font-weight: 700; font-size: 0.86rem;
+    display: flex; align-items: center; gap: 10px;
+    letter-spacing: 0.02em;
+  }
+  .schema-card-body { padding: 18px 22px; }
+  .schema-field {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.84rem;
+  }
+  .schema-field:last-child { border-bottom: none; }
+  .field-name { color: var(--text); font-weight: 500; }
+  .field-type {
+    color: var(--lime);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+  }
+  .field-pk {
+    background: var(--amber); color: var(--bg);
+    padding: 2px 7px; border-radius: 5px;
+    font-size: 0.66rem; font-weight: 800;
+    margin-left: 8px; letter-spacing: 0.04em;
+  }
+
+  #api-docs { padding: 120px 5%; background: var(--bg-2); }
+
+  .api-list { display: flex; flex-direction: column; gap: 12px; margin-top: 48px; }
+
+  .api-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 26px;
+    display: flex; align-items: center; gap: 18px;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .api-row:hover {
+    border-color: rgba(0,229,255,0.4);
+    box-shadow: var(--glow-cyan);
+    transform: translateX(4px);
+  }
+
+  .method-badge {
+    padding: 5px 12px; border-radius: 6px;
+    font-size: 0.74rem; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    min-width: 60px; text-align: center; flex-shrink: 0;
+    letter-spacing: 0.04em;
+  }
+  .method-get { background: rgba(0,229,255,0.12); color: var(--cyan); border: 1px solid rgba(0,229,255,0.3); }
+  .method-post { background: rgba(182,255,60,0.12); color: var(--lime); border: 1px solid rgba(182,255,60,0.3); }
+
+  .api-path {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.92rem;
+    color: var(--text); font-weight: 500; flex: 1;
+  }
+  .api-desc { font-size: 0.86rem; color: var(--text-dim); }
+
+  .try-btn {
+    padding: 7px 18px;
+    border: 1px solid rgba(0,229,255,0.4);
+    color: var(--cyan);
+    border-radius: 8px;
+    background: rgba(0,229,255,0.06);
+    font-size: 0.8rem; font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer; transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .try-btn:hover {
+    background: var(--cyan); color: var(--bg);
+    box-shadow: var(--glow-cyan);
+  }
+
+  .api-response-panel {
+    background: #050810;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-top: 8px;
+    display: none;
+    animation: fadeDown 0.3s ease;
+    overflow-x: auto;
+  }
+  .api-response-panel.open { display: block; }
+  .api-response-panel pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem; line-height: 1.7;
+    color: var(--text-dim);
+    white-space: pre-wrap;
+  }
+  .json-key { color: var(--cyan); }
+  .json-string { color: var(--lime); }
+  .json-number { color: var(--amber); }
+  .json-bool { color: var(--violet); }
+
+  #soporte {
+    padding: 140px 5%;
+    background:
+      radial-gradient(900px circle at 50% 0%, rgba(0,229,255,0.2), transparent 55%),
+      radial-gradient(700px circle at 50% 100%, rgba(139,92,246,0.18), transparent 55%),
+      var(--bg);
+    text-align: center;
+    position: relative;
+  }
+  #soporte::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at center, black 25%, transparent 70%);
+    pointer-events: none;
+  }
+  #soporte > * { position: relative; z-index: 1; }
+
+  .chat-demo-box {
+    max-width: 460px; margin: 56px auto 0;
+    border: 1px solid var(--border-2);
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow), 0 0 80px rgba(0,229,255,0.15);
+    animation: float 5s ease-in-out infinite;
+  }
+  .chat-header {
+    background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(139,92,246,0.08));
+    border-bottom: 1px solid var(--border);
+    padding: 22px 26px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .chat-avatar {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    box-shadow: var(--glow-cyan);
+  }
+  .chat-info { text-align: left; }
+  .chat-info h4 { color: var(--text); font-size: 0.98rem; font-weight: 600; }
+  .chat-info p { color: var(--text-dim); font-size: 0.78rem; margin-top: 2px; }
+  .online-dot {
+    width: 8px; height: 8px; background: var(--lime);
+    border-radius: 50%; display: inline-block; margin-right: 6px;
+    box-shadow: 0 0 8px var(--lime);
+    animation: pulse 2s infinite;
+  }
+
+  .chat-body { padding: 22px; background: var(--bg-3); }
+  .chat-message {
+    margin-bottom: 14px; display: flex; gap: 10px; align-items: flex-end;
+  }
+  .chat-message.user { flex-direction: row-reverse; }
+  .chat-bubble {
+    max-width: 75%;
+    padding: 11px 16px;
+    border-radius: 16px;
+    font-size: 0.88rem; line-height: 1.5;
+    text-align: left;
+  }
+  .chat-message:not(.user) .chat-bubble {
+    background: var(--surface-2); color: var(--text);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+  }
+  .chat-message.user .chat-bubble {
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: var(--bg); border-bottom-right-radius: 4px;
+    font-weight: 500;
+  }
+  .typing { display: flex; gap: 4px; align-items: center; }
+  .typing span {
+    width: 6px; height: 6px; background: var(--cyan);
+    border-radius: 50%; animation: typing 1.2s infinite;
+    box-shadow: 0 0 6px var(--cyan);
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+  .chat-input {
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 10px; align-items: center;
+    background: var(--surface);
+  }
+  .chat-input input {
+    flex: 1; border: 1px solid var(--border-2);
+    background: var(--bg-3);
+    border-radius: 100px; padding: 9px 18px;
+    font-size: 0.86rem; font-family: 'Inter', sans-serif;
+    outline: none; color: var(--text);
+  }
+  .chat-input input::placeholder { color: var(--text-faint); }
+  .send-btn {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: var(--bg); border: none; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    box-shadow: var(--glow-cyan);
+  }
+
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 70px 5% 30px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px; margin-bottom: 56px;
+  }
+  .footer-brand p { font-size: 0.9rem; line-height: 1.7; margin-top: 14px; }
+  .footer-col h4 {
+    color: var(--text); font-size: 0.86rem; font-weight: 600;
+    margin-bottom: 18px; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .footer-col a {
+    display: block; color: var(--text-dim);
+    text-decoration: none; font-size: 0.88rem;
+    margin-bottom: 10px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--cyan); }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.82rem;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .sfc-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(182,255,60,0.08);
+    border: 1px solid rgba(182,255,60,0.25);
+    color: var(--lime);
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 600;
+  }
+
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(7,9,15,0.85);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border-2);
+    color: var(--text);
+    border-radius: 24px;
+    max-width: 560px; width: 90%;
+    max-height: 85vh; overflow-y: auto;
+    padding: 40px;
+    transform: translateY(20px); transition: transform 0.25s;
+    box-shadow: var(--shadow), 0 0 80px rgba(0,229,255,0.15);
+    position: relative;
+  }
+  .modal input, .modal select, .modal textarea {
+    background: var(--bg-3) !important;
+    border: 1px solid var(--border-2) !important;
+    color: var(--text) !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-close {
+    position: absolute; top: 20px; right: 20px;
+    width: 34px; height: 34px;
+    border: 1px solid var(--border-2);
+    background: rgba(255,255,255,0.04); border-radius: 50%;
+    cursor: pointer; font-size: 1.1rem;
+    color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+  @keyframes typing {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(-4px); opacity: 1; }
+  }
+  @keyframes floatBlob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(40px, -30px) scale(1.05); }
+  }
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes pointBounce {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(4px, 4px); }
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 24px; z-index: 300;
+    background: var(--surface);
+    border: 1px solid var(--border-2);
+    color: var(--text);
+    padding: 14px 22px; border-radius: 12px;
+    font-size: 0.88rem; font-weight: 500;
+    box-shadow: var(--shadow), var(--glow-cyan);
+    transform: translateY(80px); transition: transform 0.3s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toast.show { transform: translateY(0); }
+
+  .spinner {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(0,229,255,0.2);
+    border-top-color: var(--cyan);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+    .hero-preview { max-width: 520px; margin: 0 auto; width: 100%; }
+  }
+  @media (max-width: 900px) {
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    nav { display: none; }
+    .hero h1 { font-size: clamp(2.4rem, 9vw, 3.4rem); }
+    #hero { padding: 100px 5% 60px; }
+  }
+  @media (max-width: 600px) {
+    .footer-top { grid-template-columns: 1fr; }
+    .product-detail-grid { grid-template-columns: 1fr; }
+    header { padding: 0 4%; }
+    header .btn-outline { display: none; }
+    .hero-stats-strip { gap: 24px; }
+    .stat-inline .num { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">
+    <div class="logo-icon">FPI</div>
+    Flexible Plan Investments
+  </a>
+  <nav>
+    <a href="#productos">Strategies</a>
+    <a href="#consulta">Advisor Portal</a>
+    <a href="#clientes-demo">Advisor Book</a>
+    <a href="#api-docs">API Docs</a>
+    <a href="#schema">Data Model</a>
+  </nav>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline" onclick="openModal('login-modal')">Sign In</button>
+    <button class="btn btn-primary">Open Account</button>
+  </div>
+</header>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge">SEC-Registered TAMP · Est. 1981</div>
+      <h1>Dynamic risk management,<br><em>built for advisors</em></h1>
+      <p>Defensive strategies, OnTarget monitoring, and turnkey portfolios since 1981. Now with <strong style="color:var(--cyan)">Fin AI</strong> — your assistant that queries the FPI platform in real time, 24/7.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="document.getElementById('consulta').scrollIntoView({behavior:'smooth'})">
+          Look up a client →
+        </button>
+        <button class="btn btn-outline" onclick="openModal('cdt-modal')">
+          Strategy Simulator
+        </button>
+      </div>
+      <div class="hero-stats-strip">
+        <div class="stat-inline"><span class="num">30</span><span class="label">Clients</span></div>
+        <div class="stat-inline"><span class="num">57</span><span class="label">Accounts</span></div>
+        <div class="stat-inline"><span class="num">$32M</span><span class="label">AUM (demo)</span></div>
+        <div class="stat-inline"><span class="num">45yr</span><span class="label">Track Record</span></div>
+      </div>
+    </div>
+
+    <div class="hero-preview">
+      <div class="fin-preview-card">
+        <div class="fin-preview-header">
+          <div class="fin-avatar">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 L4 6 v6 c0 5 3.5 9 8 10 c4.5-1 8-5 8-10 V6 L12 2 z"/><path d="M9 12 l2 2 l4-4"/></svg>
+          </div>
+          <div class="fin-meta">
+            <div class="fin-name">Fin AI <span class="fin-tag">FPI Advisor</span></div>
+            <div class="fin-status"><span class="dot"></span> Live · responds in seconds</div>
+          </div>
+        </div>
+        <div class="fin-preview-thread">
+          <div class="msg msg-user">What's Margaret Hayes' OnTarget status? SSN 123-45-6789</div>
+          <div class="msg msg-bot">
+            <span class="msg-typing-label">Querying portfolio data…</span>
+          </div>
+          <div class="msg msg-bot">
+            Hi! 👋 Margaret's <strong>QFC Multi-Strategy Core</strong> portfolio is <strong>ON TARGET</strong> at $1.85M (target $1.82M, +9.4% YTD). Her IRA in <strong>All-Terrain</strong> is at $420K.
+          </div>
+          <div class="msg msg-user">Any rebalance recommendations?</div>
+          <div class="msg msg-bot">
+            Allocation drift is under 3% — no rebalance needed. Next review is <strong>June 15</strong>. Want me to schedule it?
+          </div>
+        </div>
+        <div class="fin-preview-footer">
+          <div class="fin-preview-cta">
+            <span>Try the live demo</span>
+            <span class="cta-arrow">↘</span>
+          </div>
+          <div class="fin-preview-hint">Open the chat in the bottom-right corner</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="productos">
+  <div class="section-header">
+    <span class="section-tag">Strategy Lineup</span>
+    <h2>Solutions for every advisor's book</h2>
+    <p>From defensive income to high-conviction growth — managed for risk, built for advisors</p>
+  </div>
+  <div class="products-grid">
+    <div class="product-card" onclick="openModal('credito-modal')">
+      <div class="product-icon" style="background:#EBF8FF">📈</div>
+      <h3>QFC Multi-Strategy Core</h3>
+      <p>Flagship Quantified Fund of Funds blending tactical equity, fixed income, and alternatives with active risk overlay.</p>
+      <span class="product-tasa">+9.4% YTD · Moderate Risk</span>
+    </div>
+    <div class="product-card" onclick="openModal('vehiculo-modal')">
+      <div class="product-icon" style="background:#FFF3E0">🥇</div>
+      <h3>Tactical Gold</h3>
+      <p>Dynamic gold exposure with rules-based de-risking. Designed to participate in trends and defend against drawdowns.</p>
+      <span class="product-tasa">+14.2% YTD · Moderate Risk</span>
+    </div>
+    <div class="product-card" onclick="openModal('cdt-modal')">
+      <div class="product-icon" style="background:#FFF8E0">🧭</div>
+      <h3>Self-Adjusting Trend Following</h3>
+      <p>Volatility-aware trend overlay across global equity and bond markets. Built for capital preservation in stress regimes.</p>
+      <span class="product-tasa">+12.1% YTD · Aggressive</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#E8FAF5">🛡️</div>
+      <h3>All-Terrain</h3>
+      <p>Diversified balanced portfolio engineered to perform across market environments. A core holding for the advisor's book.</p>
+      <span class="product-tasa">+6.5% YTD · Balanced</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#F3F0FF">⚡</div>
+      <h3>FlexDirex Single-Stock ETF</h3>
+      <p>Concentrated single-stock exposure with daily risk monitoring. For high-conviction sleeves in growth allocations.</p>
+      <span class="product-tasa">+18.7% YTD · Aggressive</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#FFF0F0">🏛️</div>
+      <h3>Variable Annuity Management</h3>
+      <p>Active sub-account management across 50+ VA carrier platforms. Protect the income guarantee, grow the cash value.</p>
+      <span class="product-tasa">+5.2% YTD · Conservative</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#EBF8FF">🧩</div>
+      <h3>Model Manager Platform</h3>
+      <p>Open-architecture access to FPI and third-party models. Build custom portfolios with one paperwork process.</p>
+      <span class="product-tasa">UMA · Multi-Strategy</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#FFF8E0">🎯</div>
+      <h3>Turnkey Portfolios (Classic)</h3>
+      <p>Pre-built risk-targeted portfolios. Conservative through aggressive, fully managed by FPI's investment committee.</p>
+      <span class="product-tasa">+7.8% YTD · Moderate</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#F3F0FF">🎁</div>
+      <h3>Donor-Advised Funds</h3>
+      <p>Tax-efficient charitable giving with professionally managed underlying portfolios. Branded for your practice.</p>
+      <span class="product-tasa">+6.9% YTD · Balanced</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#E8FAF5">💼</div>
+      <h3>Workplace Retirement / SDBA</h3>
+      <p>Self-Directed Brokerage Account management inside 401(k) plans. Bring active management to plan participants.</p>
+      <span class="product-tasa">SDBA · Plan-level</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#FFF3E0">🔗</div>
+      <h3>FPI FundLink</h3>
+      <p>Income-oriented mutual fund and ETF sleeves designed for retirement decumulation and conservative mandates.</p>
+      <span class="product-tasa">+4.6% YTD · Conservative</span>
+    </div>
+    <div class="product-card">
+      <div class="product-icon" style="background:#FFF0F0">⚖️</div>
+      <h3>Principled Investing</h3>
+      <p>Values-aligned portfolios with screens for faith-based, ESG, and biblically responsible mandates.</p>
+      <span class="product-tasa">+8.1% YTD · Moderate</span>
+    </div>
+  </div>
+</section>
+
+<section id="consulta">
+  <div class="consulta-container">
+    <div class="section-header" style="text-align:left">
+      <span class="section-tag">Advisor Portal</span>
+      <h2>Look up a client</h2>
+      <p>Enter a client's SSN to view all managed accounts, AUM, and OnTarget status</p>
+    </div>
+    <div class="search-box">
+      <span style="font-size:1.1rem">🔍</span>
+      <input type="text" id="cedula-input" placeholder="Ex: 123-45-6789 — try any SSN from the demo book"
+        maxlength="15"
+        onkeydown="if(event.key==='Enter') buscarCliente()">
+      <button class="btn btn-primary" onclick="buscarCliente()">Look up</button>
+    </div>
+
+    <div class="result-panel" id="result-panel">
+      <div class="result-header">
+        <div class="client-avatar" id="client-initials">M</div>
+        <div class="client-info">
+          <h3 id="client-name">Margaret Hayes</h3>
+          <p id="client-detail">Bloomfield Hills, MI · Retired Physician</p>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <p style="font-size:0.78rem;opacity:0.6">Client ID</p>
+          <p id="client-id" style="font-family:monospace;font-size:0.88rem">CLI-001</p>
+        </div>
+      </div>
+      <div class="result-body">
+        <div id="products-list" class="products-list"></div>
+      </div>
+    </div>
+
+    <div id="no-result" style="display:none;text-align:center;padding:40px;color:var(--text-dim)">
+      <span style="font-size:3rem">🔎</span>
+      <p style="margin-top:12px;font-size:1rem">No client found with that SSN.</p>
+      <p style="font-size:0.85rem;margin-top:6px">Try: <strong>123-45-6789</strong>, <strong>234-56-7890</strong>, or <strong>345-67-8901</strong></p>
+    </div>
+  </div>
+</section>
+
+<section id="clientes-demo">
+  <div class="section-header">
+    <span class="section-tag">Advisor Book</span>
+    <h2>30 Demo Clients — FPI Advisor Platform</h2>
+    <p>Live data loaded from the API. Click any client to view their managed accounts.</p>
+  </div>
+
+  <div class="clients-filters">
+    <button class="filter-btn active" onclick="filterClients('ALL', this)">All (30)</button>
+    <button class="filter-btn" onclick="filterClients('PORTFOLIO', this)">📈 Portfolios</button>
+    <button class="filter-btn" onclick="filterClients('IRA', this)">🏦 IRAs</button>
+    <button class="filter-btn" onclick="filterClients('VA', this)">🛡️ VAs</button>
+    <button class="filter-btn" onclick="filterClients('DAF', this)">🎁 DAFs</button>
+  </div>
+
+  <div class="clients-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>SSN</th>
+          <th>Location</th>
+          <th>AUM</th>
+          <th>Accounts</th>
+          <th>OnTarget</th>
+        </tr>
+      </thead>
+      <tbody id="clients-tbody"></tbody>
+    </table>
+    <div class="table-pagination">
+      <span id="pagination-info">Showing 1–10 of 30</span>
+      <div class="page-btns" id="page-btns"></div>
+    </div>
+  </div>
+</section>
+
+<section id="schema">
+  <div class="section-header" style="color:white">
+    <span class="section-tag" style="background:rgba(0,168,150,0.2);border:1px solid rgba(0,168,150,0.3)">Data Model</span>
+    <h2 style="color:white">Platform schema</h2>
+    <p style="color:rgba(255,255,255,0.6)">Normalized advisor, client, portfolio, and performance tables</p>
+  </div>
+  <div class="schema-grid">
+    <div class="schema-card">
+      <div class="schema-card-header">👔 ADVISORS</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">id <span class="field-pk">PK</span></span><span class="field-type">varchar(8)</span></div>
+        <div class="schema-field"><span class="field-name">crd_number</span><span class="field-type">varchar(10) UNIQUE</span></div>
+        <div class="schema-field"><span class="field-name">name</span><span class="field-type">varchar(100)</span></div>
+        <div class="schema-field"><span class="field-name">firm</span><span class="field-type">varchar(120)</span></div>
+        <div class="schema-field"><span class="field-name">firm_type</span><span class="field-type">enum(RIA,BD,DUAL)</span></div>
+        <div class="schema-field"><span class="field-name">state</span><span class="field-type">char(2)</span></div>
+        <div class="schema-field"><span class="field-name">email</span><span class="field-type">varchar(100)</span></div>
+        <div class="schema-field"><span class="field-name">phone</span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">aum_total</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">created_at</span><span class="field-type">timestamp</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">👤 CLIENTS</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">id <span class="field-pk">PK</span></span><span class="field-type">varchar(7)</span></div>
+        <div class="schema-field"><span class="field-name">advisor_id <span class="field-pk">FK</span></span><span class="field-type">varchar(8)</span></div>
+        <div class="schema-field"><span class="field-name">ssn</span><span class="field-type">varchar(11) UNIQUE</span></div>
+        <div class="schema-field"><span class="field-name">name</span><span class="field-type">varchar(100)</span></div>
+        <div class="schema-field"><span class="field-name">email</span><span class="field-type">varchar(100)</span></div>
+        <div class="schema-field"><span class="field-name">phone</span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">state</span><span class="field-type">char(2)</span></div>
+        <div class="schema-field"><span class="field-name">dob</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">occupation</span><span class="field-type">varchar(80)</span></div>
+        <div class="schema-field"><span class="field-name">monthly_income</span><span class="field-type">bigint</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">📈 PORTFOLIOS</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">numero <span class="field-pk">PK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">client_id <span class="field-pk">FK</span></span><span class="field-type">varchar(7)</span></div>
+        <div class="schema-field"><span class="field-name">strategy_id <span class="field-pk">FK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">aum</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">target_value</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">ytd_return</span><span class="field-type">decimal(5,2)</span></div>
+        <div class="schema-field"><span class="field-name">risk_profile</span><span class="field-type">enum(CONS,MOD,BAL,AGG)</span></div>
+        <div class="schema-field"><span class="field-name">ontarget_status</span><span class="field-type">enum(ON,OVER,BELOW)</span></div>
+        <div class="schema-field"><span class="field-name">inception_date</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">estado</span><span class="field-type">enum(ACTIVE,CLOSED)</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">🎯 STRATEGIES</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">id <span class="field-pk">PK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">name</span><span class="field-type">varchar(80)</span></div>
+        <div class="schema-field"><span class="field-name">category</span><span class="field-type">varchar(40)</span></div>
+        <div class="schema-field"><span class="field-name">risk_band</span><span class="field-type">enum(CONS,MOD,BAL,AGG)</span></div>
+        <div class="schema-field"><span class="field-name">benchmark</span><span class="field-type">varchar(20)</span></div>
+        <div class="schema-field"><span class="field-name">inception_date</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">ytd_return</span><span class="field-type">decimal(5,2)</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">📊 ALLOCATIONS</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">id <span class="field-pk">PK</span></span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">portfolio_id <span class="field-pk">FK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">ticker</span><span class="field-type">varchar(10)</span></div>
+        <div class="schema-field"><span class="field-name">asset_class</span><span class="field-type">varchar(30)</span></div>
+        <div class="schema-field"><span class="field-name">weight_pct</span><span class="field-type">decimal(5,2)</span></div>
+        <div class="schema-field"><span class="field-name">market_value</span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">as_of</span><span class="field-type">date</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">📉 PERFORMANCE_SNAPSHOTS</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">id <span class="field-pk">PK</span></span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">portfolio_id <span class="field-pk">FK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">snapshot_date</span><span class="field-type">date</span></div>
+        <div class="schema-field"><span class="field-name">nav</span><span class="field-type">decimal(12,2)</span></div>
+        <div class="schema-field"><span class="field-name">return_1m</span><span class="field-type">decimal(5,2)</span></div>
+        <div class="schema-field"><span class="field-name">return_ytd</span><span class="field-type">decimal(5,2)</span></div>
+        <div class="schema-field"><span class="field-name">drawdown_max</span><span class="field-type">decimal(5,2)</span></div>
+      </div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-card-header">💱 TRANSACTIONS</div>
+      <div class="schema-card-body">
+        <div class="schema-field"><span class="field-name">id <span class="field-pk">PK</span></span><span class="field-type">bigint</span></div>
+        <div class="schema-field"><span class="field-name">portfolio_id <span class="field-pk">FK</span></span><span class="field-type">varchar(15)</span></div>
+        <div class="schema-field"><span class="field-name">type</span><span class="field-type">enum(BUY,SELL,DIV,FEE)</span></div>
+        <div class="schema-field"><span class="field-name">ticker</span><span class="field-type">varchar(10)</span></div>
+        <div class="schema-field"><span class="field-name">shares</span><span class="field-type">decimal(12,4)</span></div>
+        <div class="schema-field"><span class="field-name">price</span><span class="field-type">decimal(10,2)</span></div>
+        <div class="schema-field"><span class="field-name">trade_date</span><span class="field-type">date</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="api-docs">
+  <div class="section-header">
+    <span class="section-tag">Integration</span>
+    <h2>APIs available on Railway</h2>
+    <p>Base URL: <code style="background:var(--bg-3);padding:4px 10px;border-radius:6px;font-family:monospace">https://fpi-demo.up.railway.app/</code></p>
+  </div>
+  <div class="api-list" id="api-list"></div>
+</section>
+
+<section id="soporte">
+  <div class="section-header">
+    <span class="section-tag">24/7 Support</span>
+    <h2>Fin — your AI advisor assistant</h2>
+    <p>Powered by Intercom Fin AI. Available via chat, email, and phone</p>
+  </div>
+  <div style="display:flex;gap:40px;flex-wrap:wrap;justify-content:center;margin-top:40px">
+    <div style="text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">💬</div>
+      <strong>Web Chat</strong>
+      <p style="font-size:0.85rem;color:var(--text-dim);margin-top:4px">Instant answers, 24/7</p>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">📞</div>
+      <strong>Advisor Desk</strong>
+      <p style="font-size:0.85rem;color:var(--text-dim);margin-top:4px">800-347-3539</p>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">📧</div>
+      <strong>Email</strong>
+      <p style="font-size:0.85rem;color:var(--text-dim);margin-top:4px">advisor.support@flexibleplan.demo</p>
+    </div>
+  </div>
+  <div class="chat-demo-box">
+    <div class="chat-header">
+      <div class="chat-avatar">🤖</div>
+      <div class="chat-info">
+        <h4>Fin — FPI Advisor Assistant</h4>
+        <p><span class="online-dot"></span>Online · responds in seconds</p>
+      </div>
+    </div>
+    <div class="chat-body">
+      <div class="chat-message">
+        <div class="chat-avatar" style="width:32px;height:32px;font-size:0.85rem">🤖</div>
+        <div class="chat-bubble">Hi! I'm Fin, your FPI advisor assistant 👋 How can I help you today?</div>
+      </div>
+      <div class="chat-message user">
+        <div class="chat-bubble">What strategies are best for a conservative client?</div>
+      </div>
+      <div class="chat-message">
+        <div class="chat-avatar" style="width:32px;height:32px;font-size:0.85rem">🤖</div>
+        <div class="chat-bubble">For conservative profiles I'd start with <strong>FPI FundLink Income</strong> (+4.6% YTD) or <strong>Variable Annuity Management</strong> (+5.2% YTD). Both emphasize capital preservation with active risk overlay 🛡️<br><br>Want me to pull a sample allocation?</div>
+      </div>
+      <div class="chat-message" id="typing-indicator" style="display:none">
+        <div class="chat-avatar" style="width:32px;height:32px;font-size:0.85rem">🤖</div>
+        <div class="chat-bubble"><div class="typing"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chat-input" placeholder="Ask about a strategy, client, or rebalance..." onkeydown="if(event.key==='Enter') sendChatMsg()">
+      <button class="send-btn" onclick="sendChatMsg()">➤</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="color:white">
+        <div class="logo-icon">FPI</div>Flexible Plan Investments
+      </a>
+      <p>Dynamic risk management and turnkey portfolios for financial advisors since 1981. Headquartered at 3883 Telegraph Road, Bloomfield Hills, MI 48302 · 800-347-3539.</p>
+      <span class="sfc-badge" style="margin-top:16px;display:inline-flex">🏛️ SEC Registered Investment Advisor</span>
+    </div>
+    <div class="footer-col">
+      <h4>Strategies</h4>
+      <a href="#">QFC Multi-Strategy Core</a>
+      <a href="#">Tactical Gold</a>
+      <a href="#">All-Terrain</a>
+      <a href="#">FlexDirex</a>
+      <a href="#">VA Management</a>
+      <a href="#">FundLink</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Fin (AI Chat)</a>
+      <a href="#">Advisor Desk</a>
+      <a href="#">Email</a>
+      <a href="#">Help Center</a>
+      <a href="#">Service Requests</a>
+    </div>
+    <div class="footer-col">
+      <h4>Demo</h4>
+      <a href="#consulta">Advisor Portal</a>
+      <a href="#clientes-demo">Advisor Book</a>
+      <a href="#api-docs">API Docs</a>
+      <a href="#schema">Data Model</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 FPI Demo. Demo for evaluation purposes. Not affiliated with Flexible Plan Investments, Ltd.</span>
+    <span>3883 Telegraph Road, Bloomfield Hills, MI 48302 · 800-347-3539</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="login-modal" onclick="if(event.target===this)closeModal('login-modal')">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('login-modal')">×</button>
+    <h2 style="font-family:'Instrument Serif',serif;font-size:1.8rem;margin-bottom:8px">Welcome back</h2>
+    <p style="color:var(--text-dim);margin-bottom:28px">Sign in to the advisor portal</p>
+    <label style="font-size:0.85rem;font-weight:600">Advisor email</label>
+    <input type="text" placeholder="advisor@yourfirm.com" style="width:100%;border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 20px;outline:none">
+    <label style="font-size:0.85rem;font-weight:600">Password</label>
+    <input type="password" placeholder="••••••••" style="width:100%;border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 28px;outline:none">
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px" onclick="closeModal('login-modal');showToast('🔐 Sign-in — connect Intercom Identity to personalize Fin')">Sign In</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="cdt-modal" onclick="if(event.target===this)closeModal('cdt-modal')">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('cdt-modal')">×</button>
+    <h2 style="font-family:'Instrument Serif',serif;font-size:1.8rem;margin-bottom:8px">Strategy Simulator</h2>
+    <p style="color:var(--text-dim);margin-bottom:28px">Projected growth at strategy's YTD pace</p>
+    <label style="font-size:0.85rem;font-weight:600">Initial investment (USD)</label>
+    <input type="number" id="cdt-monto" placeholder="500000" min="10000" style="width:100%;border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 20px;outline:none" oninput="simularCDT()">
+    <label style="font-size:0.85rem;font-weight:600">Strategy</label>
+    <select id="cdt-plazo" style="width:100%;border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 20px;outline:none" onchange="simularCDT()">
+      <option value="4.6">FPI FundLink Income — 4.6% YTD</option>
+      <option value="6.5">All-Terrain — 6.5% YTD</option>
+      <option value="7.8">Classic — 7.8% YTD</option>
+      <option value="9.4" selected>QFC Multi-Strategy Core — 9.4% YTD</option>
+      <option value="12.1">Self-Adjusting Trend Following — 12.1% YTD</option>
+      <option value="14.2">Tactical Gold — 14.2% YTD</option>
+    </select>
+    <div id="cdt-result" style="background:var(--bg-3);border-radius:12px;padding:20px;text-align:center;display:none;border:1px solid var(--border-2)">
+      <p style="color:var(--text-dim);font-size:0.85rem">Projected gain (1 year)</p>
+      <p id="cdt-rendimiento" style="font-size:2rem;font-weight:700;color:var(--cyan);font-family:'Instrument Serif',serif"></p>
+      <p id="cdt-total" style="color:var(--text);font-weight:600"></p>
+    </div>
+    <button class="btn btn-gold" style="width:100%;justify-content:center;margin-top:20px;padding:14px" onclick="closeModal('cdt-modal');showToast('✅ Onboarding submitted — POST /solicitudes/portfolio')">Start Onboarding</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="credito-modal" onclick="if(event.target===this)closeModal('credito-modal')">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('credito-modal')">×</button>
+    <h2 style="font-family:'Instrument Serif',serif;font-size:1.8rem;margin-bottom:8px">QFC Multi-Strategy Core</h2>
+    <p style="color:var(--text-dim);margin-bottom:28px">Flagship Quantified Fund-of-Funds · Moderate Risk · +9.4% YTD</p>
+    <label style="font-size:0.85rem;font-weight:600">Account size (USD)</label>
+    <input type="number" id="cred-monto" placeholder="500000" style="width:100%;border-radius:10px;padding:12px 16px;font-size:0.95rem;margin:8px 0 20px;outline:none" oninput="simularCredito()">
+    <label style="font-size:0.85rem;font-weight:600">Horizon (months)</label>
+    <input type="range" id="cred-plazo" min="12" max="120" value="60" style="width:100%;margin:8px 0" oninput="document.getElementById('plazo-val').textContent=this.value+' months';simularCredito()">
+    <p id="plazo-val" style="text-align:center;font-weight:600;color:var(--cyan);margin-bottom:20px">60 months</p>
+    <div id="cred-result" style="background:var(--bg-3);border-radius:12px;padding:20px;text-align:center;display:none;border:1px solid var(--border-2)">
+      <p style="color:var(--text-dim);font-size:0.85rem">Projected ending value</p>
+      <p id="cred-cuota" style="font-size:2rem;font-weight:700;color:var(--text);font-family:'Instrument Serif',serif"></p>
+      <p id="cred-total" style="color:var(--text-dim);font-size:0.85rem;margin-top:4px"></p>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:20px;padding:14px" onclick="closeModal('credito-modal');showToast('✅ Request submitted — POST /solicitudes/portfolio')">Request Onboarding Kit</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="vehiculo-modal" onclick="if(event.target===this)closeModal('vehiculo-modal')">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('vehiculo-modal')">×</button>
+    <h2 style="font-family:'Instrument Serif',serif;font-size:1.8rem;margin-bottom:8px">Tactical Gold Strategy</h2>
+    <p style="color:var(--text-dim);margin-bottom:28px">Dynamic gold exposure · Moderate Risk · +14.2% YTD</p>
+    <p style="font-size:0.9rem;line-height:1.7">Rules-based gold exposure that participates in trends and de-risks during drawdowns. Use as a 5–15% sleeve in moderate-to-aggressive allocations or as a hedge against equity volatility.</p>
+    <div style="background:var(--bg-3);border-radius:12px;padding:20px;margin:20px 0;border:1px solid var(--border-2)">
+      <p style="font-size:0.85rem;font-weight:600;margin-bottom:12px">Onboarding documents</p>
+      <p style="font-size:0.85rem;color:var(--text-dim);line-height:2">✅ Signed FPI advisory agreement<br>✅ Risk tolerance questionnaire<br>✅ Account transfer (ACAT) form<br>✅ Custodian account application</p>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px" onclick="closeModal('vehiculo-modal');showToast('✅ Redirecting to onboarding — POST /solicitudes/portfolio')">Start Onboarding</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <span id="toast-msg">Message</span>
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────
+const CLIENTES = [
+  { id:"CLI-001", cedula:"123-45-6789", nombre:"Margaret Whitman Hayes", ciudad:"Bloomfield Hills, MI", ocupacion:"Retired Physician", ingresos_mensuales:24000, productos:[{tipo:"PORTFOLIO",numero:"PF-2022-00891",strategy:"QFC Multi-Strategy Core",aum:1850000,ytd_return:9.4,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:1820000,proxima_review:"2026-06-15",estado:"AL_DIA"},{tipo:"IRA",numero:"IRA-2023-04521",strategy:"All-Terrain",aum:420000,ytd_return:6.5,estado:"ACTIVA"}]},
+  { id:"CLI-002", cedula:"234-56-7890", nombre:"James Anderson Cole", ciudad:"Chicago, IL", ocupacion:"Business Owner", ingresos_mensuales:38000, productos:[{tipo:"PORTFOLIO",numero:"PF-2024-00234",strategy:"Self-adjusting Trend Following",aum:2400000,ytd_return:12.1,risk_profile:"AGGRESSIVE",ontarget_status:"OUTPERFORMING",target_value:2250000,estado:"ACTIVO"},{tipo:"VA",numero:"VA-2023-00156",strategy:"Variable Annuity Management",aum:680000,ytd_return:5.2,estado:"ACTIVO"}]},
+  { id:"CLI-003", cedula:"345-67-8901", nombre:"Patricia Sullivan Reed", ciudad:"San Francisco, CA", ocupacion:"Tech Executive", ingresos_mensuales:65000, productos:[{tipo:"PORTFOLIO",numero:"PF-2024-00089",strategy:"FlexDirex Single-Stock ETF",aum:3200000,ytd_return:18.7,risk_profile:"AGGRESSIVE",ontarget_status:"OUTPERFORMING",target_value:2900000,estado:"ACTIVO"},{tipo:"DAF",numero:"DAF-2024-00445",strategy:"Donor-Advised Balanced",aum:500000,ytd_return:6.9,estado:"VIGENTE"},{tipo:"IRA",numero:"IRA-2022-00891",strategy:"Classic",aum:215000,ytd_return:7.8,estado:"ACTIVA"}]},
+  { id:"CLI-004", cedula:"456-78-9012", nombre:"Daniel Patrick Murphy", ciudad:"Boston, MA", ocupacion:"Software Engineer", ingresos_mensuales:18500, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-01234",strategy:"Classic",aum:320000,ytd_return:7.8,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:315000,estado:"AL_DIA"},{tipo:"IRA",numero:"IRA-2025-09234",strategy:"All-Terrain",aum:78000,ytd_return:6.5,estado:"ACTIVA"}]},
+  { id:"CLI-005", cedula:"567-89-0123", nombre:"Robert Allen Stevenson", ciudad:"Dallas, TX", ocupacion:"Retired Executive", ingresos_mensuales:45000, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-00567",strategy:"Tactical Gold",aum:1500000,ytd_return:14.2,risk_profile:"MODERATE",ontarget_status:"OUTPERFORMING",target_value:1380000,estado:"ACTIVO"},{tipo:"PORTFOLIO",numero:"PF-2026-00011",strategy:"Gold Bullion Strategy",aum:800000,ytd_return:11.6,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:790000,estado:"ACTIVO"},{tipo:"VA",numero:"VA-2023-00123",strategy:"Variable Annuity Management",aum:950000,ytd_return:5.2,estado:"VIGENTE"}]},
+  { id:"CLI-006", cedula:"678-90-1234", nombre:"Laura Margaret Schroeder", ciudad:"Miami, FL", ocupacion:"Attorney", ingresos_mensuales:22000, productos:[{tipo:"PORTFOLIO",numero:"PF-2024-00456",strategy:"Self-adjusting Trend Following",aum:540000,ytd_return:-2.3,risk_profile:"AGGRESSIVE",ontarget_status:"BELOW_TARGET",target_value:610000,estado:"EN_MORA",dias_mora:8}]},
+  { id:"CLI-007", cedula:"789-01-2345", nombre:"Edward Henry Palmer", ciudad:"Charlotte, NC", ocupacion:"Retired CPA", ingresos_mensuales:14000, productos:[{tipo:"IRA",numero:"IRA-2020-01234",strategy:"FPI FundLink Income",aum:380000,ytd_return:4.6,estado:"ACTIVA"},{tipo:"VA",numero:"VA-2022-00678",strategy:"Variable Annuity Management",aum:460000,ytd_return:5.2,estado:"VIGENTE"}]},
+  { id:"CLI-008", cedula:"890-12-3456", nombre:"Isabella Maria Romano", ciudad:"Brooklyn, NY", ocupacion:"Graduate Student", ingresos_mensuales:4200, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-02891",strategy:"Classic",aum:32000,ytd_return:7.8,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:31500,estado:"AL_DIA"},{tipo:"IRA",numero:"IRA-2025-10011",strategy:"All-Terrain",aum:8500,ytd_return:6.5,estado:"ACTIVA"}]},
+  { id:"CLI-009", cedula:"901-23-4567", nombre:"Gloria Hope Vargas", ciudad:"Phoenix, AZ", ocupacion:"Retired Teacher", ingresos_mensuales:7500, productos:[{tipo:"PORTFOLIO",numero:"PF-2026-00089",strategy:"FPI FundLink Income",aum:540000,ytd_return:4.6,risk_profile:"CONSERVATIVE",ontarget_status:"ON_TARGET",target_value:535000,estado:"ACTIVO"},{tipo:"IRA",numero:"IRA-2018-05671",strategy:"Classic",aum:285000,ytd_return:7.8,estado:"ACTIVA"}]},
+  { id:"CLI-010", cedula:"012-34-5678", nombre:"Daniel Ethan Giraldo", ciudad:"Seattle, WA", ocupacion:"Product Manager", ingresos_mensuales:21000, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-00289",strategy:"Principled Investing Growth",aum:480000,ytd_return:8.1,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:470000,estado:"AL_DIA"},{tipo:"PORTFOLIO",numero:"PF-2025-00201",strategy:"FPI FundLink Income",aum:220000,ytd_return:4.6,risk_profile:"CONSERVATIVE",estado:"ACTIVO"}]},
+  { id:"CLI-011", cedula:"111-22-3333", nombre:"Henry Marshall Brooks", ciudad:"Portland, OR", ocupacion:"Architect", ingresos_mensuales:24000, productos:[{tipo:"PORTFOLIO",numero:"PF-2022-00078",strategy:"All-Terrain",aum:1100000,ytd_return:6.5,risk_profile:"BALANCED",ontarget_status:"ON_TARGET",target_value:1090000,estado:"AL_DIA"},{tipo:"VA",numero:"VA-2022-00340",strategy:"Variable Annuity Management",aum:720000,ytd_return:5.2,estado:"VIGENTE"}]},
+  { id:"CLI-012", cedula:"222-33-4444", nombre:"Natalie Anne Morrison", ciudad:"Denver, CO", ocupacion:"University Professor", ingresos_mensuales:12500, productos:[{tipo:"PORTFOLIO",numero:"PF-2024-00145",strategy:"QFC Multi-Strategy Core",aum:285000,ytd_return:9.4,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:280000,estado:"ACTIVO"},{tipo:"IRA",numero:"IRA-2025-00901",strategy:"Classic",aum:92000,ytd_return:7.8,estado:"ACTIVO"}]},
+  { id:"CLI-013", cedula:"333-44-5555", nombre:"Peter Anthony Ramirez", ciudad:"Austin, TX", ocupacion:"Civil Engineer", ingresos_mensuales:17500, productos:[{tipo:"PORTFOLIO",numero:"PF-2023-00234",strategy:"Tactical Gold",aum:410000,ytd_return:14.2,risk_profile:"MODERATE",ontarget_status:"OUTPERFORMING",target_value:380000,estado:"AL_DIA"}]},
+  { id:"CLI-014", cedula:"444-55-6666", nombre:"Claudia Patricia Mitchell", ciudad:"Nashville, TN", ocupacion:"Head Nurse", ingresos_mensuales:9800, productos:[{tipo:"IRA",numero:"IRA-2019-03456",strategy:"All-Terrain",aum:165000,ytd_return:6.5,estado:"ACTIVA"},{tipo:"VA",numero:"VA-2021-00512",strategy:"Variable Annuity Management",aum:240000,ytd_return:5.2,estado:"VIGENTE"}]},
+  { id:"CLI-015", cedula:"555-66-7777", nombre:"Sebastian Carter Vargas", ciudad:"Palo Alto, CA", ocupacion:"Startup Founder", ingresos_mensuales:16000, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-00789",strategy:"FlexDirex Single-Stock ETF",aum:250000,ytd_return:18.7,risk_profile:"AGGRESSIVE",ontarget_status:"OUTPERFORMING",target_value:215000,estado:"AL_DIA"},{tipo:"IRA",numero:"IRA-2025-00345",strategy:"FPI FundLink Income",aum:45000,ytd_return:4.6,estado:"ACTIVO"}]},
+  { id:"CLI-016", cedula:"666-77-8888", nombre:"Alexandra Sophie Vance", ciudad:"Raleigh, NC", ocupacion:"Pharmacist", ingresos_mensuales:13500, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-01122",strategy:"Classic",aum:320000,ytd_return:7.8,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:315000,estado:"ACTIVO"}]},
+  { id:"CLI-017", cedula:"777-88-9999", nombre:"George Ivan Osborne", ciudad:"Salt Lake City, UT", ocupacion:"Veterinarian", ingresos_mensuales:11500, productos:[{tipo:"PORTFOLIO",numero:"PF-2024-00198",strategy:"Gold Bullion Strategy",aum:290000,ytd_return:11.6,risk_profile:"MODERATE",ontarget_status:"OUTPERFORMING",target_value:270000,estado:"AL_DIA"}]},
+  { id:"CLI-018", cedula:"888-99-0000", nombre:"Paola Andrea Quintana", ciudad:"Albuquerque, NM", ocupacion:"Psychologist", ingresos_mensuales:8400, productos:[{tipo:"PORTFOLIO",numero:"PF-2024-01567",strategy:"All-Terrain",aum:145000,ytd_return:6.5,risk_profile:"BALANCED",ontarget_status:"BELOW_TARGET",target_value:165000,estado:"AL_DIA"},{tipo:"IRA",numero:"IRA-2024-07891",strategy:"Classic",aum:38000,ytd_return:7.8,estado:"ACTIVA"}]},
+  { id:"CLI-019", cedula:"999-00-1111", nombre:"Arthur Louis Thompson", ciudad:"Charleston, SC", ocupacion:"Retired Professor", ingresos_mensuales:9500, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-00789",strategy:"FPI FundLink Income",aum:410000,ytd_return:4.6,risk_profile:"CONSERVATIVE",ontarget_status:"ON_TARGET",target_value:405000,estado:"ACTIVO"},{tipo:"VA",numero:"VA-2020-00891",strategy:"Variable Annuity Management",aum:220000,ytd_return:5.2,estado:"VIGENTE"}]},
+  { id:"CLI-020", cedula:"121-21-2121", nombre:"Stephanie Reed Berman", ciudad:"New York, NY", ocupacion:"Full-Stack Developer", ingresos_mensuales:19500, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-00412",strategy:"Self-adjusting Trend Following",aum:380000,ytd_return:12.1,risk_profile:"AGGRESSIVE",ontarget_status:"OUTPERFORMING",target_value:350000,estado:"ACTIVO"},{tipo:"IRA",numero:"IRA-2024-01234",strategy:"All-Terrain",aum:95000,ytd_return:6.5,estado:"ACTIVA"}]},
+  { id:"CLI-021", cedula:"131-31-3131", nombre:"William Andrew Zachary", ciudad:"Washington, DC", ocupacion:"CFO", ingresos_mensuales:55000, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-00456",strategy:"QFC Multi-Strategy Core",aum:2800000,ytd_return:9.4,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:2780000,estado:"ACTIVO"},{tipo:"PORTFOLIO",numero:"PF-2024-00067",strategy:"Tactical Gold",aum:1200000,ytd_return:14.2,risk_profile:"MODERATE",ontarget_status:"OUTPERFORMING",target_value:1080000,estado:"ACTIVO"},{tipo:"DAF",numero:"DAF-2025-00456",strategy:"Donor-Advised Balanced",aum:850000,ytd_return:6.9,estado:"AL_DIA"}]},
+  { id:"CLI-022", cedula:"141-41-4141", nombre:"Lina Marie Adkins", ciudad:"Boulder, CO", ocupacion:"Digital Marketer", ingresos_mensuales:7200, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-03456",strategy:"Principled Investing Growth",aum:58000,ytd_return:8.1,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:57000,estado:"AL_DIA"}]},
+  { id:"CLI-023", cedula:"151-51-5151", nombre:"Francis Joseph Calloway", ciudad:"Cleveland, OH", ocupacion:"Orthodontist", ingresos_mensuales:28000, productos:[{tipo:"PORTFOLIO",numero:"PF-2026-00234",strategy:"QFC Multi-Strategy Core",aum:1100000,ytd_return:9.4,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:1085000,estado:"ACTIVO"},{tipo:"VA",numero:"VA-2023-00789",strategy:"Variable Annuity Management",aum:540000,ytd_return:5.2,estado:"VIGENTE"}]},
+  { id:"CLI-024", cedula:"161-61-6161", nombre:"Caroline Vance Arbuckle", ciudad:"Atlanta, GA", ocupacion:"Dietitian", ingresos_mensuales:9200, productos:[{tipo:"PORTFOLIO",numero:"PF-2024-00987",strategy:"All-Terrain",aum:175000,ytd_return:6.5,risk_profile:"BALANCED",ontarget_status:"ON_TARGET",target_value:172000,estado:"AL_DIA"},{tipo:"IRA",numero:"IRA-2023-08901",strategy:"Classic",aum:42000,ytd_return:7.8,estado:"ACTIVA"}]},
+  { id:"CLI-025", cedula:"171-71-7171", nombre:"Alvin Joseph Mendoza", ciudad:"Las Vegas, NV", ocupacion:"Retired Contractor", ingresos_mensuales:8800, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-01345",strategy:"FPI FundLink Income",aum:620000,ytd_return:4.6,risk_profile:"CONSERVATIVE",ontarget_status:"ON_TARGET",target_value:615000,estado:"ACTIVO"},{tipo:"IRA",numero:"IRA-2015-09012",strategy:"All-Terrain",aum:195000,ytd_return:6.5,estado:"ACTIVA"}]},
+  { id:"CLI-026", cedula:"181-81-8181", nombre:"Maria Julia Ortiz", ciudad:"Fresno, CA", ocupacion:"Graduate Student", ingresos_mensuales:3200, productos:[{tipo:"IRA",numero:"IRA-2026-01023",strategy:"Classic",aum:4500,ytd_return:7.8,estado:"ACTIVA"}]},
+  { id:"CLI-027", cedula:"191-91-9191", nombre:"Raphael Anthony Bermudez", ciudad:"Palm Beach, FL", ocupacion:"Hotel Group CEO", ingresos_mensuales:90000, productos:[{tipo:"PORTFOLIO",numero:"PF-2023-00023",strategy:"QFC Multi-Strategy Core",aum:4800000,ytd_return:9.4,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:4750000,estado:"ACTIVO"},{tipo:"PORTFOLIO",numero:"PF-2026-00345",strategy:"Tactical Gold",aum:1800000,ytd_return:14.2,risk_profile:"MODERATE",ontarget_status:"OUTPERFORMING",target_value:1620000,estado:"ACTIVO"},{tipo:"DAF",numero:"DAF-2024-00901",strategy:"Donor-Advised Balanced",aum:1200000,ytd_return:6.9,estado:"VIGENTE"}]},
+  { id:"CLI-028", cedula:"212-12-1212", nombre:"Julia Paige Townsend", ciudad:"Knoxville, TN", ocupacion:"IT Technician", ingresos_mensuales:4800, productos:[{tipo:"PORTFOLIO",numero:"PF-2025-04012",strategy:"Classic",aum:18000,ytd_return:7.8,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:17800,estado:"AL_DIA"}]},
+  { id:"CLI-029", cedula:"232-32-3232", nombre:"Edward Joseph Parker", ciudad:"Memphis, TN", ocupacion:"Operations Director", ingresos_mensuales:32000, productos:[{tipo:"PORTFOLIO",numero:"PF-2023-00298",strategy:"All-Terrain",aum:920000,ytd_return:6.5,risk_profile:"BALANCED",ontarget_status:"ON_TARGET",target_value:910000,estado:"AL_DIA"},{tipo:"PORTFOLIO",numero:"PF-2025-00512",strategy:"Self-adjusting Trend Following",aum:540000,ytd_return:12.1,risk_profile:"AGGRESSIVE",ontarget_status:"OUTPERFORMING",target_value:495000,estado:"ACTIVO"}]},
+  { id:"CLI-030", cedula:"242-42-4242", nombre:"Angela Christine Newman", ciudad:"Boise, ID", ocupacion:"Business Administrator", ingresos_mensuales:13000, productos:[{tipo:"PORTFOLIO",numero:"PF-2024-01890",strategy:"Principled Investing Growth",aum:210000,ytd_return:8.1,risk_profile:"MODERATE",ontarget_status:"ON_TARGET",target_value:208000,estado:"AL_DIA"},{tipo:"VA",numero:"VA-2024-01012",strategy:"Variable Annuity Management",aum:320000,ytd_return:5.2,estado:"VIGENTE"}]}
+];
+
+const API_BASE = window.location.origin;
+
+// ─── UTILS ──────────────────────────────────────────────────
+const fmt = n => new Intl.NumberFormat('en-US', {style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
+
+function getInitials(name) {
+  return name.split(' ').slice(0,2).map(w=>w[0]).join('');
+}
+
+function getPillClass(tipo) {
+  const map = {
+    PORTFOLIO:'pill-inversion', IRA:'pill-cuenta',
+    VA:'pill-seguro', DAF:'pill-cdt'
+  };
+  return map[tipo] || 'pill-cuenta';
+}
+function getPillLabel(tipo) {
+  const map = {
+    PORTFOLIO:'📈 Portfolio', IRA:'🏦 IRA',
+    VA:'🛡️ VA', DAF:'🎁 DAF'
+  };
+  return map[tipo] || tipo;
+}
+function getProductIcon(tipo) {
+  const map = {PORTFOLIO:'📈',IRA:'🏦',VA:'🛡️',DAF:'🎁'};
+  return map[tipo]||'📄';
+}
+function getIconBg(tipo) {
+  const map = {PORTFOLIO:'#F3F0FF',IRA:'#E8FAF5',VA:'#FFF0F0',DAF:'#FFF8E0'};
+  return map[tipo]||'#F0F0F0';
+}
+
+function hasBelowTarget(client) {
+  return client.productos.some(p => p.ontarget_status === 'BELOW_TARGET' || p.estado === 'EN_MORA');
+}
+
+function totalAum(client) {
+  return client.productos.reduce((a,p) => a + (p.aum || 0), 0);
+}
+
+// ─── CLIENT LOOKUP ────────────────────────────────────────────
+function buscarCliente() {
+  const cedula = document.getElementById('cedula-input').value.trim();
+  if (!cedula) return;
+
+  const panel = document.getElementById('result-panel');
+  const noResult = document.getElementById('no-result');
+  panel.classList.remove('visible');
+  noResult.style.display = 'none';
+
+  showToast('⏳ Querying API...');
+
+  fetch(`${API_BASE}/clientes/${cedula}`)
+    .then(r => { if (!r.ok) throw new Error('not found'); return r.json(); })
+    .then(cli => {
+      if (window.Intercom) {
+        window.Intercom('update', {
+          name: cli.nombre, email: cli.email, user_id: cli.id,
+          location: cli.ciudad, occupation: cli.ocupacion, ssn: cli.cedula,
+          below_target: cli.resumen?.tiene_mora || false,
+          accounts_count: cli.resumen?.productos_count || 0,
+          account_types: (cli.resumen?.tipos || []).join(', '),
+          total_aum: cli.resumen?.total_aum || 0
+        });
+      }
+
+      document.getElementById('client-initials').textContent = getInitials(cli.nombre);
+      document.getElementById('client-name').textContent = cli.nombre;
+      document.getElementById('client-detail').textContent = `${cli.ciudad} · ${cli.ocupacion} · ${fmt(cli.ingresos_mensuales)}/mo income`;
+      document.getElementById('client-id').textContent = cli.id;
+
+      const list = document.getElementById('products-list');
+      list.innerHTML = '';
+      cli.productos.forEach(p => {
+        const below = p.ontarget_status === 'BELOW_TARGET';
+        const over  = p.ontarget_status === 'OUTPERFORMING';
+        let badgeClass = below ? 'badge-mora' : over ? 'badge-vence' : 'badge-ok';
+        let badgeText  = below ? '⚠️ Below Target' : over ? '🚀 Outperforming' : (p.ontarget_status === 'ON_TARGET' ? '✅ On Target' : p.estado);
+
+        let details = '';
+        if (p.tipo === 'PORTFOLIO' || p.tipo === 'IRA' || p.tipo === 'VA' || p.tipo === 'DAF') {
+          details = `<div class="product-detail-grid">
+            <div class="detail-item"><strong>${fmt(p.aum)}</strong>AUM</div>
+            <div class="detail-item"><strong>${p.ytd_return >= 0 ? '+' : ''}${p.ytd_return}%</strong>YTD Return</div>
+            <div class="detail-item"><strong>${p.strategy || '—'}</strong>Strategy</div>
+            <div class="detail-item"><strong>${p.risk_profile || '—'}</strong>Risk Profile</div>
+          </div>`;
+          if (p.target_value) {
+            details = details.replace('</div>$', '');
+          }
+        }
+
+        list.innerHTML += `
+          <div class="product-item">
+            <div class="product-item-icon" style="background:${getIconBg(p.tipo)}">${getProductIcon(p.tipo)}</div>
+            <div class="product-item-info">
+              <div class="name">${p.tipo} — ${p.strategy || ''}</div>
+              <div class="number">${p.numero}</div>
+              ${details}
+            </div>
+            <span class="product-item-badge ${badgeClass}">${badgeText}</span>
+          </div>`;
+      });
+
+      panel.classList.add('visible');
+      showToast(`✅ API — ${cli.productos.length} accounts for ${cli.nombre}`);
+    })
+    .catch(() => {
+      noResult.style.display = 'block';
+      showToast('❌ Client not found in database');
+    });
+}
+
+// ─── CLIENT TABLE ─────────────────────────────────────────────
+let currentFilter = 'ALL';
+let currentPage = 1;
+const PAGE_SIZE = 10;
+
+function getFilteredClients() {
+  if (currentFilter === 'ALL') return CLIENTES;
+  return CLIENTES.filter(c => c.productos.some(p => p.tipo === currentFilter));
+}
+
+function renderTable() {
+  const filtered = getFilteredClients();
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = Math.min(start + PAGE_SIZE, filtered.length);
+  const page = filtered.slice(start, end);
+
+  const tbody = document.getElementById('clients-tbody');
+  tbody.innerHTML = page.map(cli => {
+    const below = hasBelowTarget(cli);
+    const tipos = [...new Set(cli.productos.map(p => p.tipo))];
+    return `<tr onclick="buscarClienteById('${cli.cedula}')">
+      <td>
+        <div class="td-name">${cli.nombre}</div>
+        <div class="td-sub">${cli.ocupacion}</div>
+      </td>
+      <td><code style="font-size:0.82rem;background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px">${cli.cedula}</code></td>
+      <td>${cli.ciudad}</td>
+      <td>${fmt(totalAum(cli))}</td>
+      <td><div class="products-pills">${tipos.map(t=>`<span class="pill ${getPillClass(t)}">${getPillLabel(t)}</span>`).join('')}</div></td>
+      <td><span class="product-item-badge ${below?'badge-mora':'badge-ok'}">${below?'⚠️ Below Target':'✅ On Target'}</span></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('pagination-info').textContent = `Showing ${start+1}–${end} of ${filtered.length}`;
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const btns = document.getElementById('page-btns');
+  btns.innerHTML = Array.from({length:totalPages}, (_,i) => i+1)
+    .map(p => `<button class="page-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`)
+    .join('');
+}
+
+function filterClients(tipo, btn) {
+  currentFilter = tipo;
+  currentPage = 1;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function goPage(p) { currentPage = p; renderTable(); window.scrollTo({top: document.getElementById('clientes-demo').offsetTop - 80, behavior:'smooth'}); }
+
+function buscarClienteById(cedula) {
+  document.getElementById('cedula-input').value = cedula;
+  document.getElementById('consulta').scrollIntoView({behavior:'smooth'});
+  setTimeout(buscarCliente, 600);
+}
+
+// ─── API DOCS ─────────────────────────────────────────────────
+const API_ENDPOINTS = [
+  { method:'GET', path:'/clientes', desc:'List all clients in the advisor book', resp:{ total:30, clientes:[{id:"CLI-001",cedula:"123-45-6789",nombre:"Margaret Whitman Hayes",ciudad:"Bloomfield Hills, MI",productos_count:2,total_aum:2270000},"... 29 more"] } },
+  { method:'GET', path:'/clientes/{ssn}', desc:'Full client profile with all managed accounts', resp:{ id:"CLI-001", cedula:"123-45-6789", nombre:"Margaret Whitman Hayes", ciudad:"Bloomfield Hills, MI", ocupacion:"Retired Physician", ingresos_mensuales:24000, productos:[{tipo:"PORTFOLIO",numero:"PF-2022-00891",strategy:"QFC Multi-Strategy Core",aum:1850000,ytd_return:9.4,ontarget_status:"ON_TARGET"}] } },
+  { method:'GET', path:'/productos/{numero}', desc:'Detail of a portfolio, IRA, VA, or DAF account', resp:{ numero:"PF-2022-00891", tipo:"PORTFOLIO", strategy:"QFC Multi-Strategy Core", aum:1850000, ytd_return:9.4, ontarget_status:"ON_TARGET", target_value:1820000, risk_profile:"MODERATE" } },
+  { method:'GET', path:'/strategies', desc:'FPI strategy lineup — Quantified Funds, Turnkey, FlexDirex, VA Management', resp:{ total:12, strategies:[{id:"QFC-MSC",name:"QFC Multi-Strategy Core",category:"Quantified Funds",risk:"MODERATE",ytd:9.4},{id:"TGOLD",name:"Tactical Gold",risk:"MODERATE",ytd:14.2}] } },
+  { method:'GET', path:'/ontarget', desc:'OnTarget monitoring dashboard — clients above/below their goal', resp:{ breakdown:{ON_TARGET:34,OUTPERFORMING:13,BELOW_TARGET:2}, flagged_below_target:[{cliente:"Laura Schroeder",portfolio:"PF-2024-00456",strategy:"Self-adjusting Trend Following",aum:540000,target:610000}] } },
+  { method:'GET', path:'/estadisticas', desc:'Dashboard — totals, AUM by strategy and state', resp:{ total_clientes:30, total_productos:57, total_aum:32850000, below_target:2, por_tipo:{PORTFOLIO:31,IRA:14,VA:9,DAF:3} } },
+  { method:'POST', path:'/solicitudes/portfolio', desc:'Onboard a new managed portfolio (advisory agreement + ACAT)', resp:{ numero_radicado:"REQ-2026-47291", estado:"IN_REVIEW", tiempo_respuesta:"2 business days" } },
+  { method:'POST', path:'/solicitudes/rebalance', desc:'Submit a rebalance order for an existing portfolio', resp:{ numero_rebalance:"RBL-2026-83921", estado:"SCHEDULED", execution_window:"Next trading day" } },
+  { method:'POST', path:'/pqr', desc:'Log an advisor service request or client complaint', resp:{ numero_pqr:"SVC-2026-11847", estado:"RECEIVED", fecha_limite_respuesta:"2026-06-04" } },
+];
+
+function colorizeJson(obj) {
+  const json = JSON.stringify(obj, null, 2);
+  return json
+    .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+    .replace(/: "([^"]+)"/g, ': <span class="json-string">"$1"</span>')
+    .replace(/: (\d+\.?\d*)/g, ': <span class="json-number">$1</span>')
+    .replace(/: (true|false|null)/g, ': <span class="json-bool">$1</span>');
+}
+
+function renderApiDocs() {
+  const list = document.getElementById('api-list');
+  list.innerHTML = API_ENDPOINTS.map((ep, i) => `
+    <div>
+      <div class="api-row" onclick="toggleApiResponse(${i})">
+        <span class="method-badge method-${ep.method.toLowerCase()}">${ep.method}</span>
+        <span class="api-path">${API_BASE}${ep.path}</span>
+        <span class="api-desc">${ep.desc}</span>
+        <button class="try-btn">View response ↓</button>
+      </div>
+      <div class="api-response-panel" id="api-resp-${i}">
+        <pre>${colorizeJson(ep.resp)}</pre>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleApiResponse(i) {
+  const panel = document.getElementById(`api-resp-${i}`);
+  const isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.api-response-panel').forEach(p => p.classList.remove('open'));
+  if (!isOpen) panel.classList.add('open');
+}
+
+// ─── MODAL ──────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ─── STRATEGY SIMULATOR ──────────────────────────────────────
+function simularCDT() {
+  const monto = parseFloat(document.getElementById('cdt-monto').value) || 0;
+  const rate = parseFloat(document.getElementById('cdt-plazo').value) / 100;
+  if (monto < 10000) return;
+  const gain = monto * rate;
+  document.getElementById('cdt-rendimiento').textContent = fmt(gain);
+  document.getElementById('cdt-total').textContent = `Total after 1 year: ${fmt(monto + gain)}`;
+  document.getElementById('cdt-result').style.display = 'block';
+}
+
+// ─── PORTFOLIO PROJECTION ────────────────────────────────────
+function simularCredito() {
+  const monto = parseFloat(document.getElementById('cred-monto').value) || 0;
+  const months = parseInt(document.getElementById('cred-plazo').value);
+  if (monto < 10000) return;
+  const annualRate = 0.094; // QFC Multi-Strategy Core
+  const ending = monto * Math.pow(1 + annualRate, months / 12);
+  document.getElementById('cred-cuota').textContent = fmt(ending);
+  document.getElementById('cred-total').textContent = `Projected gain: ${fmt(ending - monto)} · Assumes 9.4% annualized (illustrative)`;
+  document.getElementById('cred-result').style.display = 'block';
+}
+
+// ─── TOAST ──────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── CHAT DEMO ──────────────────────────────────────────────
+const chatResponses = {
+  'qfc': 'Our <strong>QFC Multi-Strategy Core</strong> flagship is up <strong>+9.4% YTD</strong> with moderate risk — tactical equity, fixed income, and alternatives with an active risk overlay 📈',
+  'gold': '<strong>Tactical Gold</strong> is at <strong>+14.2% YTD</strong>. Rules-based gold exposure that de-risks during drawdowns. Pairs well with All-Terrain as a 10% sleeve 🥇',
+  'flex': '<strong>FlexDirex</strong> single-stock ETFs are for high-conviction sleeves (+18.7% YTD). Daily risk monitoring built in ⚡',
+  'va': '<strong>Variable Annuity Management</strong> — active sub-account management across 50+ carriers. +5.2% YTD with conservative risk targeting 🏛️',
+  'ontarget': 'OnTarget compares each client portfolio to its goal value. Statuses are On Target, Outperforming, or Below Target. I can pull any client by SSN 🎯',
+  'rebalance': 'I can submit rebalance orders via POST /solicitudes/rebalance. Orders execute at next market open — give me the portfolio number 🔁',
+  'ssn': 'Sure — paste a client SSN (e.g. 123-45-6789) and I\'ll pull their full book 🔍',
+  'default': 'I can help with strategy selection, OnTarget reviews, rebalances, and client lookups. What would you like to do?'
+};
+
+function sendChatMsg() {
+  const inp = document.getElementById('chat-input');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+
+  const body = document.querySelector('.chat-body');
+  body.innerHTML += `<div class="chat-message user"><div class="chat-bubble">${msg}</div></div>`;
+
+  const typing = document.getElementById('typing-indicator');
+  typing.style.display = 'flex';
+  body.scrollTop = body.scrollHeight;
+
+  setTimeout(() => {
+    typing.style.display = 'none';
+    const lower = msg.toLowerCase();
+    let resp = chatResponses.default;
+    for (const [key, val] of Object.entries(chatResponses)) {
+      if (lower.includes(key)) { resp = val; break; }
+    }
+    body.innerHTML += `<div class="chat-message"><div class="chat-avatar" style="width:32px;height:32px;font-size:0.85rem">🤖</div><div class="chat-bubble">${resp}</div></div>`;
+    body.appendChild(typing);
+    body.scrollTop = body.scrollHeight;
+  }, 1200);
+}
+
+// ─── INIT ────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderTable();
+  renderApiDocs();
+});
+</script>
+
+<script>
+  window.intercomSettings = {
+    app_id: "ylef80ay",
+    language_override: "en",
+    background_color: "#0D2440",
+    action_color: "#00A896",
+    name: "FPI Advisor Visitor",
+    custom_attributes: {
+      company: "Flexible Plan Investments (Demo)",
+      channel: "landing_web"
+    }
+  };
+</script>
+
+<script>
+  (function(){
+    var w = window;
+    var ic = w.Intercom;
+    if (typeof ic === "function") {
+      ic('reattach_activator');
+      ic('update', w.intercomSettings);
+    } else {
+      var d = document;
+      var i = function() { i.c(arguments); };
+      i.q = [];
+      i.c = function(args) { i.q.push(args); };
+      w.Intercom = i;
+      var l = function() {
+        var s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://widget.intercom.io/widget/ylef80ay';
+        var x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+      };
+      if (document.readyState === 'complete') {
+        l();
+      } else if (w.attachEvent) {
+        w.attachEvent('onload', l);
+      } else {
+        w.addEventListener('load', l, false);
+      }
+    }
+  })();
+</script>
+
+</body>
+</html>
