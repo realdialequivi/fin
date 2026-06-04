@@ -50,10 +50,10 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2022-00891", strategy: "QFC Multi-Strategy Core",
         aum: 1850000, contributions_ytd: 0, ytd_return: 9.4, risk_profile: "MODERATE",
         ontarget_status: "ON_TARGET", target_value: 1820000, fecha_inception: "2022-01-15",
-        proxima_review: "2026-06-15", estado: "AL_DIA" },
+        proxima_review: "2026-06-15", estado: "CURRENT" },
       { tipo: "IRA", numero: "IRA-2023-04521", strategy: "All-Terrain",
         aum: 420000, ytd_return: 6.5, risk_profile: "BALANCED",
-        fecha_apertura: "2023-06-01", estado: "ACTIVA" }
+        fecha_apertura: "2023-06-01", estado: "ACTIVE" }
     ]
   },
   {
@@ -66,10 +66,10 @@ const CLIENTES = [
         aum: 2400000, ytd_return: 12.1, risk_profile: "AGGRESSIVE",
         ontarget_status: "OUTPERFORMING", target_value: 2250000,
         fecha_inception: "2024-04-10", proxima_review: "2026-04-10",
-        estado: "ACTIVO" },
+        estado: "ACTIVE" },
       { tipo: "VA", numero: "VA-2023-00156", strategy: "Variable Annuity Management",
         aum: 680000, ytd_return: 5.2, risk_profile: "CONSERVATIVE",
-        carrier: "Jackson National", fecha_inception: "2023-02-01", estado: "ACTIVO" }
+        carrier: "Jackson National", fecha_inception: "2023-02-01", estado: "ACTIVE" }
     ]
   },
   {
@@ -81,13 +81,13 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2024-00089", strategy: "FlexDirex Single-Stock ETF",
         aum: 3200000, ytd_return: 18.7, risk_profile: "AGGRESSIVE",
         ontarget_status: "OUTPERFORMING", target_value: 2900000,
-        fecha_inception: "2024-01-05", estado: "ACTIVO" },
+        fecha_inception: "2024-01-05", estado: "ACTIVE" },
       { tipo: "DAF", numero: "DAF-2024-00445", strategy: "Donor-Advised Balanced",
         aum: 500000, ytd_return: 6.9,
         beneficiarios: ["Reed Family Foundation"],
-        fecha_inception: "2024-03-01", estado: "VIGENTE" },
+        fecha_inception: "2024-03-01", estado: "ACTIVE" },
       { tipo: "IRA", numero: "IRA-2022-00891", strategy: "Classic",
-        aum: 215000, ytd_return: 7.8, fecha_apertura: "2022-09-15", estado: "ACTIVA" }
+        aum: 215000, ytd_return: 7.8, fecha_apertura: "2022-09-15", estado: "ACTIVE" }
     ]
   },
   {
@@ -99,9 +99,9 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2025-01234", strategy: "Classic",
         aum: 320000, ytd_return: 7.8, risk_profile: "MODERATE",
         ontarget_status: "ON_TARGET", target_value: 315000,
-        proxima_review: "2026-04-20", estado: "AL_DIA" },
+        proxima_review: "2026-04-20", estado: "CURRENT" },
       { tipo: "IRA", numero: "IRA-2025-09234", strategy: "All-Terrain",
-        aum: 78000, ytd_return: 6.5, estado: "ACTIVA" }
+        aum: 78000, ytd_return: 6.5, estado: "ACTIVE" }
     ]
   },
   {
@@ -113,13 +113,13 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2025-00567", strategy: "Tactical Gold",
         aum: 1500000, ytd_return: 14.2, risk_profile: "MODERATE",
         ontarget_status: "OUTPERFORMING", target_value: 1380000,
-        estado: "ACTIVO" },
+        estado: "ACTIVE" },
       { tipo: "PORTFOLIO", numero: "PF-2026-00011", strategy: "Gold Bullion Strategy",
         aum: 800000, ytd_return: 11.6, risk_profile: "MODERATE",
-        ontarget_status: "ON_TARGET", target_value: 790000, estado: "ACTIVO" },
+        ontarget_status: "ON_TARGET", target_value: 790000, estado: "ACTIVE" },
       { tipo: "VA", numero: "VA-2023-00123", strategy: "Variable Annuity Management",
         aum: 950000, ytd_return: 5.2,
-        beneficiarios: ["Helen Stevenson", "Robert Stevenson Jr."], estado: "VIGENTE" }
+        beneficiarios: ["Helen Stevenson", "Robert Stevenson Jr."], estado: "ACTIVE" }
     ]
   },
   {
@@ -131,7 +131,7 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2024-00456", strategy: "Self-adjusting Trend Following",
         aum: 540000, ytd_return: -2.3, risk_profile: "AGGRESSIVE",
         ontarget_status: "BELOW_TARGET", target_value: 610000,
-        proxima_review: "2026-04-01", estado: "EN_MORA", dias_mora: 8 }
+        proxima_review: "2026-04-01", estado: "PAST_DUE", dias_mora: 8 }
     ]
   },
   {
@@ -141,10 +141,10 @@ const CLIENTES = [
     ingresos_mensuales: 14000,
     productos: [
       { tipo: "IRA", numero: "IRA-2020-01234", strategy: "FPI FundLink Income",
-        aum: 380000, ytd_return: 4.6, estado: "ACTIVA" },
+        aum: 380000, ytd_return: 4.6, estado: "ACTIVE" },
       { tipo: "VA", numero: "VA-2022-00678", strategy: "Variable Annuity Management",
         aum: 460000, ytd_return: 5.2,
-        beneficiarios: ["Martha Palmer"], fecha_inception: "2022-01-01", estado: "VIGENTE" }
+        beneficiarios: ["Martha Palmer"], fecha_inception: "2022-01-01", estado: "ACTIVE" }
     ]
   },
   {
@@ -156,9 +156,9 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2025-02891", strategy: "Classic",
         aum: 32000, ytd_return: 7.8, risk_profile: "MODERATE",
         ontarget_status: "ON_TARGET", target_value: 31500,
-        proxima_review: "2026-04-01", estado: "AL_DIA" },
+        proxima_review: "2026-04-01", estado: "CURRENT" },
       { tipo: "IRA", numero: "IRA-2025-10011", strategy: "All-Terrain",
-        aum: 8500, ytd_return: 6.5, estado: "ACTIVA" }
+        aum: 8500, ytd_return: 6.5, estado: "ACTIVE" }
     ]
   },
   {
@@ -169,9 +169,9 @@ const CLIENTES = [
     productos: [
       { tipo: "PORTFOLIO", numero: "PF-2026-00089", strategy: "FPI FundLink Income",
         aum: 540000, ytd_return: 4.6, risk_profile: "CONSERVATIVE",
-        ontarget_status: "ON_TARGET", target_value: 535000, estado: "ACTIVO" },
+        ontarget_status: "ON_TARGET", target_value: 535000, estado: "ACTIVE" },
       { tipo: "IRA", numero: "IRA-2018-05671", strategy: "Classic",
-        aum: 285000, ytd_return: 7.8, estado: "ACTIVA" }
+        aum: 285000, ytd_return: 7.8, estado: "ACTIVE" }
     ]
   },
   {
@@ -183,9 +183,9 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2025-00289", strategy: "Principled Investing Growth",
         aum: 480000, ytd_return: 8.1, risk_profile: "MODERATE",
         ontarget_status: "ON_TARGET", target_value: 470000,
-        proxima_review: "2026-04-01", estado: "AL_DIA" },
+        proxima_review: "2026-04-01", estado: "CURRENT" },
       { tipo: "PORTFOLIO", numero: "PF-2025-00201", strategy: "FPI FundLink Income",
-        aum: 220000, ytd_return: 4.6, risk_profile: "CONSERVATIVE", estado: "ACTIVO" }
+        aum: 220000, ytd_return: 4.6, risk_profile: "CONSERVATIVE", estado: "ACTIVE" }
     ]
   },
   {
@@ -197,10 +197,10 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2022-00078", strategy: "All-Terrain",
         aum: 1100000, ytd_return: 6.5, risk_profile: "BALANCED",
         ontarget_status: "ON_TARGET", target_value: 1090000,
-        proxima_review: "2026-04-01", estado: "AL_DIA" },
+        proxima_review: "2026-04-01", estado: "CURRENT" },
       { tipo: "VA", numero: "VA-2022-00340", strategy: "Variable Annuity Management",
         aum: 720000, ytd_return: 5.2,
-        beneficiarios: ["Patricia Brooks", "Thomas Brooks"], estado: "VIGENTE" }
+        beneficiarios: ["Patricia Brooks", "Thomas Brooks"], estado: "ACTIVE" }
     ]
   },
   {
@@ -211,9 +211,9 @@ const CLIENTES = [
     productos: [
       { tipo: "PORTFOLIO", numero: "PF-2024-00145", strategy: "QFC Multi-Strategy Core",
         aum: 285000, ytd_return: 9.4, risk_profile: "MODERATE",
-        ontarget_status: "ON_TARGET", target_value: 280000, estado: "ACTIVO" },
+        ontarget_status: "ON_TARGET", target_value: 280000, estado: "ACTIVE" },
       { tipo: "IRA", numero: "IRA-2025-00901", strategy: "Classic",
-        aum: 92000, ytd_return: 7.8, estado: "ACTIVO" }
+        aum: 92000, ytd_return: 7.8, estado: "ACTIVE" }
     ]
   },
   {
@@ -225,7 +225,7 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2023-00234", strategy: "Tactical Gold",
         aum: 410000, ytd_return: 14.2, risk_profile: "MODERATE",
         ontarget_status: "OUTPERFORMING", target_value: 380000,
-        proxima_review: "2026-04-01", estado: "AL_DIA" }
+        proxima_review: "2026-04-01", estado: "CURRENT" }
     ]
   },
   {
@@ -235,10 +235,10 @@ const CLIENTES = [
     ingresos_mensuales: 9800,
     productos: [
       { tipo: "IRA", numero: "IRA-2019-03456", strategy: "All-Terrain",
-        aum: 165000, ytd_return: 6.5, estado: "ACTIVA" },
+        aum: 165000, ytd_return: 6.5, estado: "ACTIVE" },
       { tipo: "VA", numero: "VA-2021-00512", strategy: "Variable Annuity Management",
         aum: 240000, ytd_return: 5.2,
-        beneficiarios: ["John Mitchell", "Sara Mitchell"], estado: "VIGENTE" }
+        beneficiarios: ["John Mitchell", "Sara Mitchell"], estado: "ACTIVE" }
     ]
   },
   {
@@ -250,9 +250,9 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2025-00789", strategy: "FlexDirex Single-Stock ETF",
         aum: 250000, ytd_return: 18.7, risk_profile: "AGGRESSIVE",
         ontarget_status: "OUTPERFORMING", target_value: 215000,
-        proxima_review: "2026-04-15", estado: "AL_DIA" },
+        proxima_review: "2026-04-15", estado: "CURRENT" },
       { tipo: "IRA", numero: "IRA-2025-00345", strategy: "FPI FundLink Income",
-        aum: 45000, ytd_return: 4.6, estado: "ACTIVO" }
+        aum: 45000, ytd_return: 4.6, estado: "ACTIVE" }
     ]
   },
   {
@@ -263,7 +263,7 @@ const CLIENTES = [
     productos: [
       { tipo: "PORTFOLIO", numero: "PF-2025-01122", strategy: "Classic",
         aum: 320000, ytd_return: 7.8, risk_profile: "MODERATE",
-        ontarget_status: "ON_TARGET", target_value: 315000, estado: "ACTIVO" }
+        ontarget_status: "ON_TARGET", target_value: 315000, estado: "ACTIVE" }
     ]
   },
   {
@@ -275,7 +275,7 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2024-00198", strategy: "Gold Bullion Strategy",
         aum: 290000, ytd_return: 11.6, risk_profile: "MODERATE",
         ontarget_status: "OUTPERFORMING", target_value: 270000,
-        proxima_review: "2026-04-01", estado: "AL_DIA" }
+        proxima_review: "2026-04-01", estado: "CURRENT" }
     ]
   },
   {
@@ -287,9 +287,9 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2024-01567", strategy: "All-Terrain",
         aum: 145000, ytd_return: 6.5, risk_profile: "BALANCED",
         ontarget_status: "BELOW_TARGET", target_value: 165000,
-        proxima_review: "2026-04-01", estado: "AL_DIA" },
+        proxima_review: "2026-04-01", estado: "CURRENT" },
       { tipo: "IRA", numero: "IRA-2024-07891", strategy: "Classic",
-        aum: 38000, ytd_return: 7.8, estado: "ACTIVA" }
+        aum: 38000, ytd_return: 7.8, estado: "ACTIVE" }
     ]
   },
   {
@@ -300,10 +300,10 @@ const CLIENTES = [
     productos: [
       { tipo: "PORTFOLIO", numero: "PF-2025-00789", strategy: "FPI FundLink Income",
         aum: 410000, ytd_return: 4.6, risk_profile: "CONSERVATIVE",
-        ontarget_status: "ON_TARGET", target_value: 405000, estado: "ACTIVO" },
+        ontarget_status: "ON_TARGET", target_value: 405000, estado: "ACTIVE" },
       { tipo: "VA", numero: "VA-2020-00891", strategy: "Variable Annuity Management",
         aum: 220000, ytd_return: 5.2,
-        beneficiarios: ["Lucy Thompson"], estado: "VIGENTE" }
+        beneficiarios: ["Lucy Thompson"], estado: "ACTIVE" }
     ]
   },
   {
@@ -314,9 +314,9 @@ const CLIENTES = [
     productos: [
       { tipo: "PORTFOLIO", numero: "PF-2025-00412", strategy: "Self-adjusting Trend Following",
         aum: 380000, ytd_return: 12.1, risk_profile: "AGGRESSIVE",
-        ontarget_status: "OUTPERFORMING", target_value: 350000, estado: "ACTIVO" },
+        ontarget_status: "OUTPERFORMING", target_value: 350000, estado: "ACTIVE" },
       { tipo: "IRA", numero: "IRA-2024-01234", strategy: "All-Terrain",
-        aum: 95000, ytd_return: 6.5, estado: "ACTIVA" }
+        aum: 95000, ytd_return: 6.5, estado: "ACTIVE" }
     ]
   },
   {
@@ -327,13 +327,13 @@ const CLIENTES = [
     productos: [
       { tipo: "PORTFOLIO", numero: "PF-2025-00456", strategy: "QFC Multi-Strategy Core",
         aum: 2800000, ytd_return: 9.4, risk_profile: "MODERATE",
-        ontarget_status: "ON_TARGET", target_value: 2780000, estado: "ACTIVO" },
+        ontarget_status: "ON_TARGET", target_value: 2780000, estado: "ACTIVE" },
       { tipo: "PORTFOLIO", numero: "PF-2024-00067", strategy: "Tactical Gold",
         aum: 1200000, ytd_return: 14.2, risk_profile: "MODERATE",
-        ontarget_status: "OUTPERFORMING", target_value: 1080000, estado: "ACTIVO" },
+        ontarget_status: "OUTPERFORMING", target_value: 1080000, estado: "ACTIVE" },
       { tipo: "DAF", numero: "DAF-2025-00456", strategy: "Donor-Advised Balanced",
         aum: 850000, ytd_return: 6.9,
-        beneficiarios: ["Zachary Family Foundation"], estado: "AL_DIA" }
+        beneficiarios: ["Zachary Family Foundation"], estado: "CURRENT" }
     ]
   },
   {
@@ -345,7 +345,7 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2025-03456", strategy: "Principled Investing Growth",
         aum: 58000, ytd_return: 8.1, risk_profile: "MODERATE",
         ontarget_status: "ON_TARGET", target_value: 57000,
-        proxima_review: "2026-04-20", estado: "AL_DIA" }
+        proxima_review: "2026-04-20", estado: "CURRENT" }
     ]
   },
   {
@@ -356,10 +356,10 @@ const CLIENTES = [
     productos: [
       { tipo: "PORTFOLIO", numero: "PF-2026-00234", strategy: "QFC Multi-Strategy Core",
         aum: 1100000, ytd_return: 9.4, risk_profile: "MODERATE",
-        ontarget_status: "ON_TARGET", target_value: 1085000, estado: "ACTIVO" },
+        ontarget_status: "ON_TARGET", target_value: 1085000, estado: "ACTIVE" },
       { tipo: "VA", numero: "VA-2023-00789", strategy: "Variable Annuity Management",
         aum: 540000, ytd_return: 5.2,
-        beneficiarios: ["Sandra Calloway", "Felix Calloway"], estado: "VIGENTE" }
+        beneficiarios: ["Sandra Calloway", "Felix Calloway"], estado: "ACTIVE" }
     ]
   },
   {
@@ -371,9 +371,9 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2024-00987", strategy: "All-Terrain",
         aum: 175000, ytd_return: 6.5, risk_profile: "BALANCED",
         ontarget_status: "ON_TARGET", target_value: 172000,
-        proxima_review: "2026-04-01", estado: "AL_DIA" },
+        proxima_review: "2026-04-01", estado: "CURRENT" },
       { tipo: "IRA", numero: "IRA-2023-08901", strategy: "Classic",
-        aum: 42000, ytd_return: 7.8, estado: "ACTIVA" }
+        aum: 42000, ytd_return: 7.8, estado: "ACTIVE" }
     ]
   },
   {
@@ -384,9 +384,9 @@ const CLIENTES = [
     productos: [
       { tipo: "PORTFOLIO", numero: "PF-2025-01345", strategy: "FPI FundLink Income",
         aum: 620000, ytd_return: 4.6, risk_profile: "CONSERVATIVE",
-        ontarget_status: "ON_TARGET", target_value: 615000, estado: "ACTIVO" },
+        ontarget_status: "ON_TARGET", target_value: 615000, estado: "ACTIVE" },
       { tipo: "IRA", numero: "IRA-2015-09012", strategy: "All-Terrain",
-        aum: 195000, ytd_return: 6.5, estado: "ACTIVA" }
+        aum: 195000, ytd_return: 6.5, estado: "ACTIVE" }
     ]
   },
   {
@@ -396,7 +396,7 @@ const CLIENTES = [
     ingresos_mensuales: 3200,
     productos: [
       { tipo: "IRA", numero: "IRA-2026-01023", strategy: "Classic",
-        aum: 4500, ytd_return: 7.8, fecha_apertura: "2026-01-20", estado: "ACTIVA" }
+        aum: 4500, ytd_return: 7.8, fecha_apertura: "2026-01-20", estado: "ACTIVE" }
     ]
   },
   {
@@ -407,13 +407,13 @@ const CLIENTES = [
     productos: [
       { tipo: "PORTFOLIO", numero: "PF-2023-00023", strategy: "QFC Multi-Strategy Core",
         aum: 4800000, ytd_return: 9.4, risk_profile: "MODERATE",
-        ontarget_status: "ON_TARGET", target_value: 4750000, estado: "ACTIVO" },
+        ontarget_status: "ON_TARGET", target_value: 4750000, estado: "ACTIVE" },
       { tipo: "PORTFOLIO", numero: "PF-2026-00345", strategy: "Tactical Gold",
         aum: 1800000, ytd_return: 14.2, risk_profile: "MODERATE",
-        ontarget_status: "OUTPERFORMING", target_value: 1620000, estado: "ACTIVO" },
+        ontarget_status: "OUTPERFORMING", target_value: 1620000, estado: "ACTIVE" },
       { tipo: "DAF", numero: "DAF-2024-00901", strategy: "Donor-Advised Balanced",
         aum: 1200000, ytd_return: 6.9,
-        beneficiarios: ["Bermudez Family Trust", "Raphael Jr."], estado: "VIGENTE" }
+        beneficiarios: ["Bermudez Family Trust", "Raphael Jr."], estado: "ACTIVE" }
     ]
   },
   {
@@ -425,7 +425,7 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2025-04012", strategy: "Classic",
         aum: 18000, ytd_return: 7.8, risk_profile: "MODERATE",
         ontarget_status: "ON_TARGET", target_value: 17800,
-        proxima_review: "2026-04-10", estado: "AL_DIA" }
+        proxima_review: "2026-04-10", estado: "CURRENT" }
     ]
   },
   {
@@ -437,10 +437,10 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2023-00298", strategy: "All-Terrain",
         aum: 920000, ytd_return: 6.5, risk_profile: "BALANCED",
         ontarget_status: "ON_TARGET", target_value: 910000,
-        proxima_review: "2026-04-01", estado: "AL_DIA" },
+        proxima_review: "2026-04-01", estado: "CURRENT" },
       { tipo: "PORTFOLIO", numero: "PF-2025-00512", strategy: "Self-adjusting Trend Following",
         aum: 540000, ytd_return: 12.1, risk_profile: "AGGRESSIVE",
-        ontarget_status: "OUTPERFORMING", target_value: 495000, estado: "ACTIVO" }
+        ontarget_status: "OUTPERFORMING", target_value: 495000, estado: "ACTIVE" }
     ]
   },
   {
@@ -452,10 +452,10 @@ const CLIENTES = [
       { tipo: "PORTFOLIO", numero: "PF-2024-01890", strategy: "Principled Investing Growth",
         aum: 210000, ytd_return: 8.1, risk_profile: "MODERATE",
         ontarget_status: "ON_TARGET", target_value: 208000,
-        proxima_review: "2026-04-01", estado: "AL_DIA" },
+        proxima_review: "2026-04-01", estado: "CURRENT" },
       { tipo: "VA", numero: "VA-2024-01012", strategy: "Variable Annuity Management",
         aum: 320000, ytd_return: 5.2,
-        beneficiarios: ["Mario Newman"], estado: "VIGENTE" }
+        beneficiarios: ["Mario Newman"], estado: "ACTIVE" }
     ]
   }
 ];
@@ -508,7 +508,7 @@ app.get('/clientes', (req, res) => {
       productos_count: c.productos.length,
       tipos_producto: [...new Set(c.productos.map(p => p.tipo))],
       total_aum: c.productos.reduce((a, p) => a + (p.aum || 0), 0),
-      tiene_mora: c.productos.some(p => p.estado === 'EN_MORA' || p.ontarget_status === 'BELOW_TARGET')
+      tiene_mora: c.productos.some(p => p.estado === 'PAST_DUE' || p.ontarget_status === 'BELOW_TARGET')
     }))
   });
 });
@@ -527,7 +527,7 @@ app.get('/clientes/:cedula', (req, res) => {
     ...cliente,
     resumen: {
       productos_count: cliente.productos.length,
-      tiene_mora: cliente.productos.some(p => p.estado === 'EN_MORA' || p.ontarget_status === 'BELOW_TARGET'),
+      tiene_mora: cliente.productos.some(p => p.estado === 'PAST_DUE' || p.ontarget_status === 'BELOW_TARGET'),
       tipos: [...new Set(cliente.productos.map(p => p.tipo))],
       total_aum: cliente.productos.reduce((a, p) => a + (p.aum || 0), 0)
     }

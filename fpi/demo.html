@@ -146,8 +146,8 @@
   }
   .product-row .tipo { font-weight: 600; font-size: 0.78rem; color: var(--teal); text-transform: uppercase; letter-spacing: 0.05em; }
   .product-row .estado { font-size: 0.7rem; padding: 2px 8px; border-radius: 100px; font-weight: 600; }
-  .product-row .estado.AL_DIA, .product-row .estado.ACTIVA, .product-row .estado.ACTIVO, .product-row .estado.VIGENTE, .product-row .estado.ON_TARGET, .product-row .estado.OUTPERFORMING { background: rgba(2,195,154,0.15); color: #038c6e; }
-  .product-row .estado.EN_MORA, .product-row .estado.BELOW_TARGET { background: rgba(229,62,62,0.15); color: var(--red); }
+  .product-row .estado.CURRENT, .product-row .estado.ACTIVE, .product-row .estado.ON_TARGET, .product-row .estado.OUTPERFORMING { background: rgba(2,195,154,0.15); color: #038c6e; }
+  .product-row .estado.PAST_DUE, .product-row .estado.BELOW_TARGET { background: rgba(229,62,62,0.15); color: var(--red); }
   .product-row .num { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--gray); }
   .product-row .detail { color: var(--gray); font-size: 0.8rem; margin-top: 4px; }
 
@@ -325,7 +325,7 @@ function logEvent({ kind, title, payload }) {
 function renderCustomer(cli) {
   document.getElementById('customer-source').textContent = `GET /clientes/${cli.cedula}`;
   const body = document.getElementById('customer-body');
-  const belowTarget = cli.productos.some(p => p.ontarget_status === 'BELOW_TARGET' || p.estado === 'EN_MORA');
+  const belowTarget = cli.productos.some(p => p.ontarget_status === 'BELOW_TARGET' || p.estado === 'PAST_DUE');
   const totalAum = cli.productos.reduce((a,p) => a + (p.aum || 0), 0);
 
   const productosHtml = cli.productos.map(p => {
