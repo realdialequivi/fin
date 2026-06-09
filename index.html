@@ -297,6 +297,207 @@
   }
   .pillar p { font-size: 0.86rem; color: rgba(246,242,234,0.65); line-height:1.5; }
 
+  /* ── CHANNEL TABS ── */
+  .channel-tabs {
+    display: flex; gap: 6px; margin-bottom: 14px;
+    background: white; border: 1px solid var(--line);
+    border-radius: 100px; padding: 5px; width: fit-content;
+  }
+  .channel-tab {
+    appearance: none; background: transparent; border: none;
+    padding: 8px 16px; font-family: 'Sora', sans-serif; font-size: 0.82rem;
+    font-weight: 500; color: rgba(14,17,22,0.55); cursor: pointer;
+    border-radius: 100px; display: flex; align-items: center; gap: 6px;
+    transition: all 0.18s ease;
+  }
+  .channel-tab:hover { color: var(--ink); }
+  .channel-tab.active {
+    background: var(--ink); color: var(--paper);
+  }
+  .channel-tab svg { width: 14px; height: 14px; }
+
+  /* Email channel */
+  .chat.email-mode { background: white; padding: 0; }
+  .email-thread {
+    display: flex; flex-direction: column; height: 100%;
+  }
+  .email-subject {
+    padding: 16px 20px; border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .email-subject .subj { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.05rem; }
+  .email-subject .meta { font-size: 0.75rem; color: rgba(14,17,22,0.5); margin-top: 4px; }
+  .email-body { flex: 1; overflow-y: auto; padding: 0; }
+  .email-msg {
+    padding: 18px 20px; border-bottom: 1px solid var(--rule);
+    animation: slideIn 0.28s ease;
+  }
+  .email-msg .from {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .email-msg .from .av {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: grid; place-items: center; font-weight: 700;
+    font-family: 'Fraunces', serif; font-size: 0.85rem;
+  }
+  .email-msg .from .av.user { background: var(--paper-2); color: var(--ink); }
+  .email-msg .from .av.fin { background: var(--accent); color: white; }
+  .email-msg .from .name { font-weight: 600; font-size: 0.9rem; }
+  .email-msg .from .addr { font-size: 0.75rem; color: rgba(14,17,22,0.5); }
+  .email-msg .from .when { margin-left: auto; font-size: 0.72rem; color: rgba(14,17,22,0.45); }
+  .email-msg .text { font-size: 0.92rem; color: var(--ink); line-height: 1.6; }
+  .email-msg .text b { color: var(--ink); }
+  .email-msg.escalate { background: var(--warn-bg); border-left: 3px solid var(--warn); }
+  .email-msg.escalate .from .av.fin { background: var(--warn); }
+  .email-sig {
+    margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line);
+    font-size: 0.78rem; color: rgba(14,17,22,0.55);
+  }
+  .email-sig b { color: var(--accent); font-weight: 600; }
+
+  /* Voice channel */
+  .chat.voice-mode {
+    background: linear-gradient(180deg, #0E1116, #1A1F2A);
+    color: var(--paper); padding: 0;
+    display: flex; flex-direction: column;
+  }
+  .voice-call {
+    padding: 24px 20px 16px; text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .voice-avatar {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: grid; place-items: center; margin: 0 auto 12px;
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.6rem; color: white;
+    position: relative;
+  }
+  .voice-avatar::before, .voice-avatar::after {
+    content: ''; position: absolute; inset: -8px; border-radius: 50%;
+    border: 2px solid var(--accent-2); opacity: 0;
+    animation: ring 2s infinite;
+  }
+  .voice-avatar.live::before { animation-delay: 0s; opacity: 1; }
+  .voice-avatar.live::after { animation-delay: 1s; opacity: 1; }
+  @keyframes ring { 0% { transform: scale(0.9); opacity: 0.6; } 100% { transform: scale(1.5); opacity: 0; } }
+  .voice-call .name { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 600; }
+  .voice-call .status { font-size: 0.78rem; color: rgba(246,242,234,0.6); margin-top: 4px; display: inline-flex; align-items: center; gap: 6px; }
+  .voice-call .status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #7CFFB3; box-shadow: 0 0 8px #7CFFB3; }
+  .voice-waveform {
+    display: flex; align-items: center; justify-content: center;
+    gap: 3px; margin-top: 12px; height: 22px;
+  }
+  .voice-waveform span {
+    width: 3px; background: var(--accent-2); border-radius: 2px;
+    animation: wave 1s infinite ease-in-out;
+  }
+  .voice-waveform span:nth-child(1) { height: 30%; animation-delay: 0s; }
+  .voice-waveform span:nth-child(2) { height: 70%; animation-delay: 0.1s; }
+  .voice-waveform span:nth-child(3) { height: 100%; animation-delay: 0.2s; }
+  .voice-waveform span:nth-child(4) { height: 60%; animation-delay: 0.3s; }
+  .voice-waveform span:nth-child(5) { height: 80%; animation-delay: 0.15s; }
+  .voice-waveform span:nth-child(6) { height: 40%; animation-delay: 0.25s; }
+  .voice-waveform span:nth-child(7) { height: 90%; animation-delay: 0.05s; }
+  @keyframes wave { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
+  .voice-transcript {
+    flex: 1; overflow-y: auto; padding: 18px 20px;
+    display: flex; flex-direction: column; gap: 14px;
+    font-size: 0.88rem;
+  }
+  .voice-line { animation: slideIn 0.28s ease; }
+  .voice-line .who {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    font-weight: 600; color: rgba(246,242,234,0.5); margin-bottom: 4px;
+  }
+  .voice-line.user .who { color: #7CFFB3; }
+  .voice-line.fin .who { color: var(--accent-2); }
+  .voice-line.escalate .who { color: #FFB89C; }
+  .voice-line .said {
+    background: rgba(255,255,255,0.06); border-radius: 12px;
+    padding: 10px 14px; color: var(--paper); line-height: 1.5;
+  }
+  .voice-line.escalate .said {
+    background: rgba(192,83,46,0.18); border: 1px solid rgba(192,83,46,0.4);
+  }
+
+  /* Social channel */
+  .chat.social-mode {
+    background: white; padding: 0;
+  }
+  .social-thread {
+    padding: 16px 20px;
+    display: flex; flex-direction: column; gap: 14px;
+    height: 100%; overflow-y: auto;
+  }
+  .social-post {
+    display: flex; gap: 12px; animation: slideIn 0.28s ease;
+    padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+  }
+  .social-post:last-child { border-bottom: none; }
+  .social-post .av {
+    width: 40px; height: 40px; min-width: 40px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: 0.95rem;
+  }
+  .social-post .av.user { background: var(--paper-2); color: var(--ink); }
+  .social-post .av.fin { background: var(--accent); color: white; }
+  .social-post .body { flex: 1; }
+  .social-post .head {
+    display: flex; align-items: center; gap: 6px; font-size: 0.88rem;
+  }
+  .social-post .head .name { font-weight: 700; color: var(--ink); }
+  .social-post .head .handle { color: rgba(14,17,22,0.5); }
+  .social-post .head .verify {
+    width: 14px; height: 14px; border-radius: 50%; background: var(--fin);
+    color: white; font-size: 0.6rem; display: grid; place-items: center;
+  }
+  .social-post .text {
+    font-size: 0.92rem; color: var(--ink); line-height: 1.5; margin-top: 2px;
+  }
+  .social-post .actions {
+    display: flex; gap: 22px; margin-top: 10px;
+    color: rgba(14,17,22,0.4); font-size: 0.76rem;
+  }
+  .social-post.escalate .text {
+    background: var(--warn-bg); border-left: 3px solid var(--warn);
+    padding: 10px 12px; border-radius: 0 8px 8px 0; margin-top: 6px;
+  }
+  .social-dm-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--warn); font-weight: 700; margin-top: 8px;
+  }
+
+  /* ── VIDEO SECTION ── */
+  .video-section {
+    margin: 80px 6vw 0;
+    text-align: center;
+  }
+  .video-section .eyebrow {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--accent); font-weight: 600;
+  }
+  .video-section h2 {
+    font-family: 'Fraunces', serif; font-size: 2rem; letter-spacing: -0.02em;
+    margin: 10px 0 14px;
+  }
+  .video-section h2 em { color: var(--accent); font-style: italic; font-weight: 500; }
+  .video-section p.lead {
+    color: rgba(14,17,22,0.65); max-width: 560px; margin: 0 auto 32px;
+  }
+  .video-frame {
+    max-width: 900px; margin: 0 auto;
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow); border: 1px solid var(--line);
+    aspect-ratio: 16 / 9; background: var(--ink);
+  }
+  .video-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+  .video-caption {
+    margin-top: 14px; font-size: 0.8rem; color: rgba(14,17,22,0.5);
+  }
+  .video-caption a { color: var(--accent); }
+
   /* ── SECURITY ── */
   .security {
     margin: 0 6vw 80px;
@@ -507,28 +708,56 @@
     </div>
   </div>
 
-  <!-- Messenger -->
-  <div class="messenger" id="messenger">
-    <div class="messenger-header">
-      <div class="who">
-        <div class="avatar">F</div>
-        <div>
-          <h3>Off The Record Support</h3>
-          <div class="sub">Fin AI · typically replies instantly</div>
+  <div>
+    <!-- Channel tabs -->
+    <div class="channel-tabs" id="channel-tabs">
+      <button class="channel-tab active" data-channel="messenger">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-9 8.5 8.5 8.5 0 01-3.8-.9L3 21l1.9-5.2A8.5 8.5 0 0121 11.5z"/></svg>
+        Messenger
+      </button>
+      <button class="channel-tab" data-channel="email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+        Email
+      </button>
+      <button class="channel-tab" data-channel="voice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg>
+        Voice
+      </button>
+      <button class="channel-tab" data-channel="social">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+        Social
+      </button>
+    </div>
+
+    <div class="messenger" id="messenger">
+      <div id="channel-header"></div>
+      <div class="chat" id="chat">
+        <div class="chat-empty">
+          <div class="ic">↑</div>
+          <div style="margin-top: 8px;">Pick a scenario to start the conversation</div>
         </div>
       </div>
-      <div class="close">×</div>
+      <div id="channel-footer"></div>
     </div>
-    <div class="chat" id="chat">
-      <div class="chat-empty">
-        <div class="ic">↑</div>
-        <div style="margin-top: 8px;">Pick a scenario to start the conversation</div>
-      </div>
-    </div>
-    <div class="messenger-footer">
-      <div class="messenger-input-fake">Write a reply…</div>
-      <div class="fin-mark">Powered by <b>Fin</b></div>
-    </div>
+  </div>
+</section>
+
+<!-- ── VIDEO ── -->
+<section class="video-section">
+  <div class="eyebrow">Straight from Intercom</div>
+  <h2>See <em>Fin</em> in Intercom's own words.</h2>
+  <p class="lead">
+    The same product we're proposing for Off The Record — introduced by the team that built it.
+  </p>
+  <div class="video-frame">
+    <iframe
+      src="https://www.youtube.com/embed/iWiNiqQpBNk?rel=0"
+      title="Intercom Fin AI Agent"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+  </div>
+  <div class="video-caption">
+    Source: <a href="https://www.youtube.com/@intercom" target="_blank" rel="noopener">Intercom on YouTube</a>
   </div>
 </section>
 
@@ -662,14 +891,153 @@ const SCENARIOS = {
 };
 
 // ─────────────────────────────────────────────
+// CHANNEL-SPECIFIC SCRIPTS
+// Email/Voice/Social variants live here.
+// Subject lines and tone vary; the 3 scenarios stay consistent across channels.
+// ─────────────────────────────────────────────
+const EMAIL_SCRIPTS = {
+  status: {
+    subject: "Re: Status of my speeding ticket case",
+    turns: [
+      { from: 'user', name: 'Jordan M.', addr: 'jordan.m@gmail.com', text: "Hi — could you let me know the current status of my speeding ticket case? My case number is OTR-48217. Thanks!" },
+      { from: 'fin', name: 'Off The Record Support', addr: 'support@offtherecord.com', delay: 1500,
+        text: "Hi Jordan,<br><br>Thanks for reaching out. Your case <b>OTR-48217</b> is currently <b>assigned to a partner attorney in your jurisdiction</b>. The next update will come after your scheduled court date — your attorney handles any filings and appearances on your behalf, and will be in touch directly if anything is needed from you.<br><br>You can also view real-time status anytime in the Off The Record app under <i>My Cases</i>.<br><br>Let me know if there's anything else I can help with." }
+    ]
+  },
+  refund: {
+    subject: "Question about the money-back guarantee",
+    turns: [
+      { from: 'user', name: 'Jordan M.', addr: 'jordan.m@gmail.com', text: "Hi — quick question. If my ticket gets reduced but not dismissed (California), will I still qualify for the money-back guarantee?" },
+      { from: 'fin', name: 'Off The Record Support', addr: 'support@offtherecord.com', delay: 1700,
+        text: "Hi Jordan,<br><br>Great question. For <b>California</b> cases, our money-back guarantee covers outcomes that are <b>dismissed</b> or that don't add points to your record (which can include certain reductions and deferrals).<br><br>A few things worth knowing:<br>• Reductions that still add points to your record generally don't qualify.<br>• <b>New Jersey</b> and <b>New York City</b> cases are excluded from the guarantee — that's disclosed at checkout.<br>• Fastlane subscriptions follow a separate coverage model ($25/month, 3 tickets per year).<br><br>If you'd like, I can pull up the full guarantee terms for your case or connect you with our team for a specific outcome review." }
+    ]
+  },
+  legal: {
+    subject: "Should I plead guilty to my reckless driving charge?",
+    turns: [
+      { from: 'user', name: 'Jordan M.', addr: 'jordan.m@gmail.com', text: "Hey — I've been going back and forth on this and could really use some guidance. Should I just plead guilty to my reckless driving charge, or try to fight it? What would you do?" },
+      { from: 'fin', name: 'Off The Record Support', addr: 'support@offtherecord.com', delay: 1900, escalate: true,
+        text: "Hi Jordan,<br><br>Thanks for writing in — and I want to make sure you get this right. The honest answer to your question requires legal advice, which I'm not able to provide.<br><br>Off The Record is a technology platform, not a law firm. How to plead on a reckless driving charge depends on the facts of your case, your driving record, and the laws of your jurisdiction — and that conversation needs to happen with a licensed attorney.<br><br>I've flagged this thread to the partner attorney assigned to your case. They'll reply to you directly, and the conversation between you two is confidential and protected.",
+        cta: "Routed to your assigned attorney — expect a reply within 1 business day." }
+    ]
+  }
+};
+
+const VOICE_SCRIPTS = {
+  status: [
+    { from: 'user', text: "Hi, I'm calling to check the status of my speeding ticket case." },
+    { from: 'fin', text: "Of course, I can help with that. Could you share your case number or the email on file?", delay: 1300 },
+    { from: 'user', text: "Case number is O-T-R four-eight-two-one-seven." },
+    { from: 'fin', text: "Thank you. Pulling that up now.", delay: 900 },
+    { from: 'fin', text: "Your case is currently assigned to a partner attorney in your jurisdiction. The next update will come after your court date — your attorney will reach out directly with any filings or appearances they handle on your behalf.", delay: 1700 }
+  ],
+  refund: [
+    { from: 'user', text: "I had a question about the money-back guarantee — if my ticket is reduced but not dismissed, do I get a refund?" },
+    { from: 'fin', text: "Happy to walk you through that. Quick check first — which state was the ticket issued in?", delay: 1300 },
+    { from: 'user', text: "California." },
+    { from: 'fin', text: "For California cases, the guarantee covers dismissals and outcomes that don't add points to your record. Reductions that still add points usually don't qualify. And just so you know — New Jersey and New York City are excluded from the guarantee.", delay: 1900 }
+  ],
+  legal: [
+    { from: 'user', text: "Look, just tell me straight — should I plead guilty to the reckless driving or fight it?" },
+    { from: 'fin', text: "I really want to make sure you get the right answer here — and that means it has to come from a licensed attorney, not from me.", delay: 1400, escalate: true },
+    { from: 'fin', text: "Off The Record is a technology platform, not a law firm. The right call depends on the specifics of your case, your record, and the laws in your jurisdiction. I'm not able to give legal advice over this line.", delay: 1900, escalate: true },
+    { from: 'fin', text: "I'm transferring you to the partner attorney assigned to your case right now. Please stay on the line — they'll be with you shortly.", delay: 1500, escalate: true, cta: "Transferring to your assigned attorney…" }
+  ]
+};
+
+const SOCIAL_SCRIPTS = {
+  status: [
+    { from: 'user', name: 'Jordan M.', handle: '@jordan_drives', text: "@OffTheRecord any update on my speeding ticket case? case OTR-48217 🙏" },
+    { from: 'fin', name: 'Off The Record', handle: '@OffTheRecord', delay: 1200,
+      text: "Hi Jordan — let's move this to DM so we can pull up your case privately. Sliding into your inbox now 📩" },
+    { from: 'fin', name: 'Off The Record', handle: '@OffTheRecord', delay: 1400, dm: true,
+      text: "Your case OTR-48217 is currently assigned to a partner attorney in your jurisdiction. Next update comes after your court date — your attorney will be in touch directly. You can also track status in the OTR app under My Cases." }
+  ],
+  refund: [
+    { from: 'user', name: 'Jordan M.', handle: '@jordan_drives', text: "@OffTheRecord do I get a refund if my ticket is only reduced and not dismissed? 🤔" },
+    { from: 'fin', name: 'Off The Record', handle: '@OffTheRecord', delay: 1500,
+      text: "Great question! Short version: depends on the state. In CA, the guarantee covers dismissals + outcomes that don't add points to your record. Reductions that still add points usually don't qualify, and NJ + NYC cases are excluded. Full terms in DM 👇" }
+  ],
+  legal: [
+    { from: 'user', name: 'Jordan M.', handle: '@jordan_drives', text: "@OffTheRecord should I plead guilty to my reckless driving charge or fight it? need advice asap" },
+    { from: 'fin', name: 'Off The Record', handle: '@OffTheRecord', delay: 1500, escalate: true,
+      text: "Hi Jordan — this is a really important question and it deserves a real legal answer. We're a tech platform, not a law firm, so we can't advise on how to plead in a public thread.",
+      dmEscalate: "Connecting you with your assigned attorney via private channel now." }
+  ]
+};
+
+// ─────────────────────────────────────────────
 // RUNTIME
 // ─────────────────────────────────────────────
 const chat = document.getElementById('chat');
+const channelHeader = document.getElementById('channel-header');
+const channelFooter = document.getElementById('channel-footer');
 const wait = ms => new Promise(r => setTimeout(r, ms));
 let runId = 0;
+let activeChannel = 'messenger';
+let activeScenario = null;
 
-function clearChat() {
-  chat.innerHTML = '';
+const CHANNEL_CHROME = {
+  messenger: {
+    chatClass: '',
+    header: `
+      <div class="messenger-header">
+        <div class="who">
+          <div class="avatar">F</div>
+          <div>
+            <h3>Off The Record Support</h3>
+            <div class="sub">Fin AI · typically replies instantly</div>
+          </div>
+        </div>
+        <div class="close">×</div>
+      </div>`,
+    footer: `
+      <div class="messenger-footer">
+        <div class="messenger-input-fake">Write a reply…</div>
+        <div class="fin-mark">Powered by <b>Fin</b></div>
+      </div>`
+  },
+  email: {
+    chatClass: 'email-mode',
+    header: '', footer: `
+      <div class="messenger-footer">
+        <div class="messenger-input-fake">Reply to thread…</div>
+        <div class="fin-mark">Powered by <b>Fin</b></div>
+      </div>`
+  },
+  voice: {
+    chatClass: 'voice-mode',
+    header: '', footer: `
+      <div class="messenger-footer" style="background: #0E1116; border-top-color: rgba(255,255,255,0.08); color: rgba(246,242,234,0.5);">
+        <div style="font-size: 0.78rem;">Live transcript · Fin Voice</div>
+        <div class="fin-mark" style="color: rgba(246,242,234,0.6);">Powered by <b style="color: #7CFFB3;">Fin</b></div>
+      </div>`
+  },
+  social: {
+    chatClass: 'social-mode',
+    header: `
+      <div class="messenger-header" style="background: linear-gradient(135deg, #0E1116, #1A1F2A);">
+        <div class="who">
+          <div class="avatar" style="background: rgba(255,255,255,0.15);">𝕏</div>
+          <div>
+            <h3>Off The Record · Mentions &amp; DMs</h3>
+            <div class="sub">Fin monitors public mentions, replies, and routes to DMs</div>
+          </div>
+        </div>
+      </div>`,
+    footer: `
+      <div class="messenger-footer">
+        <div class="messenger-input-fake">Post reply…</div>
+        <div class="fin-mark">Powered by <b>Fin</b></div>
+      </div>`
+  }
+};
+
+function applyChannelChrome() {
+  const chrome = CHANNEL_CHROME[activeChannel];
+  channelHeader.innerHTML = chrome.header;
+  channelFooter.innerHTML = chrome.footer;
+  chat.className = 'chat ' + chrome.chatClass;
 }
 
 function showEmpty() {
@@ -680,7 +1048,8 @@ function showEmpty() {
     </div>`;
 }
 
-function addTyping() {
+// ─── MESSENGER RENDERING ───
+function addTypingMessenger() {
   const el = document.createElement('div');
   el.className = 'typing';
   el.innerHTML = '<span></span><span></span><span></span>';
@@ -688,26 +1057,15 @@ function addTyping() {
   chat.scrollTop = chat.scrollHeight;
   return el;
 }
-
-function addMessage(turn) {
+function addMessengerMsg(turn) {
   const el = document.createElement('div');
   const isEscalate = turn.from === 'fin' && turn.escalate;
   el.className = `msg ${turn.from}${isEscalate ? ' escalate' : ''}`;
-
   let body = '';
-  if (isEscalate) {
-    body += `<div class="escalate-badge"><span class="pulse"></span>Compliance · Escalating</div>`;
-  }
+  if (isEscalate) body += `<div class="escalate-badge"><span class="pulse"></span>Compliance · Escalating</div>`;
   body += `<div class="bubble">${turn.text}`;
-  if (turn.cta) {
-    body += `<div class="escalate-cta">
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M5 12h14M13 6l6 6-6 6"/>
-      </svg> ${turn.cta}
-    </div>`;
-  }
+  if (turn.cta) body += `<div class="escalate-cta"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg> ${turn.cta}</div>`;
   body += `</div>`;
-
   const who = turn.from === 'user' ? 'You' : (isEscalate ? 'Fin · escalating' : 'Fin AI');
   body += `<div class="meta"><strong>${who}</strong></div>`;
   el.innerHTML = body;
@@ -715,31 +1073,163 @@ function addMessage(turn) {
   chat.scrollTop = chat.scrollHeight;
 }
 
+// ─── EMAIL RENDERING ───
+function initEmailThread(subject) {
+  chat.innerHTML = `
+    <div class="email-thread">
+      <div class="email-subject">
+        <div class="subj">${subject}</div>
+        <div class="meta">support@offtherecord.com · ${new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' })}</div>
+      </div>
+      <div class="email-body" id="email-body"></div>
+    </div>`;
+}
+function addEmailMsg(turn) {
+  const body = document.getElementById('email-body');
+  const isEscalate = turn.from === 'fin' && turn.escalate;
+  const el = document.createElement('div');
+  el.className = `email-msg${isEscalate ? ' escalate' : ''}`;
+  const initial = (turn.name || (turn.from === 'fin' ? 'F' : 'U'))[0];
+  el.innerHTML = `
+    <div class="from">
+      <div class="av ${turn.from}">${turn.from === 'fin' ? 'F' : initial}</div>
+      <div>
+        <div class="name">${turn.name}</div>
+        <div class="addr">&lt;${turn.addr}&gt;</div>
+      </div>
+      <div class="when">just now</div>
+    </div>
+    <div class="text">${turn.text}
+      ${turn.from === 'fin' ? `<div class="email-sig">— <b>Fin</b>, Off The Record Support · Powered by Intercom</div>` : ''}
+      ${turn.cta ? `<div class="email-sig" style="color: var(--warn); font-weight: 600;">⚠ ${turn.cta}</div>` : ''}
+    </div>`;
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+}
+
+// ─── VOICE RENDERING ───
+function initVoiceCall() {
+  chat.innerHTML = `
+    <div class="voice-call">
+      <div class="voice-avatar live">F</div>
+      <div class="name">Fin Voice · Off The Record</div>
+      <div class="status">Live call · 00:00</div>
+      <div class="voice-waveform">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="voice-transcript" id="voice-transcript"></div>`;
+  // Start a fake timer
+  const statusEl = chat.querySelector('.status');
+  let secs = 0;
+  const timer = setInterval(() => {
+    secs++;
+    const mm = String(Math.floor(secs/60)).padStart(2,'0');
+    const ss = String(secs%60).padStart(2,'0');
+    if (statusEl && document.body.contains(statusEl)) statusEl.innerHTML = `Live call · ${mm}:${ss}`;
+    else clearInterval(timer);
+  }, 1000);
+}
+function addVoiceLine(turn) {
+  const t = document.getElementById('voice-transcript');
+  const el = document.createElement('div');
+  const isEscalate = turn.from === 'fin' && turn.escalate;
+  el.className = `voice-line ${turn.from}${isEscalate ? ' escalate' : ''}`;
+  const who = turn.from === 'user' ? 'Caller' : (isEscalate ? 'Fin · escalating' : 'Fin');
+  el.innerHTML = `
+    <div class="who">${who}</div>
+    <div class="said">${turn.text}${turn.cta ? `<div style="margin-top:10px; padding-top:10px; border-top:1px solid rgba(192,83,46,0.3); color:#FFB89C; font-weight:600; font-size:0.82rem;">📞 ${turn.cta}</div>` : ''}</div>`;
+  t.appendChild(el);
+  t.scrollTop = t.scrollHeight;
+}
+
+// ─── SOCIAL RENDERING ───
+function initSocialThread() {
+  chat.innerHTML = `<div class="social-thread" id="social-thread"></div>`;
+}
+function addSocialPost(turn) {
+  const t = document.getElementById('social-thread');
+  const el = document.createElement('div');
+  const isEscalate = turn.from === 'fin' && turn.escalate;
+  el.className = `social-post${isEscalate ? ' escalate' : ''}`;
+  const initial = (turn.name || 'U')[0];
+  el.innerHTML = `
+    <div class="av ${turn.from}">${turn.from === 'fin' ? 'F' : initial}</div>
+    <div class="body">
+      <div class="head">
+        <span class="name">${turn.name}</span>
+        ${turn.from === 'fin' ? '<span class="verify">✓</span>' : ''}
+        <span class="handle">${turn.handle} · now</span>
+        ${turn.dm ? '<span class="handle" style="background: var(--paper-2); padding: 2px 8px; border-radius: 4px; color: var(--accent); font-weight: 600; font-size: 0.7rem;">DM</span>' : ''}
+      </div>
+      <div class="text">${turn.text}</div>
+      ${turn.dmEscalate ? `<div class="social-dm-badge">→ ${turn.dmEscalate}</div>` : ''}
+      <div class="actions"><span>💬 Reply</span><span>🔁</span><span>♡</span></div>
+    </div>`;
+  t.appendChild(el);
+  t.scrollTop = t.scrollHeight;
+}
+
+// ─── ORCHESTRATOR ───
 async function playScenario(name) {
   const myRun = ++runId;
-  const script = SCENARIOS[name];
-  if (!script) return;
-  clearChat();
+  activeScenario = name;
 
-  for (const turn of script) {
-    if (myRun !== runId) return; // user changed scenarios mid-play
-    if (turn.from === 'user') {
-      await wait(550);
+  if (activeChannel === 'messenger') {
+    const script = SCENARIOS[name]; if (!script) return;
+    chat.innerHTML = '';
+    for (const turn of script) {
       if (myRun !== runId) return;
-      addMessage(turn);
-    } else {
-      await wait(450);
+      if (turn.from === 'user') { await wait(550); if (myRun !== runId) return; addMessengerMsg(turn); }
+      else { await wait(450); if (myRun !== runId) return; const t = addTypingMessenger(); await wait(turn.delay || 1100); if (myRun !== runId) { t.remove(); return; } t.remove(); addMessengerMsg(turn); }
+    }
+  }
+  else if (activeChannel === 'email') {
+    const e = EMAIL_SCRIPTS[name]; if (!e) return;
+    initEmailThread(e.subject);
+    for (const turn of e.turns) {
       if (myRun !== runId) return;
-      const t = addTyping();
-      await wait(turn.delay || 1100);
-      if (myRun !== runId) { t.remove(); return; }
-      t.remove();
-      addMessage(turn);
+      await wait(turn.delay || 700);
+      if (myRun !== runId) return;
+      addEmailMsg(turn);
+    }
+  }
+  else if (activeChannel === 'voice') {
+    const script = VOICE_SCRIPTS[name]; if (!script) return;
+    initVoiceCall();
+    for (const turn of script) {
+      if (myRun !== runId) return;
+      await wait(turn.from === 'user' ? 600 : (turn.delay || 1200));
+      if (myRun !== runId) return;
+      addVoiceLine(turn);
+    }
+  }
+  else if (activeChannel === 'social') {
+    const script = SOCIAL_SCRIPTS[name]; if (!script) return;
+    initSocialThread();
+    for (const turn of script) {
+      if (myRun !== runId) return;
+      await wait(turn.delay || 700);
+      if (myRun !== runId) return;
+      addSocialPost(turn);
     }
   }
 }
 
-// Bind buttons
+// ─── CHANNEL TAB BINDING ───
+document.querySelectorAll('.channel-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.channel-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeChannel = tab.dataset.channel;
+    runId++;
+    applyChannelChrome();
+    if (activeScenario) playScenario(activeScenario);
+    else showEmpty();
+  });
+});
+
+// ─── SCENARIO BUTTON BINDING ───
 document.querySelectorAll('.scenario-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
@@ -751,9 +1241,13 @@ document.querySelectorAll('.scenario-btn').forEach(btn => {
 
 document.getElementById('reset-btn').addEventListener('click', () => {
   runId++;
+  activeScenario = null;
   document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
   showEmpty();
 });
+
+// Init
+applyChannelChrome();
 </script>
 </body>
 </html>
